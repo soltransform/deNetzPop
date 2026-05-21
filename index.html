@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1.420</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(520px, 58vw) minmax(420px, 1fr);
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .map-pane {
+      min-width: 0;
+      border-right: 1px solid #d9d9d9;
+      background: #f3f4f6;
+    }
+
+    .map-frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .chart-pane {
+      min-width: 0;
+      overflow: auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .kpi {
+      margin: 0 0 18px;
+      font-size: 15px;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+
+    .filter-field {
+      display: grid;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .filter-field label {
+      font-weight: 600;
+    }
+
+    .filter-field select {
+      min-width: 0;
+      height: 32px;
+      border: 1px solid #aaa;
+      background: #fff;
+      color: #111;
+      font: inherit;
+    }
+
+    #chart {
+      width: 100%;
+      height: 460px;
+      border: 1px solid #ddd;
+    }
+
+    .controls {
+      width: 100%;
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      body {
+        overflow: auto;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 52vh auto;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .map-pane {
+        border-right: 0;
+        border-bottom: 1px solid #d9d9d9;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <main class="layout">
+    <section class="map-pane">
+      <iframe class="map-frame" id="map-frame" title="Germany Tesla map" src="/v1.420/map.html"></iframe>
+    </section>
+
+    <section class="chart-pane">
+      <h1>Germany Tesla Supercharger access</h1>
+      <p class="kpi" id="kpi"></p>
+      <div class="filters" aria-label="Region filters">
+        <div class="filter-field">
+          <label for="bundesland-select">Bundesland</label>
+          <select id="bundesland-select" disabled>
+            <option value="">Loading regions...</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="kreis-select">Kreis</label>
+          <select id="kreis-select" disabled>
+            <option value="">Loading regions...</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="gemeinde-select">Gemeinde</label>
+          <select id="gemeinde-select">
+            <option value="">Select Bundesland or Kreis first</option>
+          </select>
+        </div>
+      </div>
+      <div id="chart"></div>
+      <div class="controls">
+        <input id="distance-slider" type="range" min="0" max="100" step="1" value="10">
+        <output id="distance-output" for="distance-slider">10 km</output>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const germanyTesla = {
+      totalPopulation: 82_074_319,
+      chargerCount: 323,
+      cumulative: [
+        0, 1493420, 5290560, 10537717, 16532150, 22118949, 27306674,
+        32103535, 36429847, 40170357, 43466420, 46444243, 49133847,
+        51558647, 53795563, 55882269, 57909995, 59938700, 61784567,
+        63560383, 65280636, 66917029, 68354437, 69690186, 70989783,
+        72138661, 73118085, 74015352, 74796150, 75534319, 76222043,
+        76838369, 77424382, 77926599, 78339686, 78680318, 79006940,
+        79307562, 79581919, 79839072, 80090642, 80323370, 80523373,
+        80731460, 80888345, 81040135, 81176404, 81267675, 81354492,
+        81411364, 81462121, 81506847, 81557340, 81621166, 81683837,
+        81738964, 81783076, 81812589, 81831388, 81856383, 81883364,
+        81910659, 81941365, 81970171, 81986378, 81996263, 82003091,
+        82010510, 82021803, 82038464, 82048354, 82053942, 82059666,
+        82066703, 82070255, 82071712, 82072522, 82073350, 82073728,
+        82074276, 82074276, 82074319, 82074319, 82074319, 82074319,
+        82074319, 82074319, 82074319, 82074319, 82074319, 82074319,
+        82074319, 82074319, 82074319, 82074319, 82074319, 82074319,
+        82074319, 82074319, 82074319, 82074319,
+      ],
+    };
+    const totalPopulation = germanyTesla.totalPopulation;
+    const maxKm = germanyTesla.cumulative.length - 1;
+    const slider = document.getElementById("distance-slider");
+    const distanceOutput = document.getElementById("distance-output");
+    const kpi = document.getElementById("kpi");
+    const mapFrame = document.getElementById("map-frame");
+    const bundeslandSelect = document.getElementById("bundesland-select");
+    const kreisSelect = document.getElementById("kreis-select");
+    const gemeindeSelect = document.getElementById("gemeinde-select");
+    const chart = echarts.init(document.getElementById("chart"));
+    const regionsUrl = "/v1.420/data/regions.json";
+    const regions = {
+      states: [],
+      districts: [],
+      municipalities: [],
+    };
+
+    function formatPopulation(value) {
+      if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
+      if (value >= 1_000) return `${(value / 1_000).toFixed(0)}k`;
+      return `${Math.round(value)}`;
+    }
+
+    function formatNumber(value) {
+      return Math.round(value || 0).toLocaleString("en-US");
+    }
+
+    const data = Array.from({ length: maxKm + 1 }, (_, km) => [
+      km,
+      germanyTesla.cumulative[km],
+    ]);
+
+    function cumulativePopulation(km) {
+      return germanyTesla.cumulative[Math.max(0, Math.min(maxKm, km))];
+    }
+
+    function optionForRegion(region) {
+      return new Option(region.label || region.name || region.code, region.code);
+    }
+
+    function selectedStateCode() {
+      return bundeslandSelect.value || "";
+    }
+
+    function selectedDistrictCode() {
+      return kreisSelect.value || "";
+    }
+
+    function populateBundeslaender() {
+      bundeslandSelect.replaceChildren(
+        new Option("All Germany", "DEU"),
+        ...regions.states.map(optionForRegion),
+      );
+      bundeslandSelect.disabled = false;
+    }
+
+    function populateKreise() {
+      const stateCode = selectedStateCode();
+      const districts = stateCode && stateCode !== "DEU"
+        ? regions.districts.filter((region) => region.stateCode === stateCode)
+        : regions.districts;
+      kreisSelect.replaceChildren(
+        new Option("All Kreise", ""),
+        ...districts.map(optionForRegion),
+      );
+      kreisSelect.disabled = false;
+      populateGemeinden();
+    }
+
+    function populateGemeinden() {
+      const stateCode = selectedStateCode();
+      const districtCode = selectedDistrictCode();
+      let municipalities = regions.municipalities;
+
+      if (districtCode) {
+        municipalities = municipalities.filter((region) => region.districtCode === districtCode);
+      } else if (stateCode && stateCode !== "DEU") {
+        municipalities = municipalities.filter((region) => region.stateCode === stateCode);
+      } else {
+        municipalities = [];
+      }
+
+      gemeindeSelect.disabled = municipalities.length === 0;
+      gemeindeSelect.replaceChildren(
+        new Option(municipalities.length ? "All Gemeinden" : "Select Bundesland or Kreis first", ""),
+        ...municipalities.map(optionForRegion),
+      );
+    }
+
+    function selectedRegion() {
+      const municipalityCode = gemeindeSelect.value;
+      const districtCode = selectedDistrictCode();
+      const stateCode = selectedStateCode();
+
+      if (municipalityCode) {
+        return regions.municipalities.find((region) => region.code === municipalityCode);
+      }
+      if (districtCode) {
+        return regions.districts.find((region) => region.code === districtCode);
+      }
+      if (stateCode && stateCode !== "DEU") {
+        return regions.states.find((region) => region.code === stateCode);
+      }
+      return { label: "Germany", bbox: [5.85249, 47.271121, 15.022059, 55.065334] };
+    }
+
+    function zoomToSelectedRegion() {
+      const region = selectedRegion();
+      if (!region || !region.bbox || !mapFrame.contentWindow) return;
+      mapFrame.contentWindow.postMessage({
+        type: "fit-bounds",
+        bbox: region.bbox,
+        maxZoom: gemeindeSelect.value ? 13 : 10,
+      }, "*");
+    }
+
+    async function loadRegionData() {
+      const response = await fetch(regionsUrl);
+      if (!response.ok) throw new Error(`Failed to load regions.json: ${response.status}`);
+      const data = await response.json();
+
+      regions.states = data.states || [];
+      regions.districts = data.districts || [];
+      regions.municipalities = data.municipalities || [];
+
+      populateBundeslaender();
+      populateKreise();
+      zoomToSelectedRegion();
+    }
+
+    function splitSeries(selectedKm) {
+      const covered = [];
+      const remaining = [];
+      for (const point of data) {
+        if (point[0] <= selectedKm) {
+          covered.push(point);
+          remaining.push([point[0], null]);
+        } else {
+          covered.push([point[0], null]);
+          remaining.push(point);
+        }
+      }
+      return { covered, remaining };
+    }
+
+    function render(selectedKm) {
+      const coveredPeople = cumulativePopulation(selectedKm);
+      const pct = (coveredPeople / totalPopulation) * 100;
+      const { covered, remaining } = splitSeries(selectedKm);
+
+      distanceOutput.textContent = `${selectedKm} km`;
+      kpi.textContent = `${pct.toFixed(1)}% (${formatPopulation(coveredPeople)} people) within ${selectedKm} km of a Tesla Supercharger; ${germanyTesla.chargerCount} German Superchargers in V1 stats`;
+      if (mapFrame.contentWindow) {
+        mapFrame.contentWindow.postMessage({ type: "set-radius", km: selectedKm }, "*");
+      }
+
+      chart.setOption({
+        animation: false,
+        grid: {
+          left: 72,
+          right: 32,
+          top: 54,
+          bottom: 60,
+        },
+        tooltip: {
+          trigger: "axis",
+          valueFormatter: (value) => formatPopulation(value),
+        },
+        xAxis: {
+          type: "value",
+          name: "Distance to nearest Tesla Supercharger (km)",
+          min: 0,
+          max: maxKm,
+          interval: 10,
+          axisLine: { lineStyle: { color: "#333" } },
+          splitLine: { lineStyle: { color: "#eee" } },
+        },
+        yAxis: {
+          type: "value",
+          name: "Population within radius",
+          min: 0,
+          max: totalPopulation,
+          axisLabel: {
+            formatter: (value) => formatPopulation(value),
+          },
+          axisLine: { lineStyle: { color: "#333" } },
+          splitLine: { lineStyle: { color: "#eee" } },
+        },
+        series: [
+          {
+            name: "covered",
+            type: "line",
+            data: covered,
+            showSymbol: false,
+            connectNulls: false,
+            lineStyle: { color: "#1f77b4", width: 3 },
+            areaStyle: { color: "rgba(31, 119, 180, 0.18)" },
+          },
+          {
+            name: "remaining",
+            type: "line",
+            data: remaining,
+            showSymbol: false,
+            connectNulls: false,
+            lineStyle: { color: "#aaa", width: 2 },
+            areaStyle: { color: "rgba(170, 170, 170, 0.08)" },
+          },
+          {
+            name: "selected",
+            type: "scatter",
+            data: [[selectedKm, coveredPeople]],
+            symbolSize: 12,
+            itemStyle: { color: "#d62728" },
+            label: {
+              show: true,
+              position: "top",
+              formatter: `${pct.toFixed(1)}%\\n${formatPopulation(coveredPeople)}`,
+              color: "#111",
+              fontSize: 13,
+            },
+            markLine: {
+              symbol: "none",
+              lineStyle: { color: "#d62728", type: "dashed", width: 1 },
+              label: { formatter: `${selectedKm} km` },
+              data: [{ xAxis: selectedKm }],
+            },
+          },
+        ],
+      });
+    }
+
+    slider.addEventListener("input", () => {
+      render(Number(slider.value));
+    });
+
+    bundeslandSelect.addEventListener("change", () => {
+      populateKreise();
+      zoomToSelectedRegion();
+    });
+
+    kreisSelect.addEventListener("change", () => {
+      populateGemeinden();
+      zoomToSelectedRegion();
+    });
+
+    gemeindeSelect.addEventListener("change", () => {
+      zoomToSelectedRegion();
+    });
+
+    window.addEventListener("resize", () => chart.resize());
+    mapFrame.addEventListener("load", () => render(Number(slider.value)));
+    loadRegionData().catch((error) => {
+      console.error("Failed to load region data:", error);
+      kpi.textContent = `Failed to load region dropdown data: ${error.message}`;
+    });
+    render(Number(slider.value));
+  </script>
+</body>
+</html>

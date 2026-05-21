@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1.420 map</title>
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
+  <style>
+    html,
+    body,
+    #map {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #f3f4f6;
+    }
+
+    #status {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      z-index: 2;
+      max-width: calc(100% - 20px);
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d4d4d4;
+      color: #333;
+      font: 12px/1.35 Arial, Helvetica, sans-serif;
+    }
+
+    #radius-label {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 2;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #d4d4d4;
+      color: #111;
+      font: 13px/1.35 Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="radius-label">Radius: 50 km</div>
+  <div id="status">Loading map...</div>
+
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script>
+    const ASSET_BASE = "../tesla%20semi/frontend";
+    const TILE_VERSION = "v1";
+    const MAX_RADIUS_KM = 500;
+    const TILE_SIZE = 256;
+    const MAX_NATIVE_ZOOM = 11;
+    const TILE_OVERSAMPLE = 2;
+    const MAX_TILE_CACHE_SIZE = 400;
+    const DIST_CODE_MAX = 65535;
+    const GERMANY_BOUNDS = [[5.85249, 47.271121], [15.022059, 55.065334]];
+
+    let currentRadius = 50;
+    let displayMode = "auto";
+
+    const status = document.getElementById("status");
+    const radiusLabel = document.getElementById("radius-label");
+
+    function updateRadiusLabel() {
+      radiusLabel.textContent = `Radius: ${currentRadius} km`;
+    }
+
+    const map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        sources: {
+          carto_base: {
+            type: "raster",
+            tiles: ["https://a.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}@2x.png"],
+            tileSize: 512,
+            attribution: "OpenStreetMap, CARTO",
+          },
+          carto_labels: {
+            type: "raster",
+            tiles: ["https://a.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}@2x.png"],
+            tileSize: 512,
+          },
+        },
+        layers: [
+          { id: "carto_base", type: "raster", source: "carto_base" },
+        ],
+      },
+      center: [10.4373, 51.1682],
+      zoom: 5.6,
+      maxZoom: 16,
+    });
+
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+    class CoverageTileLayer {
+      constructor() {
+        this.id = "coverage";
+        this.type = "custom";
+        this.renderingMode = "2d";
+        this.radiusCode = this.radiusToCode(currentRadius);
+        this.displayMode = displayMode;
+        this.tiles = new Map();
+        this.frameId = 0;
+      }
+
+      onAdd(map, gl) {
+        this.map = map;
+        this.gl = gl;
+        this.program = this.createProgram(gl);
+        this.aPos = gl.getAttribLocation(this.program, "a_pos");
+        this.aUv = gl.getAttribLocation(this.program, "a_uv");
+        this.uMatrix = gl.getUniformLocation(this.program, "u_matrix");
+        this.uImage = gl.getUniformLocation(this.program, "u_image");
+        this.uRadiusCode = gl.getUniformLocation(this.program, "u_radius_code");
+        this.uTexelSize = gl.getUniformLocation(this.program, "u_texel_size");
+        this.uSmoothMix = gl.getUniformLocation(this.program, "u_smooth_mix");
+        this.uAlphaCap = gl.getUniformLocation(this.program, "u_alpha_cap");
+        this.buffer = gl.createBuffer();
+      }
+
+      radiusToCode(radiusKm) {
+        const norm = Math.max(0, Math.min(1, radiusKm / MAX_RADIUS_KM));
+        return Math.ceil(norm * DIST_CODE_MAX);
+      }
+
+      setRadius(radiusKm) {
+        currentRadius = Math.max(0, Math.min(MAX_RADIUS_KM, radiusKm));
+        this.radiusCode = this.radiusToCode(currentRadius);
+        updateRadiusLabel();
+        if (this.map) this.map.triggerRepaint();
+      }
+
+      setDisplayMode(mode) {
+        this.displayMode = mode;
+        if (this.map) this.map.triggerRepaint();
+      }
+
+      createProgram(gl) {
+        const vertexSource = `
+          precision highp float;
+          uniform mat4 u_matrix;
+          attribute vec2 a_pos;
+          attribute vec2 a_uv;
+          varying vec2 v_uv;
+          void main() {
+            gl_Position = u_matrix * vec4(a_pos, 0.0, 1.0);
+            v_uv = a_uv;
+          }
+        `;
+        const fragmentSource = `
+          precision highp float;
+          uniform sampler2D u_image;
+          uniform float u_radius_code;
+          uniform vec2 u_texel_size;
+          uniform float u_smooth_mix;
+          uniform float u_alpha_cap;
+          varying vec2 v_uv;
+
+          float byteValue(float v) {
+            return floor(v * 255.0 + 0.5);
+          }
+
+          float distanceCode(vec4 tex) {
+            return byteValue(tex.r) * 256.0 + byteValue(tex.g);
+          }
+
+          float densityValue(vec4 tex) {
+            return tex.a;
+          }
+
+          vec4 sourceTexel(vec2 uv) {
+            return texture2D(u_image, uv);
+          }
+
+          float opacityDensity(float d) {
+            return max(0.22, smoothstep(0.0, 1.0, pow(d, 0.5)));
+          }
+
+          vec3 coveredColor(float d) {
+            if (d < 0.206) return vec3(245.0 / 255.0, 230.0 / 255.0, 200.0 / 255.0);
+            if (d < 0.397) return vec3(232.0 / 255.0, 196.0 / 255.0, 140.0 / 255.0);
+            if (d < 0.491) return vec3(217.0 / 255.0, 142.0 / 255.0, 73.0 / 255.0);
+            if (d < 0.594) return vec3(204.0 / 255.0, 85.0 / 255.0, 42.0 / 255.0);
+            if (d < 0.689) return vec3(180.0 / 255.0, 45.0 / 255.0, 40.0 / 255.0);
+            return vec3(122.0 / 255.0, 26.0 / 255.0, 31.0 / 255.0);
+          }
+
+          vec4 sampleCell(vec2 uv) {
+            vec4 tex = sourceTexel(uv);
+            if (tex.a <= 0.0) return vec4(0.0);
+
+            if (distanceCode(tex) > u_radius_code) return vec4(0.0);
+
+            float density = densityValue(tex);
+            float alpha = min(opacityDensity(density), u_alpha_cap);
+            vec3 rgb = coveredColor(density);
+            return vec4(rgb * alpha, alpha);
+          }
+
+          void main() {
+            vec4 exact = sampleCell(v_uv);
+            vec4 smooth =
+              sampleCell(v_uv + u_texel_size * vec2(-1.0, -1.0)) +
+              sampleCell(v_uv + u_texel_size * vec2( 1.0, -1.0)) +
+              sampleCell(v_uv + u_texel_size * vec2(-1.0,  1.0)) +
+              sampleCell(v_uv + u_texel_size * vec2( 1.0,  1.0)) +
+              2.0 * sampleCell(v_uv + u_texel_size * vec2( 0.0, -1.0)) +
+              2.0 * sampleCell(v_uv + u_texel_size * vec2(-1.0,  0.0)) +
+              2.0 * sampleCell(v_uv + u_texel_size * vec2( 1.0,  0.0)) +
+              2.0 * sampleCell(v_uv + u_texel_size * vec2( 0.0,  1.0)) +
+              4.0 * exact;
+            smooth /= 16.0;
+
+            vec4 color = mix(exact, smooth, u_smooth_mix);
+            if (color.a <= 0.0) discard;
+            gl_FragColor = vec4(color.rgb / color.a, color.a);
+          }
+        `;
+        const vertexShader = this.compileShader(gl, gl.VERTEX_SHADER, vertexSource);
+        const fragmentShader = this.compileShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
+        const program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+          throw new Error(gl.getProgramInfoLog(program));
+        }
+        return program;
+      }
+
+      compileShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          throw new Error(gl.getShaderInfoLog(shader));
+        }
+        return shader;
+      }
+
+      render(gl, args) {
+        this.frameId += 1;
+        const matrix = args && args.defaultProjectionData
+          ? args.defaultProjectionData.mainMatrix
+          : (args && args.modelViewProjectionMatrix) || args;
+        const z = Math.max(0, Math.min(
+          MAX_NATIVE_ZOOM,
+          Math.floor(this.map.getZoom()) + TILE_OVERSAMPLE,
+        ));
+        const tiles = this.visibleTiles(z);
+
+        gl.useProgram(this.program);
+        gl.uniformMatrix4fv(this.uMatrix, false, matrix);
+        gl.uniform1f(this.uRadiusCode, this.radiusCode);
+        gl.uniform2f(this.uTexelSize, 1 / TILE_SIZE, 1 / TILE_SIZE);
+
+        const zoom = this.map.getZoom();
+        const baseSmoothMix = this.displayMode === "auto"
+          ? Math.max(0, Math.min(1, (10.5 - zoom) / 3.0))
+          : 0;
+        const radiusSmoothMix = Math.max(0, Math.min(1, (currentRadius - 5) / 20));
+        gl.uniform1f(this.uSmoothMix, baseSmoothMix * radiusSmoothMix);
+        gl.uniform1f(this.uAlphaCap, Math.max(0.48, Math.min(0.78, 0.78 - (zoom - 5) * (0.30 / 8))));
+        gl.uniform1i(this.uImage, 0);
+
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+        gl.enableVertexAttribArray(this.aPos);
+        gl.enableVertexAttribArray(this.aUv);
+        gl.vertexAttribPointer(this.aPos, 2, gl.FLOAT, false, 16, 0);
+        gl.vertexAttribPointer(this.aUv, 2, gl.FLOAT, false, 16, 8);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.disable(gl.DEPTH_TEST);
+        gl.depthMask(false);
+
+        for (const tile of tiles) {
+          const entry = this.getTile(tile.z, tile.urlX, tile.y);
+          if (!entry || entry.status !== "loaded") continue;
+          entry.lastUsed = this.frameId;
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+          gl.bufferData(gl.ARRAY_BUFFER, this.tileVertices(tile.z, tile.renderX, tile.y), gl.STREAM_DRAW);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+        this.evictTiles();
+      }
+
+      visibleTiles(z) {
+        const n = 1 << z;
+        const bounds = this.map.getBounds();
+        const west = bounds.getWest();
+        const east = bounds.getEast();
+        const north = Math.min(85.05112878, bounds.getNorth());
+        const south = Math.max(-85.05112878, bounds.getSouth());
+        const xMin = Math.floor((west + 180) / 360 * n) - 1;
+        const xMax = Math.floor((east + 180) / 360 * n) + 1;
+        const yMin = Math.max(0, Math.floor(this.latToTileY(north, z)) - 1);
+        const yMax = Math.min(n - 1, Math.floor(this.latToTileY(south, z)) + 1);
+        const tiles = [];
+        for (let y = yMin; y <= yMax; y += 1) {
+          for (let renderX = xMin; renderX <= xMax; renderX += 1) {
+            const urlX = ((renderX % n) + n) % n;
+            tiles.push({ z, renderX, urlX, y });
+          }
+        }
+        return tiles;
+      }
+
+      latToTileY(lat, z) {
+        const n = 1 << z;
+        const rad = lat * Math.PI / 180;
+        return (1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2 * n;
+      }
+
+      tileVertices(z, x, y) {
+        const n = 1 << z;
+        const x0 = x / n;
+        const x1 = (x + 1) / n;
+        const y0 = y / n;
+        const y1 = (y + 1) / n;
+        return new Float32Array([
+          x0, y0, 0, 0,
+          x1, y0, 1, 0,
+          x1, y1, 1, 1,
+          x0, y0, 0, 0,
+          x1, y1, 1, 1,
+          x0, y1, 0, 1,
+        ]);
+      }
+
+      getTile(z, x, y) {
+        const key = `${z}/${x}/${y}`;
+        const existing = this.tiles.get(key);
+        if (existing) {
+          existing.lastUsed = this.frameId;
+          return existing;
+        }
+
+        const entry = {
+          status: "loading",
+          texture: null,
+          image: null,
+          lastUsed: this.frameId,
+          evicted: false,
+        };
+        this.tiles.set(key, entry);
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          if (entry.evicted) return;
+          entry.status = "loaded";
+          entry.texture = this.makeTexture(img);
+          entry.image = img;
+          this.map.triggerRepaint();
+        };
+        img.onerror = () => {
+          if (entry.evicted) return;
+          entry.status = "empty";
+        };
+        img.src = `${ASSET_BASE}/tiles/${z}/${x}/${y}.png?v=${TILE_VERSION}`;
+        return entry;
+      }
+
+      makeTexture(img) {
+        const gl = this.gl;
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        return texture;
+      }
+
+      evictTiles() {
+        if (this.tiles.size <= MAX_TILE_CACHE_SIZE) return;
+        const candidates = Array.from(this.tiles.entries())
+          .filter(([, entry]) => entry.status !== "loading")
+          .sort((a, b) => a[1].lastUsed - b[1].lastUsed);
+
+        for (const [key, entry] of candidates) {
+          if (this.tiles.size <= MAX_TILE_CACHE_SIZE) break;
+          entry.evicted = true;
+          if (entry.texture) this.gl.deleteTexture(entry.texture);
+          entry.texture = null;
+          entry.image = null;
+          this.tiles.delete(key);
+        }
+      }
+    }
+
+    const coverageLayer = new CoverageTileLayer();
+
+    window.addEventListener("message", (event) => {
+      const message = event.data || {};
+      if (message.type === "set-radius") {
+        const km = Number(message.km);
+        if (!Number.isFinite(km)) return;
+        coverageLayer.setRadius(Math.round(km));
+        status.textContent = `Germany viewport, V1 Tesla coverage tiles, ${Math.round(km)} km radius`;
+      }
+      if (message.type === "fit-bounds") {
+        const bbox = Array.isArray(message.bbox) ? message.bbox.map(Number) : null;
+        if (!bbox || bbox.length !== 4 || bbox.some((value) => !Number.isFinite(value))) return;
+        map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
+          padding: 36,
+          duration: 450,
+          maxZoom: message.maxZoom || 12,
+        });
+      }
+    });
+
+    async function loadChargers() {
+      const response = await fetch(`${ASSET_BASE}/chargers.json`);
+      if (!response.ok) throw new Error(`Failed to load chargers.json: ${response.status}`);
+      const data = await response.json();
+      const features = [];
+      for (let i = 0; i < data.positions.length; i += 2) {
+        features.push({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [data.positions[i], data.positions[i + 1]],
+          },
+          properties: {},
+        });
+      }
+      map.addSource("chargers", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features },
+      });
+      map.addLayer({
+        id: "chargers",
+        type: "circle",
+        source: "chargers",
+        paint: {
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 1.5, 7, 2.5, 12, 4.5, 16, 7],
+          "circle-color": "#e82127",
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 1,
+          "circle-stroke-opacity": 0.85,
+          "circle-opacity": 0.95,
+        },
+      }, "carto_labels");
+    }
+
+    map.on("error", (event) => {
+      console.error("MapLibre error:", event);
+      const message = event && event.error && event.error.message ? event.error.message : String(event);
+      status.textContent = `Map error: ${message}`;
+    });
+
+    map.on("load", async () => {
+      try {
+        map.addLayer(coverageLayer);
+        map.addLayer({ id: "carto_labels", type: "raster", source: "carto_labels" });
+        await loadChargers();
+        map.fitBounds(GERMANY_BOUNDS, { padding: 36, duration: 0 });
+        updateRadiusLabel();
+        status.textContent = "Germany viewport, V1 Tesla coverage tiles, 50 km radius";
+      } catch (error) {
+        status.textContent = `Load error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
