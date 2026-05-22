@@ -4,6 +4,18 @@ Last updated: 2026-05-22.
 
 This handoff is for continuing the project in a Claude Code session. It summarizes the project goal, what was done in the Codex session, what each nearby project version appears to be, what data decisions were made, and the recommended next technical steps.
 
+For the fuller project memory consolidated from README/CLAUDE/docs/log files, read:
+
+```text
+C:\Users\KitCat\Desktop\v1.420\CLAUDE_PROJECT_MEMORY.md
+```
+
+For Claude Code auto-memory in this folder, read:
+
+```text
+C:\Users\KitCat\Desktop\v1.420\CLAUDE.md
+```
+
 ## One-Sentence Project Goal
 
 Build a Germany-focused EV charging and population-access dashboard for a Tesla Gigafactory Berlin-Brandenburg dual-study application, showing practical data work with official charger data, official/admin boundaries, and population coverage analysis.
@@ -1076,4 +1088,3 @@ Recommended immediate Claude task:
 5. Keep the BNetzA parser and region selector work.
 
 Do not spend more time polishing `v1.420` until the final data architecture is chosen.
-
