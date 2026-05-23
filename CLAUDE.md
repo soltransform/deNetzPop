@@ -1,84 +1,72 @@
-# Claude Memory: Germany EV Charger Access
+# Claude Memory: Germany EV Charger Access — v1.420
 
 Read this first when starting a Claude Code session in this folder.
 
-This project is part of a larger Tesla Supercharger / EV charging infrastructure project spread across several folders on the Desktop. The current user-facing goal is **not** to continue every historical branch. The current goal is:
+## Project Goal
 
-```text
 Build a Germany-focused EV charging and population-access dashboard for a Tesla Gigafactory Berlin-Brandenburg dual-study application.
+
+## Current State (2026-05-23)
+
+### What Works
+
+- **Map**: MapLibre with desaturated OSM basemap (v4.20 style)
+- **Charger data**: 63,653 grouped physical sites from v4.20 BNetzA parser (109k CSV rows → grouped by operator/address/class)
+- **Zoom progression**:
+  - Zoom < 7: State bubbles (16 Bundesländer, grey circles showing total charge points)
+  - Zoom 7–10: District bubbles (~400 Kreise, grey circles showing total charge points)
+  - Zoom 10+: Individual charger dots, color-coded by class
+- **Charger classes**: ac_normal (blue), fast_50 (green), hpc_150 (amber), ultra_300 (red)
+- **Boundaries**: Grey BKG state and district outlines
+- **Selection**: Click state/district bubble or use top-bar dropdowns. District outlines appear on state selection.
+- **Layout**: Map on left with frosted top bar (dropdowns), empty right pane for future stats
+
+### Key Files
+
+```
+index.html                  — main page, two-column layout + top bar
+map-app/index.html          — MapLibre map (iframe)
+map-app/chargers.geojson    — generated, gitignored (rebuild with v4.20 parser)
+map-app/charger_summary.json — generated, gitignored
+map-app/boundaries/         — BKG state/district GeoJSON, gitignored
+data/official_regions.json  — Bundesland/Kreis metadata for dropdowns
+scripts/                    — data build scripts (from Codex session)
 ```
 
-The detailed memory is in:
+### Run
 
-```text
-C:\Users\KitCat\Desktop\v1.420\CLAUDE_PROJECT_MEMORY.md
+```powershell
+cd "C:\Users\KitCat\Desktop"
+node serve-desktop.js
 ```
 
-The previous Codex handoff is in:
+Open: `http://127.0.0.1:8020/v1.420/index.html`
 
-```text
-C:\Users\KitCat\Desktop\v1.420\CLAUDE_HANDOFF.md
+### Rebuild Charger Data
+
+```powershell
+& "C:\Users\KitCat\Desktop\tesla semi\.venv\Scripts\python.exe" "C:\Users\KitCat\Desktop\tesla semi\archive\version 4.20-h3-germany-prototype\scripts\parse_bnetza_chargers.py" --input "C:\Users\KitCat\Desktop\tesla semi\data\Ladesaeulenregister_BNetzA_2026-04-22.csv" --out-dir "C:\Users\KitCat\Desktop\v1.420\map-app"
 ```
 
-## Current Strategic Direction
+## What's Next
 
-Use the archived v4.20 Germany dashboard as the visual/product foundation, but replace its H3 population/access layer with a pipeline closer to the original v1/global app:
+1. **Population/distance tiles** — adapt root v1 pipeline (100m GHS-POP Mollweide → charger distance → WebMercator tiles) for Germany+BNetzA. Check Desktop v2 PMTiles first.
+2. **Stats pane** — wire right panel with coverage stats, charger counts, population within radius
+3. **Cumulative chart** — distance vs. cumulative population
+4. **Polish** — attribution, final styling
 
-```text
-GHS-POP 100m Mollweide source cells
--> Germany clip / charger-distance analysis
--> Web Mercator display tiles / PMTiles
--> MapLibre dashboard
-```
+## Important Folders
 
-Reason: the user wants to preserve the actual 100m GHS-POP ground-truth cells rather than resampling population into H3 hexagons.
+- Root global app (100m tile pipeline reference): `C:\Users\KitCat\Desktop\tesla semi`
+- v4.20 H3 Germany (visual reference + BNetzA parser): `C:\Users\KitCat\Desktop\tesla semi\archive\version 4.20-h3-germany-prototype`
+- Desktop v2 (PMTiles experiment): `C:\Users\KitCat\Desktop\v2`
+- BNetzA CSV: `C:\Users\KitCat\Desktop\tesla semi\data\Ladesaeulenregister_BNetzA_2026-04-22.csv`
+- GHS-POP TIFF: `C:\Users\KitCat\Desktop\tesla semi\data\GHS_POP_E2030_GLOBE_R2023A_54009_100_V1_0.tif`
 
-## Most Important Folders
+## Don't
 
-Current scratch/prototype:
-
-```text
-C:\Users\KitCat\Desktop\v1.420
-```
-
-Original/root global 100m Tesla access app:
-
-```text
-C:\Users\KitCat\Desktop\tesla semi
-```
-
-Archived Germany H3 dashboard, visually strongest prototype:
-
-```text
-C:\Users\KitCat\Desktop\tesla semi\archive\version 4.20-h3-germany-prototype
-```
-
-Desktop PMTiles experiment that may already contain useful 100m/PMTiles work:
-
-```text
-C:\Users\KitCat\Desktop\v2
-```
-
-Repo V2 multi-network globe rewrite:
-
-```text
-C:\Users\KitCat\Desktop\tesla semi\v2
-```
-
-Repo V3 Mollweide/globe population experiment:
-
-```text
-C:\Users\KitCat\Desktop\tesla semi\v3
-```
-
-## Immediate Advice
-
-Do not blindly continue polishing `v1.420`. First inspect/reuse:
-
-1. v4.20 for visual/dashboard design and BNetzA parsing.
-2. root `tesla semi` for the correct 100m GHS-POP Mollweide -> WebMercator tile pipeline.
-3. Desktop `v2` for existing PMTiles files.
-4. `v1.420` for Bundesland/Kreis dropdown and clickable-region experiments.
-
-Keep changes in a new final working folder once the data architecture is chosen.
-
+- Don't use H3 for final population layer (user wants 100m GHS-POP cells)
+- Don't use v2 ingest_bnetza.py (drops Tesla rows)
+- Don't add zoom-on-select behavior
+- Don't add red fills or red boundaries (grey only, color reserved for charger dots)
+- Don't add clustering — use state/district bubbles instead
