@@ -1,3 +1,11 @@
 # Local backup archives created outside this repo should not be committed if copied here.
 *.zip
 
+# Generated data files (rebuild with scripts/)
+map-app/chargers.geojson
+map-app/bnetza_chargers.geojson
+map-app/charger_summary.json
+map-app/boundaries/*.geojson
+map-app/boundaries/*.json
+map-app/countries.geojson
+

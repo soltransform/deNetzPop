@@ -1,0 +1,5401 @@
+{
+  "source": "BKG VG250 copied from archived version 4.20 prototype",
+  "license": "Datenlizenz Deutschland Namensnennung 2.0",
+  "attribution": "© BKG 2025 dl-de/by-2-0",
+  "states": [
+    {
+      "id": "08",
+      "name": "Baden-Württemberg",
+      "label": "Baden-Württemberg",
+      "short": "BW",
+      "bbox": [
+        7.5119,
+        47.5324,
+        10.4957,
+        49.7915
+      ]
+    },
+    {
+      "id": "11",
+      "name": "Berlin",
+      "label": "Berlin",
+      "short": "BE",
+      "bbox": [
+        13.0883,
+        52.3382,
+        13.7605,
+        52.6754
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Brandenburg",
+      "label": "Brandenburg",
+      "short": "BB",
+      "bbox": [
+        11.2657,
+        51.359,
+        14.7657,
+        53.5587
+      ]
+    },
+    {
+      "id": "04",
+      "name": "Bremen",
+      "label": "Freie Hansestadt Bremen",
+      "short": "HB",
+      "bbox": [
+        8.4817,
+        53.011,
+        8.9909,
+        53.6101
+      ]
+    },
+    {
+      "id": "02",
+      "name": "Hamburg",
+      "label": "Freie und Hansestadt Hamburg",
+      "short": "HH",
+      "bbox": [
+        8.1045,
+        53.3951,
+        10.326,
+        54.0277
+      ]
+    },
+    {
+      "id": "09",
+      "name": "Bayern",
+      "label": "Freistaat Bayern",
+      "short": "BY",
+      "bbox": [
+        8.9759,
+        47.2701,
+        13.8396,
+        50.5642
+      ]
+    },
+    {
+      "id": "14",
+      "name": "Sachsen",
+      "label": "Freistaat Sachsen",
+      "short": "SN",
+      "bbox": [
+        11.8715,
+        50.1715,
+        15.0418,
+        51.685
+      ]
+    },
+    {
+      "id": "16",
+      "name": "Thüringen",
+      "label": "Freistaat Thüringen",
+      "short": "TH",
+      "bbox": [
+        9.877,
+        50.2048,
+        12.6541,
+        51.649
+      ]
+    },
+    {
+      "id": "06",
+      "name": "Hessen",
+      "label": "Hessen",
+      "short": "HE",
+      "bbox": [
+        7.7725,
+        49.3954,
+        10.236,
+        51.6575
+      ]
+    },
+    {
+      "id": "13",
+      "name": "Mecklenburg-Vorpommern",
+      "label": "Mecklenburg-Vorpommern",
+      "short": "MV",
+      "bbox": [
+        10.5937,
+        53.1103,
+        14.4124,
+        54.8842
+      ]
+    },
+    {
+      "id": "03",
+      "name": "Niedersachsen",
+      "label": "Niedersachsen",
+      "short": "NI",
+      "bbox": [
+        6.3459,
+        51.2952,
+        11.5981,
+        54.1379
+      ]
+    },
+    {
+      "id": "05",
+      "name": "Nordrhein-Westfalen",
+      "label": "Nordrhein-Westfalen",
+      "short": "NW",
+      "bbox": [
+        5.8663,
+        50.323,
+        9.4615,
+        52.5314
+      ]
+    },
+    {
+      "id": "07",
+      "name": "Rheinland-Pfalz",
+      "label": "Rheinland-Pfalz",
+      "short": "RP",
+      "bbox": [
+        6.1124,
+        48.9666,
+        8.5084,
+        50.9423
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Saarland",
+      "label": "Saarland",
+      "short": "SL",
+      "bbox": [
+        6.3569,
+        49.1119,
+        7.4038,
+        49.6394
+      ]
+    },
+    {
+      "id": "15",
+      "name": "Sachsen-Anhalt",
+      "label": "Sachsen-Anhalt",
+      "short": "ST",
+      "bbox": [
+        10.5612,
+        50.938,
+        13.1871,
+        53.0418
+      ]
+    },
+    {
+      "id": "01",
+      "name": "Schleswig-Holstein",
+      "label": "Schleswig-Holstein",
+      "short": "SH",
+      "bbox": [
+        7.521,
+        53.3598,
+        11.6725,
+        55.0992
+      ]
+    }
+  ],
+  "districts": [
+    {
+      "id": "01051",
+      "name": "Dithmarschen",
+      "label": "Kreis Dithmarschen",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        8.6789,
+        53.8775,
+        9.4444,
+        54.379
+      ]
+    },
+    {
+      "id": "01053",
+      "name": "Herzogtum Lauenburg",
+      "label": "Kreis Herzogtum Lauenburg",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        10.235,
+        53.3598,
+        10.9549,
+        53.8275
+      ]
+    },
+    {
+      "id": "01054",
+      "name": "Nordfriesland",
+      "label": "Kreis Nordfriesland",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        8.2786,
+        54.262,
+        9.3272,
+        55.0588
+      ]
+    },
+    {
+      "id": "01055",
+      "name": "Ostholstein",
+      "label": "Kreis Ostholstein",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        10.4175,
+        53.8796,
+        11.3129,
+        54.5361
+      ]
+    },
+    {
+      "id": "01056",
+      "name": "Pinneberg",
+      "label": "Kreis Pinneberg",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        7.8691,
+        53.5576,
+        9.9847,
+        54.193
+      ]
+    },
+    {
+      "id": "01057",
+      "name": "Plön",
+      "label": "Kreis Plön",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        10.0161,
+        54.0548,
+        10.7293,
+        54.4359
+      ]
+    },
+    {
+      "id": "01058",
+      "name": "Rendsburg-Eckernförde",
+      "label": "Kreis Rendsburg-Eckernförde",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        9.3041,
+        54.0089,
+        10.1994,
+        54.647
+      ]
+    },
+    {
+      "id": "01059",
+      "name": "Schleswig-Flensburg",
+      "label": "Kreis Schleswig-Flensburg",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        9.0624,
+        54.2716,
+        10.0432,
+        54.887
+      ]
+    },
+    {
+      "id": "01060",
+      "name": "Segeberg",
+      "label": "Kreis Segeberg",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        9.7514,
+        53.6472,
+        10.5636,
+        54.1077
+      ]
+    },
+    {
+      "id": "01061",
+      "name": "Steinburg",
+      "label": "Kreis Steinburg",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        9.1984,
+        53.7077,
+        9.8643,
+        54.0998
+      ]
+    },
+    {
+      "id": "01062",
+      "name": "Stormarn",
+      "label": "Kreis Stormarn",
+      "kind": "Kreis",
+      "state_id": "01",
+      "bbox": [
+        10.0227,
+        53.4954,
+        10.6219,
+        53.9204
+      ]
+    },
+    {
+      "id": "01001",
+      "name": "Flensburg",
+      "label": "Kreisfreie Stadt Flensburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "01",
+      "bbox": [
+        9.3572,
+        54.7519,
+        9.5067,
+        54.8371
+      ]
+    },
+    {
+      "id": "01002",
+      "name": "Kiel",
+      "label": "Kreisfreie Stadt Kiel",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "01",
+      "bbox": [
+        10.0326,
+        54.2508,
+        10.2187,
+        54.4329
+      ]
+    },
+    {
+      "id": "01003",
+      "name": "Lübeck",
+      "label": "Kreisfreie Stadt Lübeck",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "01",
+      "bbox": [
+        10.5548,
+        53.7681,
+        10.9684,
+        53.9941
+      ]
+    },
+    {
+      "id": "01004",
+      "name": "Neumünster",
+      "label": "Kreisfreie Stadt Neumünster",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "01",
+      "bbox": [
+        9.9257,
+        54.0175,
+        10.0583,
+        54.1499
+      ]
+    },
+    {
+      "id": "02000",
+      "name": "Hamburg",
+      "label": "Kreisfreie Stadt Hamburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "02",
+      "bbox": [
+        8.4199,
+        53.3951,
+        10.326,
+        53.9644
+      ]
+    },
+    {
+      "id": "03101",
+      "name": "Braunschweig",
+      "label": "Kreisfreie Stadt Braunschweig",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        10.4124,
+        52.1867,
+        10.643,
+        52.3575
+      ]
+    },
+    {
+      "id": "03401",
+      "name": "Delmenhorst",
+      "label": "Kreisfreie Stadt Delmenhorst",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        8.5783,
+        52.9864,
+        8.7114,
+        53.1092
+      ]
+    },
+    {
+      "id": "03402",
+      "name": "Emden",
+      "label": "Kreisfreie Stadt Emden",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        6.9994,
+        53.3202,
+        7.3114,
+        53.4085
+      ]
+    },
+    {
+      "id": "03403",
+      "name": "Oldenburg (Oldb)",
+      "label": "Kreisfreie Stadt Oldenburg (Oldb)",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        8.128,
+        53.0823,
+        8.3123,
+        53.2052
+      ]
+    },
+    {
+      "id": "03404",
+      "name": "Osnabrück",
+      "label": "Kreisfreie Stadt Osnabrück",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        7.9302,
+        52.2205,
+        8.1805,
+        52.3388
+      ]
+    },
+    {
+      "id": "03102",
+      "name": "Salzgitter",
+      "label": "Kreisfreie Stadt Salzgitter",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        10.2306,
+        52.013,
+        10.5077,
+        52.2228
+      ]
+    },
+    {
+      "id": "03405",
+      "name": "Wilhelmshaven",
+      "label": "Kreisfreie Stadt Wilhelmshaven",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        7.9936,
+        53.5018,
+        8.171,
+        53.6381
+      ]
+    },
+    {
+      "id": "03103",
+      "name": "Wolfsburg",
+      "label": "Kreisfreie Stadt Wolfsburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "03",
+      "bbox": [
+        10.6472,
+        52.3159,
+        10.9069,
+        52.4951
+      ]
+    },
+    {
+      "id": "03451",
+      "name": "Ammerland",
+      "label": "Landkreis Ammerland",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        7.6975,
+        53.0596,
+        8.3146,
+        53.354
+      ]
+    },
+    {
+      "id": "03452",
+      "name": "Aurich",
+      "label": "Landkreis Aurich",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        6.8535,
+        53.3323,
+        7.8155,
+        53.7361
+      ]
+    },
+    {
+      "id": "03351",
+      "name": "Celle",
+      "label": "Landkreis Celle",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.7258,
+        52.4883,
+        10.4444,
+        52.937
+      ]
+    },
+    {
+      "id": "03453",
+      "name": "Cloppenburg",
+      "label": "Landkreis Cloppenburg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        7.6119,
+        52.6774,
+        8.2588,
+        53.1854
+      ]
+    },
+    {
+      "id": "03352",
+      "name": "Cuxhaven",
+      "label": "Landkreis Cuxhaven",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.4828,
+        53.2812,
+        9.2986,
+        53.8923
+      ]
+    },
+    {
+      "id": "03251",
+      "name": "Diepholz",
+      "label": "Landkreis Diepholz",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.2938,
+        52.4436,
+        9.1162,
+        53.0534
+      ]
+    },
+    {
+      "id": "03454",
+      "name": "Emsland",
+      "label": "Landkreis Emsland",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        6.9953,
+        52.2803,
+        7.8321,
+        53.1175
+      ]
+    },
+    {
+      "id": "03455",
+      "name": "Friesland",
+      "label": "Landkreis Friesland",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        7.8093,
+        53.3047,
+        8.2073,
+        53.7948
+      ]
+    },
+    {
+      "id": "03151",
+      "name": "Gifhorn",
+      "label": "Landkreis Gifhorn",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.2596,
+        52.3204,
+        11.0088,
+        52.8342
+      ]
+    },
+    {
+      "id": "03153",
+      "name": "Goslar",
+      "label": "Landkreis Goslar",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.0655,
+        51.6379,
+        10.7014,
+        52.0562
+      ]
+    },
+    {
+      "id": "03456",
+      "name": "Grafschaft Bentheim",
+      "label": "Landkreis Grafschaft Bentheim",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        6.6809,
+        52.2411,
+        7.3175,
+        52.6531
+      ]
+    },
+    {
+      "id": "03159",
+      "name": "Göttingen",
+      "label": "Landkreis Göttingen",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.5484,
+        51.2952,
+        10.6825,
+        51.8332
+      ]
+    },
+    {
+      "id": "03252",
+      "name": "Hameln-Pyrmont",
+      "label": "Landkreis Hameln-Pyrmont",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.1547,
+        51.9194,
+        9.6846,
+        52.2743
+      ]
+    },
+    {
+      "id": "03353",
+      "name": "Harburg",
+      "label": "Landkreis Harburg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.5612,
+        53.129,
+        10.471,
+        53.5053
+      ]
+    },
+    {
+      "id": "03358",
+      "name": "Heidekreis",
+      "label": "Landkreis Heidekreis",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.3172,
+        52.5995,
+        10.2369,
+        53.2195
+      ]
+    },
+    {
+      "id": "03154",
+      "name": "Helmstedt",
+      "label": "Landkreis Helmstedt",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.6009,
+        52.0477,
+        11.0862,
+        52.4718
+      ]
+    },
+    {
+      "id": "03254",
+      "name": "Hildesheim",
+      "label": "Landkreis Hildesheim",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.6288,
+        51.8969,
+        10.264,
+        52.2969
+      ]
+    },
+    {
+      "id": "03255",
+      "name": "Holzminden",
+      "label": "Landkreis Holzminden",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.3078,
+        51.646,
+        9.8949,
+        52.0441
+      ]
+    },
+    {
+      "id": "03457",
+      "name": "Leer",
+      "label": "Landkreis Leer",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        6.6393,
+        53.0337,
+        7.8856,
+        53.6177
+      ]
+    },
+    {
+      "id": "03354",
+      "name": "Lüchow-Dannenberg",
+      "label": "Landkreis Lüchow-Dannenberg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.7505,
+        52.8458,
+        11.5981,
+        53.2501
+      ]
+    },
+    {
+      "id": "03355",
+      "name": "Lüneburg",
+      "label": "Landkreis Lüneburg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.0361,
+        53.043,
+        11.1953,
+        53.3858
+      ]
+    },
+    {
+      "id": "03256",
+      "name": "Nienburg (Weser)",
+      "label": "Landkreis Nienburg (Weser)",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.6985,
+        52.3879,
+        9.5378,
+        52.9095
+      ]
+    },
+    {
+      "id": "03155",
+      "name": "Northeim",
+      "label": "Landkreis Northeim",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.4173,
+        51.5521,
+        10.162,
+        51.9478
+      ]
+    },
+    {
+      "id": "03458",
+      "name": "Oldenburg",
+      "label": "Landkreis Oldenburg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.0508,
+        52.7979,
+        8.694,
+        53.1721
+      ]
+    },
+    {
+      "id": "03459",
+      "name": "Osnabrück",
+      "label": "Landkreis Osnabrück",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        7.604,
+        52.0355,
+        8.5174,
+        52.7093
+      ]
+    },
+    {
+      "id": "03356",
+      "name": "Osterholz",
+      "label": "Landkreis Osterholz",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.4807,
+        53.1251,
+        9.0715,
+        53.3957
+      ]
+    },
+    {
+      "id": "03157",
+      "name": "Peine",
+      "label": "Landkreis Peine",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.9951,
+        52.175,
+        10.453,
+        52.4485
+      ]
+    },
+    {
+      "id": "03241",
+      "name": "Region Hannover",
+      "label": "Landkreis Region Hannover",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.2381,
+        52.1284,
+        10.3034,
+        52.677
+      ]
+    },
+    {
+      "id": "03357",
+      "name": "Rotenburg (Wümme)",
+      "label": "Landkreis Rotenburg (Wümme)",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.8965,
+        52.9174,
+        9.7584,
+        53.5938
+      ]
+    },
+    {
+      "id": "03257",
+      "name": "Schaumburg",
+      "label": "Landkreis Schaumburg",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.9635,
+        52.0943,
+        9.4483,
+        52.4547
+      ]
+    },
+    {
+      "id": "03359",
+      "name": "Stade",
+      "label": "Landkreis Stade",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        9.0185,
+        53.337,
+        9.7837,
+        53.8677
+      ]
+    },
+    {
+      "id": "03360",
+      "name": "Uelzen",
+      "label": "Landkreis Uelzen",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.1458,
+        52.7651,
+        10.8927,
+        53.2039
+      ]
+    },
+    {
+      "id": "03460",
+      "name": "Vechta",
+      "label": "Landkreis Vechta",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.014,
+        52.4329,
+        8.4736,
+        52.8843
+      ]
+    },
+    {
+      "id": "03361",
+      "name": "Verden",
+      "label": "Landkreis Verden",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.9037,
+        52.7677,
+        9.4639,
+        53.1845
+      ]
+    },
+    {
+      "id": "03461",
+      "name": "Wesermarsch",
+      "label": "Landkreis Wesermarsch",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        8.1642,
+        53.0993,
+        8.6577,
+        53.6163
+      ]
+    },
+    {
+      "id": "03462",
+      "name": "Wittmund",
+      "label": "Landkreis Wittmund",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        7.4078,
+        53.3629,
+        7.9752,
+        53.7823
+      ]
+    },
+    {
+      "id": "03158",
+      "name": "Wolfenbüttel",
+      "label": "Landkreis Wolfenbüttel",
+      "kind": "Landkreis",
+      "state_id": "03",
+      "bbox": [
+        10.1752,
+        51.9705,
+        10.8893,
+        52.3033
+      ]
+    },
+    {
+      "id": "04011",
+      "name": "Bremen",
+      "label": "Kreisfreie Stadt Bremen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "04",
+      "bbox": [
+        8.4817,
+        53.011,
+        8.9909,
+        53.5973
+      ]
+    },
+    {
+      "id": "04012",
+      "name": "Bremerhaven",
+      "label": "Kreisfreie Stadt Bremerhaven",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "04",
+      "bbox": [
+        8.4832,
+        53.4712,
+        8.6609,
+        53.6101
+      ]
+    },
+    {
+      "id": "05554",
+      "name": "Borken",
+      "label": "Kreis Borken",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.3867,
+        51.7289,
+        7.2745,
+        52.2431
+      ]
+    },
+    {
+      "id": "05558",
+      "name": "Coesfeld",
+      "label": "Kreis Coesfeld",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.0533,
+        51.6646,
+        7.7358,
+        52.0618
+      ]
+    },
+    {
+      "id": "05358",
+      "name": "Düren",
+      "label": "Kreis Düren",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.1935,
+        50.5982,
+        6.7181,
+        51.0454
+      ]
+    },
+    {
+      "id": "05954",
+      "name": "Ennepe-Ruhr-Kreis",
+      "label": "Kreis Ennepe-Ruhr-Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.1084,
+        51.2132,
+        7.5185,
+        51.4839
+      ]
+    },
+    {
+      "id": "05366",
+      "name": "Euskirchen",
+      "label": "Kreis Euskirchen",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.3156,
+        50.323,
+        6.9347,
+        50.7897
+      ]
+    },
+    {
+      "id": "05754",
+      "name": "Gütersloh",
+      "label": "Kreis Gütersloh",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.0755,
+        51.7175,
+        8.7484,
+        52.1352
+      ]
+    },
+    {
+      "id": "05370",
+      "name": "Heinsberg",
+      "label": "Kreis Heinsberg",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        5.8663,
+        50.8982,
+        6.4772,
+        51.1899
+      ]
+    },
+    {
+      "id": "05758",
+      "name": "Herford",
+      "label": "Kreis Herford",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.4038,
+        52.0589,
+        8.9271,
+        52.2676
+      ]
+    },
+    {
+      "id": "05958",
+      "name": "Hochsauerlandkreis",
+      "label": "Kreis Hochsauerlandkreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.8638,
+        51.0925,
+        8.9708,
+        51.5486
+      ]
+    },
+    {
+      "id": "05762",
+      "name": "Höxter",
+      "label": "Kreis Höxter",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.9054,
+        51.442,
+        9.4615,
+        51.9114
+      ]
+    },
+    {
+      "id": "05154",
+      "name": "Kleve",
+      "label": "Kreis Kleve",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        5.945,
+        51.355,
+        6.5346,
+        51.9052
+      ]
+    },
+    {
+      "id": "05766",
+      "name": "Lippe",
+      "label": "Kreis Lippe",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.6063,
+        51.789,
+        9.3452,
+        52.1946
+      ]
+    },
+    {
+      "id": "05158",
+      "name": "Mettmann",
+      "label": "Kreis Mettmann",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.7998,
+        51.0649,
+        7.1696,
+        51.3815
+      ]
+    },
+    {
+      "id": "05770",
+      "name": "Minden-Lübbecke",
+      "label": "Kreis Minden-Lübbecke",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.2972,
+        52.1625,
+        9.1367,
+        52.5314
+      ]
+    },
+    {
+      "id": "05962",
+      "name": "Märkischer Kreis",
+      "label": "Kreis Märkischer Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.4177,
+        51.0685,
+        7.9509,
+        51.4785
+      ]
+    },
+    {
+      "id": "05374",
+      "name": "Oberbergischer Kreis",
+      "label": "Kreis Oberbergischer Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.2526,
+        50.8186,
+        7.7921,
+        51.2503
+      ]
+    },
+    {
+      "id": "05966",
+      "name": "Olpe",
+      "label": "Kreis Olpe",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.7016,
+        50.9246,
+        8.2459,
+        51.2482
+      ]
+    },
+    {
+      "id": "05774",
+      "name": "Paderborn",
+      "label": "Kreis Paderborn",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        8.4031,
+        51.4473,
+        9.0174,
+        51.8771
+      ]
+    },
+    {
+      "id": "05562",
+      "name": "Recklinghausen",
+      "label": "Kreis Recklinghausen",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.8943,
+        51.5207,
+        7.4653,
+        51.8219
+      ]
+    },
+    {
+      "id": "05362",
+      "name": "Rhein-Erft-Kreis",
+      "label": "Kreis Rhein-Erft-Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.4532,
+        50.7178,
+        7.0302,
+        51.0661
+      ]
+    },
+    {
+      "id": "05162",
+      "name": "Rhein-Kreis Neuss",
+      "label": "Kreis Rhein-Kreis Neuss",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.4364,
+        51.0151,
+        6.8836,
+        51.3367
+      ]
+    },
+    {
+      "id": "05382",
+      "name": "Rhein-Sieg-Kreis",
+      "label": "Kreis Rhein-Sieg-Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.8543,
+        50.5559,
+        7.6822,
+        50.9498
+      ]
+    },
+    {
+      "id": "05378",
+      "name": "Rheinisch-Bergischer Kreis",
+      "label": "Kreis Rheinisch-Bergischer Kreis",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.9904,
+        50.8673,
+        7.3985,
+        51.1608
+      ]
+    },
+    {
+      "id": "05970",
+      "name": "Siegen-Wittgenstein",
+      "label": "Kreis Siegen-Wittgenstein",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.8267,
+        50.6854,
+        8.5491,
+        51.1495
+      ]
+    },
+    {
+      "id": "05974",
+      "name": "Soest",
+      "label": "Kreis Soest",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.8272,
+        51.3885,
+        8.586,
+        51.7286
+      ]
+    },
+    {
+      "id": "05566",
+      "name": "Steinfurt",
+      "label": "Kreis Steinfurt",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.0945,
+        51.9948,
+        8.0252,
+        52.4751
+      ]
+    },
+    {
+      "id": "05334",
+      "name": "Städteregion Aachen",
+      "label": "Kreis Städteregion Aachen",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        5.9749,
+        50.4944,
+        6.4197,
+        50.9501
+      ]
+    },
+    {
+      "id": "05978",
+      "name": "Unna",
+      "label": "Kreis Unna",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.4078,
+        51.3856,
+        7.8497,
+        51.7363
+      ]
+    },
+    {
+      "id": "05166",
+      "name": "Viersen",
+      "label": "Kreis Viersen",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.068,
+        51.1659,
+        6.626,
+        51.425
+      ]
+    },
+    {
+      "id": "05570",
+      "name": "Warendorf",
+      "label": "Kreis Warendorf",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        7.6132,
+        51.6581,
+        8.3201,
+        52.1041
+      ]
+    },
+    {
+      "id": "05170",
+      "name": "Wesel",
+      "label": "Kreis Wesel",
+      "kind": "Kreis",
+      "state_id": "05",
+      "bbox": [
+        6.2929,
+        51.3895,
+        6.9405,
+        51.817
+      ]
+    },
+    {
+      "id": "05711",
+      "name": "Bielefeld",
+      "label": "Kreisfreie Stadt Bielefeld",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        8.3777,
+        51.915,
+        8.6635,
+        52.1148
+      ]
+    },
+    {
+      "id": "05911",
+      "name": "Bochum",
+      "label": "Kreisfreie Stadt Bochum",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.1042,
+        51.4108,
+        7.3498,
+        51.532
+      ]
+    },
+    {
+      "id": "05314",
+      "name": "Bonn",
+      "label": "Kreisfreie Stadt Bonn",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.0235,
+        50.6319,
+        7.2107,
+        50.7744
+      ]
+    },
+    {
+      "id": "05512",
+      "name": "Bottrop",
+      "label": "Kreisfreie Stadt Bottrop",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.8332,
+        51.4969,
+        6.9993,
+        51.6446
+      ]
+    },
+    {
+      "id": "05913",
+      "name": "Dortmund",
+      "label": "Kreisfreie Stadt Dortmund",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.3023,
+        51.4156,
+        7.6379,
+        51.5995
+      ]
+    },
+    {
+      "id": "05112",
+      "name": "Duisburg",
+      "label": "Kreisfreie Stadt Duisburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.6256,
+        51.3332,
+        6.8305,
+        51.5602
+      ]
+    },
+    {
+      "id": "05111",
+      "name": "Düsseldorf",
+      "label": "Kreisfreie Stadt Düsseldorf",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.6898,
+        51.1244,
+        6.94,
+        51.3514
+      ]
+    },
+    {
+      "id": "05113",
+      "name": "Essen",
+      "label": "Kreisfreie Stadt Essen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.8945,
+        51.3474,
+        7.1368,
+        51.5341
+      ]
+    },
+    {
+      "id": "05513",
+      "name": "Gelsenkirchen",
+      "label": "Kreisfreie Stadt Gelsenkirchen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.9875,
+        51.4808,
+        7.1451,
+        51.6315
+      ]
+    },
+    {
+      "id": "05914",
+      "name": "Hagen",
+      "label": "Kreisfreie Stadt Hagen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.3763,
+        51.2649,
+        7.5992,
+        51.418
+      ]
+    },
+    {
+      "id": "05915",
+      "name": "Hamm",
+      "label": "Kreisfreie Stadt Hamm",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.6755,
+        51.5781,
+        7.9975,
+        51.7448
+      ]
+    },
+    {
+      "id": "05916",
+      "name": "Herne",
+      "label": "Kreisfreie Stadt Herne",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.1234,
+        51.5031,
+        7.2963,
+        51.5734
+      ]
+    },
+    {
+      "id": "05114",
+      "name": "Krefeld",
+      "label": "Kreisfreie Stadt Krefeld",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.4779,
+        51.2868,
+        6.7062,
+        51.4063
+      ]
+    },
+    {
+      "id": "05315",
+      "name": "Köln",
+      "label": "Kreisfreie Stadt Köln",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.7724,
+        50.8296,
+        7.1636,
+        51.0846
+      ]
+    },
+    {
+      "id": "05316",
+      "name": "Leverkusen",
+      "label": "Kreisfreie Stadt Leverkusen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.898,
+        51.0109,
+        7.1157,
+        51.0971
+      ]
+    },
+    {
+      "id": "05116",
+      "name": "Mönchengladbach",
+      "label": "Kreisfreie Stadt Mönchengladbach",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.2911,
+        51.086,
+        6.5371,
+        51.2478
+      ]
+    },
+    {
+      "id": "05117",
+      "name": "Mülheim an der Ruhr",
+      "label": "Kreisfreie Stadt Mülheim an der Ruhr",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.8049,
+        51.3512,
+        6.9593,
+        51.4713
+      ]
+    },
+    {
+      "id": "05515",
+      "name": "Münster",
+      "label": "Kreisfreie Stadt Münster",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.474,
+        51.8402,
+        7.7742,
+        52.0602
+      ]
+    },
+    {
+      "id": "05119",
+      "name": "Oberhausen",
+      "label": "Kreisfreie Stadt Oberhausen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.7771,
+        51.4489,
+        6.9307,
+        51.5796
+      ]
+    },
+    {
+      "id": "05120",
+      "name": "Remscheid",
+      "label": "Kreisfreie Stadt Remscheid",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.1312,
+        51.1433,
+        7.3092,
+        51.2254
+      ]
+    },
+    {
+      "id": "05122",
+      "name": "Solingen",
+      "label": "Kreisfreie Stadt Solingen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        6.9511,
+        51.1152,
+        7.174,
+        51.2205
+      ]
+    },
+    {
+      "id": "05124",
+      "name": "Wuppertal",
+      "label": "Kreisfreie Stadt Wuppertal",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "05",
+      "bbox": [
+        7.015,
+        51.1664,
+        7.3136,
+        51.3183
+      ]
+    },
+    {
+      "id": "06411",
+      "name": "Darmstadt",
+      "label": "Kreisfreie Stadt Darmstadt",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "06",
+      "bbox": [
+        8.56,
+        49.7958,
+        8.7497,
+        49.9542
+      ]
+    },
+    {
+      "id": "06412",
+      "name": "Frankfurt am Main",
+      "label": "Kreisfreie Stadt Frankfurt am Main",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "06",
+      "bbox": [
+        8.4726,
+        50.0156,
+        8.8005,
+        50.2263
+      ]
+    },
+    {
+      "id": "06611",
+      "name": "Kassel",
+      "label": "Kreisfreie Stadt Kassel",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "06",
+      "bbox": [
+        9.3515,
+        51.2619,
+        9.5699,
+        51.3687
+      ]
+    },
+    {
+      "id": "06413",
+      "name": "Offenbach am Main",
+      "label": "Kreisfreie Stadt Offenbach am Main",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "06",
+      "bbox": [
+        8.7178,
+        50.047,
+        8.8433,
+        50.1373
+      ]
+    },
+    {
+      "id": "06414",
+      "name": "Wiesbaden",
+      "label": "Kreisfreie Stadt Wiesbaden",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "06",
+      "bbox": [
+        8.1103,
+        49.9944,
+        8.3861,
+        50.1518
+      ]
+    },
+    {
+      "id": "06431",
+      "name": "Bergstraße",
+      "label": "Landkreis Bergstraße",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.3561,
+        49.3954,
+        8.9503,
+        49.7546
+      ]
+    },
+    {
+      "id": "06432",
+      "name": "Darmstadt-Dieburg",
+      "label": "Landkreis Darmstadt-Dieburg",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.5198,
+        49.7222,
+        9.0505,
+        50.0018
+      ]
+    },
+    {
+      "id": "06631",
+      "name": "Fulda",
+      "label": "Landkreis Fulda",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        9.4273,
+        50.3561,
+        10.083,
+        50.8096
+      ]
+    },
+    {
+      "id": "06531",
+      "name": "Gießen",
+      "label": "Landkreis Gießen",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.5191,
+        50.415,
+        9.1341,
+        50.7093
+      ]
+    },
+    {
+      "id": "06433",
+      "name": "Groß-Gerau",
+      "label": "Landkreis Groß-Gerau",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.2882,
+        49.7171,
+        8.6302,
+        50.0837
+      ]
+    },
+    {
+      "id": "06632",
+      "name": "Hersfeld-Rotenburg",
+      "label": "Landkreis Hersfeld-Rotenburg",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        9.4333,
+        50.7178,
+        10.0639,
+        51.0856
+      ]
+    },
+    {
+      "id": "06434",
+      "name": "Hochtaunuskreis",
+      "label": "Landkreis Hochtaunuskreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.3152,
+        50.1555,
+        8.7124,
+        50.415
+      ]
+    },
+    {
+      "id": "06633",
+      "name": "Kassel",
+      "label": "Landkreis Kassel",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        9.0929,
+        51.1704,
+        9.7595,
+        51.6575
+      ]
+    },
+    {
+      "id": "06532",
+      "name": "Lahn-Dill-Kreis",
+      "label": "Landkreis Lahn-Dill-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.1097,
+        50.3958,
+        8.6508,
+        50.8828
+      ]
+    },
+    {
+      "id": "06533",
+      "name": "Limburg-Weilburg",
+      "label": "Landkreis Limburg-Weilburg",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        7.9642,
+        50.2637,
+        8.4672,
+        50.5997
+      ]
+    },
+    {
+      "id": "06435",
+      "name": "Main-Kinzig-Kreis",
+      "label": "Landkreis Main-Kinzig-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.7806,
+        50.0662,
+        9.7489,
+        50.4634
+      ]
+    },
+    {
+      "id": "06436",
+      "name": "Main-Taunus-Kreis",
+      "label": "Landkreis Main-Taunus-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.3169,
+        49.9965,
+        8.6008,
+        50.2028
+      ]
+    },
+    {
+      "id": "06534",
+      "name": "Marburg-Biedenkopf",
+      "label": "Landkreis Marburg-Biedenkopf",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.3546,
+        50.6738,
+        9.1516,
+        50.9967
+      ]
+    },
+    {
+      "id": "06437",
+      "name": "Odenwaldkreis",
+      "label": "Landkreis Odenwaldkreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.7844,
+        49.4706,
+        9.1508,
+        49.8562
+      ]
+    },
+    {
+      "id": "06438",
+      "name": "Offenbach",
+      "label": "Landkreis Offenbach",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.5909,
+        49.9473,
+        9.0488,
+        50.1335
+      ]
+    },
+    {
+      "id": "06439",
+      "name": "Rheingau-Taunus-Kreis",
+      "label": "Landkreis Rheingau-Taunus-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        7.7725,
+        49.9718,
+        8.4109,
+        50.2962
+      ]
+    },
+    {
+      "id": "06634",
+      "name": "Schwalm-Eder-Kreis",
+      "label": "Landkreis Schwalm-Eder-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.9727,
+        50.7728,
+        9.7809,
+        51.2576
+      ]
+    },
+    {
+      "id": "06535",
+      "name": "Vogelsbergkreis",
+      "label": "Landkreis Vogelsbergkreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.9045,
+        50.3855,
+        9.65,
+        50.8366
+      ]
+    },
+    {
+      "id": "06635",
+      "name": "Waldeck-Frankenberg",
+      "label": "Landkreis Waldeck-Frankenberg",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.4734,
+        50.9356,
+        9.2214,
+        51.5186
+      ]
+    },
+    {
+      "id": "06636",
+      "name": "Werra-Meißner-Kreis",
+      "label": "Landkreis Werra-Meißner-Kreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        9.625,
+        50.9922,
+        10.236,
+        51.4211
+      ]
+    },
+    {
+      "id": "06440",
+      "name": "Wetteraukreis",
+      "label": "Landkreis Wetteraukreis",
+      "kind": "Landkreis",
+      "state_id": "06",
+      "bbox": [
+        8.5141,
+        50.1621,
+        9.2904,
+        50.5001
+      ]
+    },
+    {
+      "id": "07311",
+      "name": "Frankenthal (Pfalz)",
+      "label": "Kreisfreie Stadt Frankenthal (Pfalz)",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        8.3083,
+        49.4853,
+        8.4231,
+        49.5828
+      ]
+    },
+    {
+      "id": "07312",
+      "name": "Kaiserslautern",
+      "label": "Kreisfreie Stadt Kaiserslautern",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.6272,
+        49.3586,
+        7.8707,
+        49.4951
+      ]
+    },
+    {
+      "id": "07111",
+      "name": "Koblenz",
+      "label": "Kreisfreie Stadt Koblenz",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.4841,
+        50.283,
+        7.696,
+        50.4106
+      ]
+    },
+    {
+      "id": "07313",
+      "name": "Landau in der Pfalz",
+      "label": "Kreisfreie Stadt Landau in der Pfalz",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.8641,
+        49.1551,
+        8.1808,
+        49.3164
+      ]
+    },
+    {
+      "id": "07314",
+      "name": "Ludwigshafen am Rhein",
+      "label": "Kreisfreie Stadt Ludwigshafen am Rhein",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        8.2981,
+        49.4267,
+        8.477,
+        49.5501
+      ]
+    },
+    {
+      "id": "07315",
+      "name": "Mainz",
+      "label": "Kreisfreie Stadt Mainz",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        8.1434,
+        49.8956,
+        8.343,
+        50.0353
+      ]
+    },
+    {
+      "id": "07316",
+      "name": "Neustadt an der Weinstraße",
+      "label": "Kreisfreie Stadt Neustadt an der Weinstraße",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.9996,
+        49.2961,
+        8.3174,
+        49.4009
+      ]
+    },
+    {
+      "id": "07317",
+      "name": "Pirmasens",
+      "label": "Kreisfreie Stadt Pirmasens",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.5142,
+        49.1413,
+        7.6734,
+        49.2347
+      ]
+    },
+    {
+      "id": "07318",
+      "name": "Speyer",
+      "label": "Kreisfreie Stadt Speyer",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        8.3754,
+        49.283,
+        8.4918,
+        49.3761
+      ]
+    },
+    {
+      "id": "07211",
+      "name": "Trier",
+      "label": "Kreisfreie Stadt Trier",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        6.5529,
+        49.699,
+        6.7465,
+        49.8577
+      ]
+    },
+    {
+      "id": "07319",
+      "name": "Worms",
+      "label": "Kreisfreie Stadt Worms",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        8.2384,
+        49.5864,
+        8.4464,
+        49.7367
+      ]
+    },
+    {
+      "id": "07320",
+      "name": "Zweibrücken",
+      "label": "Kreisfreie Stadt Zweibrücken",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "07",
+      "bbox": [
+        7.289,
+        49.1895,
+        7.4484,
+        49.3164
+      ]
+    },
+    {
+      "id": "07131",
+      "name": "Ahrweiler",
+      "label": "Landkreis Ahrweiler",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.7432,
+        50.3066,
+        7.3444,
+        50.6501
+      ]
+    },
+    {
+      "id": "07132",
+      "name": "Altenkirchen (Westerwald)",
+      "label": "Landkreis Altenkirchen (Westerwald)",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.4392,
+        50.5637,
+        8.043,
+        50.9423
+      ]
+    },
+    {
+      "id": "07331",
+      "name": "Alzey-Worms",
+      "label": "Landkreis Alzey-Worms",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.9046,
+        49.5881,
+        8.4799,
+        49.9
+      ]
+    },
+    {
+      "id": "07332",
+      "name": "Bad Dürkheim",
+      "label": "Landkreis Bad Dürkheim",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.8246,
+        49.309,
+        8.3174,
+        49.6289
+      ]
+    },
+    {
+      "id": "07133",
+      "name": "Bad Kreuznach",
+      "label": "Landkreis Bad Kreuznach",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.3874,
+        49.6359,
+        7.9688,
+        50.001
+      ]
+    },
+    {
+      "id": "07231",
+      "name": "Bernkastel-Wittlich",
+      "label": "Landkreis Bernkastel-Wittlich",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.6812,
+        49.673,
+        7.2638,
+        50.1315
+      ]
+    },
+    {
+      "id": "07134",
+      "name": "Birkenfeld",
+      "label": "Landkreis Birkenfeld",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.028,
+        49.5486,
+        7.5263,
+        49.9005
+      ]
+    },
+    {
+      "id": "07135",
+      "name": "Cochem-Zell",
+      "label": "Landkreis Cochem-Zell",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.9526,
+        49.9594,
+        7.3836,
+        50.2813
+      ]
+    },
+    {
+      "id": "07333",
+      "name": "Donnersbergkreis",
+      "label": "Landkreis Donnersbergkreis",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.6963,
+        49.4893,
+        8.1612,
+        49.7658
+      ]
+    },
+    {
+      "id": "07232",
+      "name": "Eifelkreis Bitburg-Prüm",
+      "label": "Landkreis Eifelkreis Bitburg-Prüm",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.1124,
+        49.8104,
+        6.7282,
+        50.3245
+      ]
+    },
+    {
+      "id": "07334",
+      "name": "Germersheim",
+      "label": "Landkreis Germersheim",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        8.055,
+        48.9666,
+        8.4131,
+        49.2977
+      ]
+    },
+    {
+      "id": "07335",
+      "name": "Kaiserslautern",
+      "label": "Landkreis Kaiserslautern",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.3925,
+        49.3068,
+        8.0026,
+        49.5971
+      ]
+    },
+    {
+      "id": "07336",
+      "name": "Kusel",
+      "label": "Landkreis Kusel",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.2464,
+        49.3634,
+        7.7282,
+        49.714
+      ]
+    },
+    {
+      "id": "07339",
+      "name": "Mainz-Bingen",
+      "label": "Landkreis Mainz-Bingen",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.6648,
+        49.7485,
+        8.4001,
+        50.0826
+      ]
+    },
+    {
+      "id": "07137",
+      "name": "Mayen-Koblenz",
+      "label": "Landkreis Mayen-Koblenz",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.9738,
+        50.1601,
+        7.681,
+        50.4766
+      ]
+    },
+    {
+      "id": "07138",
+      "name": "Neuwied",
+      "label": "Landkreis Neuwied",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.21,
+        50.4118,
+        7.7115,
+        50.7182
+      ]
+    },
+    {
+      "id": "07140",
+      "name": "Rhein-Hunsrück-Kreis",
+      "label": "Landkreis Rhein-Hunsrück-Kreis",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.2027,
+        49.8405,
+        7.7648,
+        50.2655
+      ]
+    },
+    {
+      "id": "07141",
+      "name": "Rhein-Lahn-Kreis",
+      "label": "Landkreis Rhein-Lahn-Kreis",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.5784,
+        50.0665,
+        8.1228,
+        50.4148
+      ]
+    },
+    {
+      "id": "07338",
+      "name": "Rhein-Pfalz-Kreis",
+      "label": "Landkreis Rhein-Pfalz-Kreis",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        8.2328,
+        49.2498,
+        8.5084,
+        49.6076
+      ]
+    },
+    {
+      "id": "07337",
+      "name": "Südliche Weinstraße",
+      "label": "Landkreis Südliche Weinstraße",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.8257,
+        48.9993,
+        8.3243,
+        49.3438
+      ]
+    },
+    {
+      "id": "07340",
+      "name": "Südwestpfalz",
+      "label": "Landkreis Südwestpfalz",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.3203,
+        49.0329,
+        7.9167,
+        49.377
+      ]
+    },
+    {
+      "id": "07235",
+      "name": "Trier-Saarburg",
+      "label": "Landkreis Trier-Saarburg",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.3575,
+        49.517,
+        7.0651,
+        49.9176
+      ]
+    },
+    {
+      "id": "07233",
+      "name": "Vulkaneifel",
+      "label": "Landkreis Vulkaneifel",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        6.385,
+        50.0734,
+        7.0704,
+        50.3895
+      ]
+    },
+    {
+      "id": "07143",
+      "name": "Westerwaldkreis",
+      "label": "Landkreis Westerwaldkreis",
+      "kind": "Landkreis",
+      "state_id": "07",
+      "bbox": [
+        7.5949,
+        50.3474,
+        8.1522,
+        50.7401
+      ]
+    },
+    {
+      "id": "08425",
+      "name": "Alb-Donau-Kreis",
+      "label": "Landkreis Alb-Donau-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.4892,
+        48.1423,
+        10.2414,
+        48.6318
+      ]
+    },
+    {
+      "id": "08426",
+      "name": "Biberach",
+      "label": "Landkreis Biberach",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.2603,
+        47.9457,
+        10.144,
+        48.294
+      ]
+    },
+    {
+      "id": "08435",
+      "name": "Bodenseekreis",
+      "label": "Landkreis Bodenseekreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.0656,
+        47.5812,
+        9.7443,
+        47.8822
+      ]
+    },
+    {
+      "id": "08315",
+      "name": "Breisgau-Hochschwarzwald",
+      "label": "Landkreis Breisgau-Hochschwarzwald",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.5297,
+        47.7436,
+        8.4397,
+        48.1168
+      ]
+    },
+    {
+      "id": "08115",
+      "name": "Böblingen",
+      "label": "Landkreis Böblingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.7465,
+        48.499,
+        9.1742,
+        48.8677
+      ]
+    },
+    {
+      "id": "08235",
+      "name": "Calw",
+      "label": "Landkreis Calw",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.3794,
+        48.4839,
+        8.8786,
+        48.8383
+      ]
+    },
+    {
+      "id": "08316",
+      "name": "Emmendingen",
+      "label": "Landkreis Emmendingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.577,
+        48.0082,
+        8.1876,
+        48.2605
+      ]
+    },
+    {
+      "id": "08236",
+      "name": "Enzkreis",
+      "label": "Landkreis Enzkreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.4675,
+        48.7743,
+        8.9482,
+        49.0622
+      ]
+    },
+    {
+      "id": "08116",
+      "name": "Esslingen",
+      "label": "Landkreis Esslingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.0849,
+        48.5123,
+        9.5964,
+        48.7882
+      ]
+    },
+    {
+      "id": "08237",
+      "name": "Freudenstadt",
+      "label": "Landkreis Freudenstadt",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.2067,
+        48.3011,
+        8.8289,
+        48.6395
+      ]
+    },
+    {
+      "id": "08117",
+      "name": "Göppingen",
+      "label": "Landkreis Göppingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.484,
+        48.5173,
+        9.9945,
+        48.7814
+      ]
+    },
+    {
+      "id": "08135",
+      "name": "Heidenheim",
+      "label": "Landkreis Heidenheim",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.9201,
+        48.5001,
+        10.4957,
+        48.7872
+      ]
+    },
+    {
+      "id": "08125",
+      "name": "Heilbronn",
+      "label": "Landkreis Heilbronn",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.8161,
+        49.0203,
+        9.5275,
+        49.3879
+      ]
+    },
+    {
+      "id": "08126",
+      "name": "Hohenlohekreis",
+      "label": "Landkreis Hohenlohekreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.3434,
+        49.0954,
+        9.8604,
+        49.4301
+      ]
+    },
+    {
+      "id": "08215",
+      "name": "Karlsruhe",
+      "label": "Landkreis Karlsruhe",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.2584,
+        48.8131,
+        8.8942,
+        49.29
+      ]
+    },
+    {
+      "id": "08335",
+      "name": "Konstanz",
+      "label": "Landkreis Konstanz",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.6139,
+        47.6521,
+        9.2178,
+        47.9422
+      ]
+    },
+    {
+      "id": "08118",
+      "name": "Ludwigsburg",
+      "label": "Landkreis Ludwigsburg",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.876,
+        48.7541,
+        9.4162,
+        49.0646
+      ]
+    },
+    {
+      "id": "08336",
+      "name": "Lörrach",
+      "label": "Landkreis Lörrach",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.5119,
+        47.5324,
+        8.0223,
+        47.8803
+      ]
+    },
+    {
+      "id": "08128",
+      "name": "Main-Tauber-Kreis",
+      "label": "Landkreis Main-Tauber-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.2957,
+        49.3522,
+        10.1617,
+        49.7915
+      ]
+    },
+    {
+      "id": "08225",
+      "name": "Neckar-Odenwald-Kreis",
+      "label": "Landkreis Neckar-Odenwald-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.938,
+        49.2717,
+        9.6038,
+        49.6635
+      ]
+    },
+    {
+      "id": "08317",
+      "name": "Ortenaukreis",
+      "label": "Landkreis Ortenaukreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.6807,
+        48.1582,
+        8.3305,
+        48.7186
+      ]
+    },
+    {
+      "id": "08136",
+      "name": "Ostalbkreis",
+      "label": "Landkreis Ostalbkreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.6191,
+        48.7147,
+        10.4571,
+        49.0609
+      ]
+    },
+    {
+      "id": "08216",
+      "name": "Rastatt",
+      "label": "Landkreis Rastatt",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.9596,
+        48.5867,
+        8.4852,
+        48.9809
+      ]
+    },
+    {
+      "id": "08436",
+      "name": "Ravensburg",
+      "label": "Landkreis Ravensburg",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.376,
+        47.6018,
+        10.1397,
+        48.0055
+      ]
+    },
+    {
+      "id": "08119",
+      "name": "Rems-Murr-Kreis",
+      "label": "Landkreis Rems-Murr-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.2373,
+        48.7405,
+        9.7697,
+        49.079
+      ]
+    },
+    {
+      "id": "08415",
+      "name": "Reutlingen",
+      "label": "Landkreis Reutlingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.1146,
+        48.1949,
+        9.6388,
+        48.6056
+      ]
+    },
+    {
+      "id": "08226",
+      "name": "Rhein-Neckar-Kreis",
+      "label": "Landkreis Rhein-Neckar-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.4505,
+        49.1744,
+        9.1009,
+        49.6259
+      ]
+    },
+    {
+      "id": "08325",
+      "name": "Rottweil",
+      "label": "Landkreis Rottweil",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.2768,
+        48.0711,
+        8.7532,
+        48.411
+      ]
+    },
+    {
+      "id": "08326",
+      "name": "Schwarzwald-Baar-Kreis",
+      "label": "Landkreis Schwarzwald-Baar-Kreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.1096,
+        47.7705,
+        8.6631,
+        48.1869
+      ]
+    },
+    {
+      "id": "08127",
+      "name": "Schwäbisch Hall",
+      "label": "Landkreis Schwäbisch Hall",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        9.4974,
+        48.9176,
+        10.2646,
+        49.3952
+      ]
+    },
+    {
+      "id": "08437",
+      "name": "Sigmaringen",
+      "label": "Landkreis Sigmaringen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.9342,
+        47.8172,
+        9.6049,
+        48.2891
+      ]
+    },
+    {
+      "id": "08327",
+      "name": "Tuttlingen",
+      "label": "Landkreis Tuttlingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.5868,
+        47.8462,
+        9.0214,
+        48.1846
+      ]
+    },
+    {
+      "id": "08416",
+      "name": "Tübingen",
+      "label": "Landkreis Tübingen",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.7557,
+        48.3628,
+        9.1757,
+        48.6228
+      ]
+    },
+    {
+      "id": "08337",
+      "name": "Waldshut",
+      "label": "Landkreis Waldshut",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        7.8711,
+        47.5438,
+        8.629,
+        47.8585
+      ]
+    },
+    {
+      "id": "08417",
+      "name": "Zollernalbkreis",
+      "label": "Landkreis Zollernalbkreis",
+      "kind": "Landkreis",
+      "state_id": "08",
+      "bbox": [
+        8.6478,
+        48.1036,
+        9.2218,
+        48.4175
+      ]
+    },
+    {
+      "id": "08211",
+      "name": "Baden-Baden",
+      "label": "Stadtkreis Baden-Baden",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        8.1088,
+        48.6667,
+        8.321,
+        48.8478
+      ]
+    },
+    {
+      "id": "08311",
+      "name": "Freiburg im Breisgau",
+      "label": "Stadtkreis Freiburg im Breisgau",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        7.6625,
+        47.9035,
+        7.9303,
+        48.0711
+      ]
+    },
+    {
+      "id": "08221",
+      "name": "Heidelberg",
+      "label": "Stadtkreis Heidelberg",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        8.5731,
+        49.3522,
+        8.7941,
+        49.4598
+      ]
+    },
+    {
+      "id": "08121",
+      "name": "Heilbronn",
+      "label": "Stadtkreis Heilbronn",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        9.0445,
+        49.093,
+        9.3005,
+        49.2105
+      ]
+    },
+    {
+      "id": "08212",
+      "name": "Karlsruhe",
+      "label": "Stadtkreis Karlsruhe",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        8.2773,
+        48.9404,
+        8.5429,
+        49.0916
+      ]
+    },
+    {
+      "id": "08222",
+      "name": "Mannheim",
+      "label": "Stadtkreis Mannheim",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        8.4141,
+        49.411,
+        8.5901,
+        49.5905
+      ]
+    },
+    {
+      "id": "08231",
+      "name": "Pforzheim",
+      "label": "Stadtkreis Pforzheim",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        8.6257,
+        48.8199,
+        8.8086,
+        48.9296
+      ]
+    },
+    {
+      "id": "08111",
+      "name": "Stuttgart",
+      "label": "Stadtkreis Stuttgart",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        9.039,
+        48.69,
+        9.3154,
+        48.8672
+      ]
+    },
+    {
+      "id": "08421",
+      "name": "Ulm",
+      "label": "Stadtkreis Ulm",
+      "kind": "Stadtkreis",
+      "state_id": "08",
+      "bbox": [
+        9.8431,
+        48.3069,
+        10.0424,
+        48.4685
+      ]
+    },
+    {
+      "id": "09361",
+      "name": "Amberg",
+      "label": "Kreisfreie Stadt Amberg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        11.7767,
+        49.4118,
+        11.9146,
+        49.4971
+      ]
+    },
+    {
+      "id": "09561",
+      "name": "Ansbach",
+      "label": "Kreisfreie Stadt Ansbach",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.4543,
+        49.2337,
+        10.6568,
+        49.3437
+      ]
+    },
+    {
+      "id": "09661",
+      "name": "Aschaffenburg",
+      "label": "Kreisfreie Stadt Aschaffenburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        9.0801,
+        49.9206,
+        9.2378,
+        50.0213
+      ]
+    },
+    {
+      "id": "09761",
+      "name": "Augsburg",
+      "label": "Kreisfreie Stadt Augsburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.7642,
+        48.2582,
+        10.9592,
+        48.4587
+      ]
+    },
+    {
+      "id": "09461",
+      "name": "Bamberg",
+      "label": "Kreisfreie Stadt Bamberg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.8264,
+        49.8425,
+        10.96,
+        49.927
+      ]
+    },
+    {
+      "id": "09462",
+      "name": "Bayreuth",
+      "label": "Kreisfreie Stadt Bayreuth",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        11.4748,
+        49.8883,
+        11.6725,
+        49.977
+      ]
+    },
+    {
+      "id": "09463",
+      "name": "Coburg",
+      "label": "Kreisfreie Stadt Coburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.8874,
+        50.2217,
+        11.0639,
+        50.2986
+      ]
+    },
+    {
+      "id": "09562",
+      "name": "Erlangen",
+      "label": "Kreisfreie Stadt Erlangen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.9163,
+        49.5333,
+        11.0534,
+        49.6457
+      ]
+    },
+    {
+      "id": "09563",
+      "name": "Fürth",
+      "label": "Kreisfreie Stadt Fürth",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.8932,
+        49.4365,
+        11.0286,
+        49.5411
+      ]
+    },
+    {
+      "id": "09464",
+      "name": "Hof",
+      "label": "Kreisfreie Stadt Hof",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        11.8074,
+        50.2671,
+        11.9721,
+        50.355
+      ]
+    },
+    {
+      "id": "09161",
+      "name": "Ingolstadt",
+      "label": "Kreisfreie Stadt Ingolstadt",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        11.2559,
+        48.6843,
+        11.5033,
+        48.8231
+      ]
+    },
+    {
+      "id": "09762",
+      "name": "Kaufbeuren",
+      "label": "Kreisfreie Stadt Kaufbeuren",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.5512,
+        47.8409,
+        10.6611,
+        47.9218
+      ]
+    },
+    {
+      "id": "09763",
+      "name": "Kempten (Allgäu)",
+      "label": "Kreisfreie Stadt Kempten (Allgäu)",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.2331,
+        47.6951,
+        10.3779,
+        47.7779
+      ]
+    },
+    {
+      "id": "09261",
+      "name": "Landshut",
+      "label": "Kreisfreie Stadt Landshut",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        12.0194,
+        48.5082,
+        12.2849,
+        48.5955
+      ]
+    },
+    {
+      "id": "09764",
+      "name": "Memmingen",
+      "label": "Kreisfreie Stadt Memmingen",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.0847,
+        47.9157,
+        10.234,
+        48.0475
+      ]
+    },
+    {
+      "id": "09162",
+      "name": "München",
+      "label": "Kreisfreie Stadt München",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        11.3609,
+        48.0616,
+        11.7231,
+        48.2481
+      ]
+    },
+    {
+      "id": "09564",
+      "name": "Nürnberg",
+      "label": "Kreisfreie Stadt Nürnberg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.9879,
+        49.3319,
+        11.2801,
+        49.5403
+      ]
+    },
+    {
+      "id": "09262",
+      "name": "Passau",
+      "label": "Kreisfreie Stadt Passau",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        13.3025,
+        48.5404,
+        13.5143,
+        48.6134
+      ]
+    },
+    {
+      "id": "09362",
+      "name": "Regensburg",
+      "label": "Kreisfreie Stadt Regensburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        12.0293,
+        48.9669,
+        12.1917,
+        49.0762
+      ]
+    },
+    {
+      "id": "09163",
+      "name": "Rosenheim",
+      "label": "Kreisfreie Stadt Rosenheim",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        12.0543,
+        47.8105,
+        12.1531,
+        47.8871
+      ]
+    },
+    {
+      "id": "09565",
+      "name": "Schwabach",
+      "label": "Kreisfreie Stadt Schwabach",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.9704,
+        49.2934,
+        11.0874,
+        49.3759
+      ]
+    },
+    {
+      "id": "09662",
+      "name": "Schweinfurt",
+      "label": "Kreisfreie Stadt Schweinfurt",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        10.1653,
+        50.0094,
+        10.2751,
+        50.0948
+      ]
+    },
+    {
+      "id": "09263",
+      "name": "Straubing",
+      "label": "Kreisfreie Stadt Straubing",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        12.4802,
+        48.8417,
+        12.6674,
+        48.9243
+      ]
+    },
+    {
+      "id": "09363",
+      "name": "Weiden i.d.OPf.",
+      "label": "Kreisfreie Stadt Weiden i.d.OPf.",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        12.064,
+        49.6146,
+        12.2665,
+        49.7119
+      ]
+    },
+    {
+      "id": "09663",
+      "name": "Würzburg",
+      "label": "Kreisfreie Stadt Würzburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "09",
+      "bbox": [
+        9.8717,
+        49.7102,
+        10.0144,
+        49.8456
+      ]
+    },
+    {
+      "id": "09771",
+      "name": "Aichach-Friedberg",
+      "label": "Landkreis Aichach-Friedberg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.8642,
+        48.1916,
+        11.3117,
+        48.6202
+      ]
+    },
+    {
+      "id": "09171",
+      "name": "Altötting",
+      "label": "Landkreis Altötting",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.5425,
+        48.0444,
+        12.9447,
+        48.3584
+      ]
+    },
+    {
+      "id": "09371",
+      "name": "Amberg-Sulzbach",
+      "label": "Landkreis Amberg-Sulzbach",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.5109,
+        49.2144,
+        12.1196,
+        49.7609
+      ]
+    },
+    {
+      "id": "09571",
+      "name": "Ansbach",
+      "label": "Landkreis Ansbach",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.0947,
+        48.9768,
+        10.9134,
+        49.492
+      ]
+    },
+    {
+      "id": "09671",
+      "name": "Aschaffenburg",
+      "label": "Landkreis Aschaffenburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        8.9759,
+        49.8325,
+        9.4863,
+        50.1494
+      ]
+    },
+    {
+      "id": "09772",
+      "name": "Augsburg",
+      "label": "Landkreis Augsburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.4947,
+        48.0892,
+        10.987,
+        48.6386
+      ]
+    },
+    {
+      "id": "09672",
+      "name": "Bad Kissingen",
+      "label": "Landkreis Bad Kissingen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.6232,
+        50.0297,
+        10.3701,
+        50.4259
+      ]
+    },
+    {
+      "id": "09173",
+      "name": "Bad Tölz-Wolfratshausen",
+      "label": "Landkreis Bad Tölz-Wolfratshausen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.2627,
+        47.4953,
+        11.6801,
+        47.9802
+      ]
+    },
+    {
+      "id": "09471",
+      "name": "Bamberg",
+      "label": "Landkreis Bamberg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.4399,
+        49.7211,
+        11.2526,
+        50.0953
+      ]
+    },
+    {
+      "id": "09472",
+      "name": "Bayreuth",
+      "label": "Landkreis Bayreuth",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.1843,
+        49.6139,
+        11.9039,
+        50.1336
+      ]
+    },
+    {
+      "id": "09172",
+      "name": "Berchtesgadener Land",
+      "label": "Landkreis Berchtesgadener Land",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.6959,
+        47.4634,
+        13.0987,
+        47.9626
+      ]
+    },
+    {
+      "id": "09372",
+      "name": "Cham",
+      "label": "Landkreis Cham",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.3043,
+        49.0286,
+        13.1709,
+        49.4906
+      ]
+    },
+    {
+      "id": "09473",
+      "name": "Coburg",
+      "label": "Landkreis Coburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.7125,
+        50.088,
+        11.2018,
+        50.3968
+      ]
+    },
+    {
+      "id": "09174",
+      "name": "Dachau",
+      "label": "Landkreis Dachau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.1103,
+        48.2016,
+        11.5821,
+        48.4555
+      ]
+    },
+    {
+      "id": "09271",
+      "name": "Deggendorf",
+      "label": "Landkreis Deggendorf",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.7496,
+        48.5989,
+        13.2593,
+        48.957
+      ]
+    },
+    {
+      "id": "09773",
+      "name": "Dillingen a.d.Donau",
+      "label": "Landkreis Dillingen a.d.Donau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.2544,
+        48.4711,
+        10.7857,
+        48.7576
+      ]
+    },
+    {
+      "id": "09279",
+      "name": "Dingolfing-Landau",
+      "label": "Landkreis Dingolfing-Landau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.3242,
+        48.4805,
+        12.9674,
+        48.7994
+      ]
+    },
+    {
+      "id": "09779",
+      "name": "Donau-Ries",
+      "label": "Landkreis Donau-Ries",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.4015,
+        48.5841,
+        11.0416,
+        49.036
+      ]
+    },
+    {
+      "id": "09175",
+      "name": "Ebersberg",
+      "label": "Landkreis Ebersberg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.7478,
+        47.9312,
+        12.1003,
+        48.2269
+      ]
+    },
+    {
+      "id": "09176",
+      "name": "Eichstätt",
+      "label": "Landkreis Eichstätt",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.9368,
+        48.7328,
+        11.7441,
+        49.0877
+      ]
+    },
+    {
+      "id": "09177",
+      "name": "Erding",
+      "label": "Landkreis Erding",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.7314,
+        48.1404,
+        12.2551,
+        48.4548
+      ]
+    },
+    {
+      "id": "09572",
+      "name": "Erlangen-Höchstadt",
+      "label": "Landkreis Erlangen-Höchstadt",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.5918,
+        49.4713,
+        11.2886,
+        49.7882
+      ]
+    },
+    {
+      "id": "09474",
+      "name": "Forchheim",
+      "label": "Landkreis Forchheim",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.9128,
+        49.5873,
+        11.3886,
+        49.8746
+      ]
+    },
+    {
+      "id": "09178",
+      "name": "Freising",
+      "label": "Landkreis Freising",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.4925,
+        48.2659,
+        12.0193,
+        48.6166
+      ]
+    },
+    {
+      "id": "09272",
+      "name": "Freyung-Grafenau",
+      "label": "Landkreis Freyung-Grafenau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        13.1679,
+        48.682,
+        13.8396,
+        48.9834
+      ]
+    },
+    {
+      "id": "09179",
+      "name": "Fürstenfeldbruck",
+      "label": "Landkreis Fürstenfeldbruck",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.9929,
+        48.0878,
+        11.4125,
+        48.2967
+      ]
+    },
+    {
+      "id": "09573",
+      "name": "Fürth",
+      "label": "Landkreis Fürth",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.6804,
+        49.3546,
+        11.0262,
+        49.549
+      ]
+    },
+    {
+      "id": "09180",
+      "name": "Garmisch-Partenkirchen",
+      "label": "Landkreis Garmisch-Partenkirchen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.8695,
+        47.3934,
+        11.4215,
+        47.737
+      ]
+    },
+    {
+      "id": "09774",
+      "name": "Günzburg",
+      "label": "Landkreis Günzburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.1339,
+        48.1601,
+        10.5995,
+        48.5277
+      ]
+    },
+    {
+      "id": "09674",
+      "name": "Haßberge",
+      "label": "Landkreis Haßberge",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.3203,
+        49.8552,
+        10.8793,
+        50.2365
+      ]
+    },
+    {
+      "id": "09475",
+      "name": "Hof",
+      "label": "Landkreis Hof",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.5286,
+        50.1032,
+        12.1621,
+        50.4248
+      ]
+    },
+    {
+      "id": "09273",
+      "name": "Kelheim",
+      "label": "Landkreis Kelheim",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.5949,
+        48.5787,
+        12.1338,
+        49.0233
+      ]
+    },
+    {
+      "id": "09675",
+      "name": "Kitzingen",
+      "label": "Landkreis Kitzingen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.04,
+        49.5899,
+        10.5548,
+        49.9159
+      ]
+    },
+    {
+      "id": "09476",
+      "name": "Kronach",
+      "label": "Landkreis Kronach",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.1685,
+        50.1593,
+        11.6104,
+        50.5232
+      ]
+    },
+    {
+      "id": "09477",
+      "name": "Kulmbach",
+      "label": "Landkreis Kulmbach",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.2508,
+        49.9346,
+        11.6899,
+        50.2685
+      ]
+    },
+    {
+      "id": "09181",
+      "name": "Landsberg am Lech",
+      "label": "Landkreis Landsberg am Lech",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.7483,
+        47.8421,
+        11.1702,
+        48.2367
+      ]
+    },
+    {
+      "id": "09274",
+      "name": "Landshut",
+      "label": "Landkreis Landshut",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.8779,
+        48.3163,
+        12.5092,
+        48.7726
+      ]
+    },
+    {
+      "id": "09478",
+      "name": "Lichtenfels",
+      "label": "Landkreis Lichtenfels",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.8746,
+        49.9896,
+        11.3636,
+        50.2187
+      ]
+    },
+    {
+      "id": "09776",
+      "name": "Lindau (Bodensee)",
+      "label": "Landkreis Lindau (Bodensee)",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.6021,
+        47.5286,
+        10.0773,
+        47.687
+      ]
+    },
+    {
+      "id": "09677",
+      "name": "Main-Spessart",
+      "label": "Landkreis Main-Spessart",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.3728,
+        49.7445,
+        10.0462,
+        50.2435
+      ]
+    },
+    {
+      "id": "09182",
+      "name": "Miesbach",
+      "label": "Landkreis Miesbach",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.598,
+        47.5812,
+        12.0624,
+        47.9426
+      ]
+    },
+    {
+      "id": "09676",
+      "name": "Miltenberg",
+      "label": "Landkreis Miltenberg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.0333,
+        49.5736,
+        9.4789,
+        49.9385
+      ]
+    },
+    {
+      "id": "09183",
+      "name": "Mühldorf a.Inn",
+      "label": "Landkreis Mühldorf a.Inn",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.0321,
+        48.0831,
+        12.6095,
+        48.4297
+      ]
+    },
+    {
+      "id": "09184",
+      "name": "München",
+      "label": "Landkreis München",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.3852,
+        47.917,
+        11.8521,
+        48.2995
+      ]
+    },
+    {
+      "id": "09775",
+      "name": "Neu-Ulm",
+      "label": "Landkreis Neu-Ulm",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.9673,
+        48.1085,
+        10.3152,
+        48.4775
+      ]
+    },
+    {
+      "id": "09185",
+      "name": "Neuburg-Schrobenhausen",
+      "label": "Landkreis Neuburg-Schrobenhausen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.9474,
+        48.4637,
+        11.4574,
+        48.8229
+      ]
+    },
+    {
+      "id": "09373",
+      "name": "Neumarkt i.d.OPf.",
+      "label": "Landkreis Neumarkt i.d.OPf.",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.186,
+        48.9515,
+        11.9425,
+        49.4325
+      ]
+    },
+    {
+      "id": "09575",
+      "name": "Neustadt a.d.Aisch-Bad Windsheim",
+      "label": "Landkreis Neustadt a.d.Aisch-Bad Windsheim",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.0696,
+        49.4101,
+        10.8214,
+        49.7563
+      ]
+    },
+    {
+      "id": "09374",
+      "name": "Neustadt a.d.Waldnaab",
+      "label": "Landkreis Neustadt a.d.Waldnaab",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.6287,
+        49.5039,
+        12.5938,
+        49.8562
+      ]
+    },
+    {
+      "id": "09574",
+      "name": "Nürnberger Land",
+      "label": "Landkreis Nürnberger Land",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.1283,
+        49.3022,
+        11.6016,
+        49.7151
+      ]
+    },
+    {
+      "id": "09780",
+      "name": "Oberallgäu",
+      "label": "Landkreis Oberallgäu",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.9583,
+        47.2701,
+        10.5116,
+        47.8636
+      ]
+    },
+    {
+      "id": "09777",
+      "name": "Ostallgäu",
+      "label": "Landkreis Ostallgäu",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.326,
+        47.5139,
+        10.9528,
+        48.1115
+      ]
+    },
+    {
+      "id": "09275",
+      "name": "Passau",
+      "label": "Landkreis Passau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.9834,
+        48.2929,
+        13.8376,
+        48.7617
+      ]
+    },
+    {
+      "id": "09186",
+      "name": "Pfaffenhofen a.d.Ilm",
+      "label": "Landkreis Pfaffenhofen a.d.Ilm",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.2951,
+        48.4062,
+        11.72,
+        48.8143
+      ]
+    },
+    {
+      "id": "09276",
+      "name": "Regen",
+      "label": "Landkreis Regen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.7638,
+        48.8572,
+        13.4167,
+        49.1736
+      ]
+    },
+    {
+      "id": "09375",
+      "name": "Regensburg",
+      "label": "Landkreis Regensburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.6591,
+        48.7649,
+        12.4913,
+        49.2236
+      ]
+    },
+    {
+      "id": "09673",
+      "name": "Rhön-Grabfeld",
+      "label": "Landkreis Rhön-Grabfeld",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.9204,
+        50.1964,
+        10.6114,
+        50.5642
+      ]
+    },
+    {
+      "id": "09187",
+      "name": "Rosenheim",
+      "label": "Landkreis Rosenheim",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.8018,
+        47.6009,
+        12.444,
+        48.1432
+      ]
+    },
+    {
+      "id": "09576",
+      "name": "Roth",
+      "label": "Landkreis Roth",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.8372,
+        48.9979,
+        11.4265,
+        49.3916
+      ]
+    },
+    {
+      "id": "09277",
+      "name": "Rottal-Inn",
+      "label": "Landkreis Rottal-Inn",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.4706,
+        48.2067,
+        13.177,
+        48.6171
+      ]
+    },
+    {
+      "id": "09376",
+      "name": "Schwandorf",
+      "label": "Landkreis Schwandorf",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.9342,
+        49.1434,
+        12.6443,
+        49.594
+      ]
+    },
+    {
+      "id": "09678",
+      "name": "Schweinfurt",
+      "label": "Landkreis Schweinfurt",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.9571,
+        49.8207,
+        10.5313,
+        50.2317
+      ]
+    },
+    {
+      "id": "09188",
+      "name": "Starnberg",
+      "label": "Landkreis Starnberg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.1292,
+        47.8207,
+        11.4341,
+        48.1362
+      ]
+    },
+    {
+      "id": "09278",
+      "name": "Straubing-Bogen",
+      "label": "Landkreis Straubing-Bogen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.1277,
+        48.7156,
+        12.8911,
+        49.1195
+      ]
+    },
+    {
+      "id": "09377",
+      "name": "Tirschenreuth",
+      "label": "Landkreis Tirschenreuth",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.8038,
+        49.7538,
+        12.5513,
+        50.0614
+      ]
+    },
+    {
+      "id": "09189",
+      "name": "Traunstein",
+      "label": "Landkreis Traunstein",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        12.3236,
+        47.625,
+        12.8858,
+        48.1639
+      ]
+    },
+    {
+      "id": "09778",
+      "name": "Unterallgäu",
+      "label": "Landkreis Unterallgäu",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.0768,
+        47.8201,
+        10.7079,
+        48.2297
+      ]
+    },
+    {
+      "id": "09190",
+      "name": "Weilheim-Schongau",
+      "label": "Landkreis Weilheim-Schongau",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.7159,
+        47.6156,
+        11.43,
+        47.9548
+      ]
+    },
+    {
+      "id": "09577",
+      "name": "Weißenburg-Gunzenhausen",
+      "label": "Landkreis Weißenburg-Gunzenhausen",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        10.6302,
+        48.8594,
+        11.2014,
+        49.205
+      ]
+    },
+    {
+      "id": "09479",
+      "name": "Wunsiedel i.Fichtelgebirge",
+      "label": "Landkreis Wunsiedel i.Fichtelgebirge",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        11.7891,
+        49.9707,
+        12.2754,
+        50.2277
+      ]
+    },
+    {
+      "id": "09679",
+      "name": "Würzburg",
+      "label": "Landkreis Würzburg",
+      "kind": "Landkreis",
+      "state_id": "09",
+      "bbox": [
+        9.6254,
+        49.4804,
+        10.1892,
+        49.9536
+      ]
+    },
+    {
+      "id": "10042",
+      "name": "Merzig-Wadern",
+      "label": "Landkreis Merzig-Wadern",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        6.3569,
+        49.3722,
+        6.963,
+        49.6134
+      ]
+    },
+    {
+      "id": "10043",
+      "name": "Neunkirchen",
+      "label": "Landkreis Neunkirchen",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        6.9169,
+        49.2873,
+        7.2926,
+        49.4413
+      ]
+    },
+    {
+      "id": "10041",
+      "name": "Regionalverband Saarbrücken",
+      "label": "Landkreis Regionalverband Saarbrücken",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        6.7112,
+        49.1119,
+        7.1372,
+        49.3777
+      ]
+    },
+    {
+      "id": "10044",
+      "name": "Saarlouis",
+      "label": "Landkreis Saarlouis",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        6.5373,
+        49.2153,
+        6.9893,
+        49.5017
+      ]
+    },
+    {
+      "id": "10045",
+      "name": "Saarpfalz-Kreis",
+      "label": "Landkreis Saarpfalz-Kreis",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        7.0621,
+        49.1149,
+        7.4038,
+        49.4082
+      ]
+    },
+    {
+      "id": "10046",
+      "name": "St. Wendel",
+      "label": "Landkreis St. Wendel",
+      "kind": "Landkreis",
+      "state_id": "10",
+      "bbox": [
+        6.8904,
+        49.4092,
+        7.3099,
+        49.6394
+      ]
+    },
+    {
+      "id": "11000",
+      "name": "Berlin",
+      "label": "Kreisfreie Stadt Berlin",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "11",
+      "bbox": [
+        13.0883,
+        52.3382,
+        13.7605,
+        52.6754
+      ]
+    },
+    {
+      "id": "12051",
+      "name": "Brandenburg an der Havel",
+      "label": "Kreisfreie Stadt Brandenburg an der Havel",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "12",
+      "bbox": [
+        12.3612,
+        52.3115,
+        12.7259,
+        52.5418
+      ]
+    },
+    {
+      "id": "12052",
+      "name": "Cottbus",
+      "label": "Kreisfreie Stadt Cottbus",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "12",
+      "bbox": [
+        14.2733,
+        51.6925,
+        14.5013,
+        51.8642
+      ]
+    },
+    {
+      "id": "12053",
+      "name": "Frankfurt (Oder)",
+      "label": "Kreisfreie Stadt Frankfurt (Oder)",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "12",
+      "bbox": [
+        14.3948,
+        52.2528,
+        14.6014,
+        52.3982
+      ]
+    },
+    {
+      "id": "12054",
+      "name": "Potsdam",
+      "label": "Kreisfreie Stadt Potsdam",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "12",
+      "bbox": [
+        12.8872,
+        52.3429,
+        13.1659,
+        52.5148
+      ]
+    },
+    {
+      "id": "12060",
+      "name": "Barnim",
+      "label": "Landkreis Barnim",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.3964,
+        52.5442,
+        14.1566,
+        53.0585
+      ]
+    },
+    {
+      "id": "12061",
+      "name": "Dahme-Spreewald",
+      "label": "Landkreis Dahme-Spreewald",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.411,
+        51.727,
+        14.4534,
+        52.4206
+      ]
+    },
+    {
+      "id": "12062",
+      "name": "Elbe-Elster",
+      "label": "Landkreis Elbe-Elster",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.051,
+        51.3676,
+        13.8903,
+        51.8861
+      ]
+    },
+    {
+      "id": "12063",
+      "name": "Havelland",
+      "label": "Landkreis Havelland",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        12.1418,
+        52.439,
+        13.1665,
+        52.8105
+      ]
+    },
+    {
+      "id": "12064",
+      "name": "Märkisch-Oderland",
+      "label": "Landkreis Märkisch-Oderland",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.6105,
+        52.374,
+        14.6398,
+        52.9033
+      ]
+    },
+    {
+      "id": "12065",
+      "name": "Oberhavel",
+      "label": "Landkreis Oberhavel",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        12.825,
+        52.5867,
+        13.5209,
+        53.2511
+      ]
+    },
+    {
+      "id": "12066",
+      "name": "Oberspreewald-Lausitz",
+      "label": "Landkreis Oberspreewald-Lausitz",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.6341,
+        51.359,
+        14.2175,
+        51.9031
+      ]
+    },
+    {
+      "id": "12067",
+      "name": "Oder-Spree",
+      "label": "Landkreis Oder-Spree",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.667,
+        51.9999,
+        14.7591,
+        52.5028
+      ]
+    },
+    {
+      "id": "12068",
+      "name": "Ostprignitz-Ruppin",
+      "label": "Landkreis Ostprignitz-Ruppin",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        12.1202,
+        52.6813,
+        13.0568,
+        53.3213
+      ]
+    },
+    {
+      "id": "12069",
+      "name": "Potsdam-Mittelmark",
+      "label": "Landkreis Potsdam-Mittelmark",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        12.2168,
+        51.9793,
+        13.3128,
+        52.5571
+      ]
+    },
+    {
+      "id": "12070",
+      "name": "Prignitz",
+      "label": "Landkreis Prignitz",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        11.2657,
+        52.8757,
+        12.4189,
+        53.3714
+      ]
+    },
+    {
+      "id": "12071",
+      "name": "Spree-Neiße",
+      "label": "Landkreis Spree-Neiße",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        14.0729,
+        51.505,
+        14.7657,
+        52.0577
+      ]
+    },
+    {
+      "id": "12072",
+      "name": "Teltow-Fläming",
+      "label": "Landkreis Teltow-Fläming",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        12.7698,
+        51.7909,
+        13.653,
+        52.4116
+      ]
+    },
+    {
+      "id": "12073",
+      "name": "Uckermark",
+      "label": "Landkreis Uckermark",
+      "kind": "Landkreis",
+      "state_id": "12",
+      "bbox": [
+        13.2397,
+        52.9315,
+        14.4506,
+        53.5587
+      ]
+    },
+    {
+      "id": "13003",
+      "name": "Rostock",
+      "label": "Kreisfreie Stadt Rostock",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "13",
+      "bbox": [
+        11.9985,
+        54.0506,
+        12.2937,
+        54.2447
+      ]
+    },
+    {
+      "id": "13004",
+      "name": "Schwerin",
+      "label": "Kreisfreie Stadt Schwerin",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "13",
+      "bbox": [
+        11.2958,
+        53.5444,
+        11.5056,
+        53.6875
+      ]
+    },
+    {
+      "id": "13076",
+      "name": "Ludwigslust-Parchim",
+      "label": "Landkreis Ludwigslust-Parchim",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        10.5937,
+        53.1103,
+        12.3664,
+        53.7971
+      ]
+    },
+    {
+      "id": "13071",
+      "name": "Mecklenburgische Seenplatte",
+      "label": "Landkreis Mecklenburgische Seenplatte",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        12.2751,
+        53.1625,
+        13.796,
+        54.0049
+      ]
+    },
+    {
+      "id": "13074",
+      "name": "Nordwestmecklenburg",
+      "label": "Landkreis Nordwestmecklenburg",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        10.7477,
+        53.5664,
+        11.8105,
+        54.0341
+      ]
+    },
+    {
+      "id": "13072",
+      "name": "Rostock",
+      "label": "Landkreis Rostock",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        11.5114,
+        53.5673,
+        12.816,
+        54.275
+      ]
+    },
+    {
+      "id": "13075",
+      "name": "Vorpommern-Greifswald",
+      "label": "Landkreis Vorpommern-Greifswald",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        12.9869,
+        53.2548,
+        14.4124,
+        54.2516
+      ]
+    },
+    {
+      "id": "13073",
+      "name": "Vorpommern-Rügen",
+      "label": "Landkreis Vorpommern-Rügen",
+      "kind": "Landkreis",
+      "state_id": "13",
+      "bbox": [
+        12.2781,
+        53.9738,
+        13.7673,
+        54.685
+      ]
+    },
+    {
+      "id": "14511",
+      "name": "Chemnitz",
+      "label": "Kreisfreie Stadt Chemnitz",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "14",
+      "bbox": [
+        12.7271,
+        50.7413,
+        13.0542,
+        50.9038
+      ]
+    },
+    {
+      "id": "14612",
+      "name": "Dresden",
+      "label": "Kreisfreie Stadt Dresden",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "14",
+      "bbox": [
+        13.5797,
+        50.9752,
+        13.9658,
+        51.1777
+      ]
+    },
+    {
+      "id": "14713",
+      "name": "Leipzig",
+      "label": "Kreisfreie Stadt Leipzig",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "14",
+      "bbox": [
+        12.2368,
+        51.2382,
+        12.5426,
+        51.4481
+      ]
+    },
+    {
+      "id": "14625",
+      "name": "Bautzen",
+      "label": "Landkreis Bautzen",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        13.7607,
+        51.0188,
+        14.6991,
+        51.5446
+      ]
+    },
+    {
+      "id": "14521",
+      "name": "Erzgebirgskreis",
+      "label": "Landkreis Erzgebirgskreis",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        12.4577,
+        50.3973,
+        13.5018,
+        50.8066
+      ]
+    },
+    {
+      "id": "14626",
+      "name": "Görlitz",
+      "label": "Landkreis Görlitz",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        14.4401,
+        50.8193,
+        15.0418,
+        51.5973
+      ]
+    },
+    {
+      "id": "14729",
+      "name": "Leipzig",
+      "label": "Landkreis Leipzig",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        12.1477,
+        50.9788,
+        12.9426,
+        51.4687
+      ]
+    },
+    {
+      "id": "14627",
+      "name": "Meißen",
+      "label": "Landkreis Meißen",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        13.1822,
+        51.0073,
+        13.8565,
+        51.4542
+      ]
+    },
+    {
+      "id": "14522",
+      "name": "Mittelsachsen",
+      "label": "Landkreis Mittelsachsen",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        12.6174,
+        50.6336,
+        13.6522,
+        51.2347
+      ]
+    },
+    {
+      "id": "14730",
+      "name": "Nordsachsen",
+      "label": "Landkreis Nordsachsen",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        12.1487,
+        51.1997,
+        13.2166,
+        51.685
+      ]
+    },
+    {
+      "id": "14628",
+      "name": "Sächsische Schweiz-Osterzgebirge",
+      "label": "Landkreis Sächsische Schweiz-Osterzgebirge",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        13.4214,
+        50.7169,
+        14.4021,
+        51.0899
+      ]
+    },
+    {
+      "id": "14523",
+      "name": "Vogtlandkreis",
+      "label": "Landkreis Vogtlandkreis",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        11.8715,
+        50.1715,
+        12.584,
+        50.6771
+      ]
+    },
+    {
+      "id": "14524",
+      "name": "Zwickau",
+      "label": "Landkreis Zwickau",
+      "kind": "Landkreis",
+      "state_id": "14",
+      "bbox": [
+        12.2267,
+        50.5467,
+        12.8061,
+        50.9237
+      ]
+    },
+    {
+      "id": "15001",
+      "name": "Dessau-Roßlau",
+      "label": "Kreisfreie Stadt Dessau-Roßlau",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "15",
+      "bbox": [
+        12.1121,
+        51.7338,
+        12.3515,
+        51.9707
+      ]
+    },
+    {
+      "id": "15002",
+      "name": "Halle (Saale)",
+      "label": "Kreisfreie Stadt Halle (Saale)",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "15",
+      "bbox": [
+        11.8571,
+        51.4029,
+        12.0885,
+        51.5437
+      ]
+    },
+    {
+      "id": "15003",
+      "name": "Magdeburg",
+      "label": "Kreisfreie Stadt Magdeburg",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "15",
+      "bbox": [
+        11.5185,
+        52.0252,
+        11.7639,
+        52.2284
+      ]
+    },
+    {
+      "id": "15081",
+      "name": "Altmarkkreis Salzwedel",
+      "label": "Landkreis Altmarkkreis Salzwedel",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        10.7552,
+        52.3868,
+        11.6375,
+        52.9416
+      ]
+    },
+    {
+      "id": "15082",
+      "name": "Anhalt-Bitterfeld",
+      "label": "Landkreis Anhalt-Bitterfeld",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.8382,
+        51.5313,
+        12.5803,
+        52.1041
+      ]
+    },
+    {
+      "id": "15084",
+      "name": "Burgenlandkreis",
+      "label": "Landkreis Burgenlandkreis",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.3648,
+        50.938,
+        12.2939,
+        51.3204
+      ]
+    },
+    {
+      "id": "15083",
+      "name": "Börde",
+      "label": "Landkreis Börde",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        10.9337,
+        51.8929,
+        11.8571,
+        52.5083
+      ]
+    },
+    {
+      "id": "15085",
+      "name": "Harz",
+      "label": "Landkreis Harz",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        10.5612,
+        51.566,
+        11.4089,
+        52.0597
+      ]
+    },
+    {
+      "id": "15086",
+      "name": "Jerichower Land",
+      "label": "Landkreis Jerichower Land",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.6873,
+        52.0008,
+        12.3308,
+        52.5757
+      ]
+    },
+    {
+      "id": "15087",
+      "name": "Mansfeld-Südharz",
+      "label": "Landkreis Mansfeld-Südharz",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        10.8821,
+        51.3398,
+        11.7804,
+        51.7299
+      ]
+    },
+    {
+      "id": "15088",
+      "name": "Saalekreis",
+      "label": "Landkreis Saalekreis",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.393,
+        51.2334,
+        12.2083,
+        51.6754
+      ]
+    },
+    {
+      "id": "15089",
+      "name": "Salzlandkreis",
+      "label": "Landkreis Salzlandkreis",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.2396,
+        51.6288,
+        12.02,
+        52.0932
+      ]
+    },
+    {
+      "id": "15090",
+      "name": "Stendal",
+      "label": "Landkreis Stendal",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        11.3965,
+        52.3316,
+        12.2575,
+        53.0418
+      ]
+    },
+    {
+      "id": "15091",
+      "name": "Wittenberg",
+      "label": "Landkreis Wittenberg",
+      "kind": "Landkreis",
+      "state_id": "15",
+      "bbox": [
+        12.252,
+        51.6106,
+        13.1871,
+        52.0451
+      ]
+    },
+    {
+      "id": "16051",
+      "name": "Erfurt",
+      "label": "Kreisfreie Stadt Erfurt",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "16",
+      "bbox": [
+        10.8553,
+        50.8902,
+        11.1753,
+        51.08
+      ]
+    },
+    {
+      "id": "16052",
+      "name": "Gera",
+      "label": "Kreisfreie Stadt Gera",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "16",
+      "bbox": [
+        11.998,
+        50.7991,
+        12.1695,
+        50.9765
+      ]
+    },
+    {
+      "id": "16053",
+      "name": "Jena",
+      "label": "Kreisfreie Stadt Jena",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "16",
+      "bbox": [
+        11.4993,
+        50.8562,
+        11.6728,
+        50.9891
+      ]
+    },
+    {
+      "id": "16054",
+      "name": "Suhl",
+      "label": "Kreisfreie Stadt Suhl",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "16",
+      "bbox": [
+        10.552,
+        50.5614,
+        10.8441,
+        50.6885
+      ]
+    },
+    {
+      "id": "16055",
+      "name": "Weimar",
+      "label": "Kreisfreie Stadt Weimar",
+      "kind": "Kreisfreie Stadt",
+      "state_id": "16",
+      "bbox": [
+        11.2349,
+        50.9167,
+        11.402,
+        51.0368
+      ]
+    },
+    {
+      "id": "16077",
+      "name": "Altenburger Land",
+      "label": "Landkreis Altenburger Land",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        12.2078,
+        50.8096,
+        12.6541,
+        51.1038
+      ]
+    },
+    {
+      "id": "16061",
+      "name": "Eichsfeld",
+      "label": "Landkreis Eichsfeld",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        9.9233,
+        51.1906,
+        10.5397,
+        51.5925
+      ]
+    },
+    {
+      "id": "16067",
+      "name": "Gotha",
+      "label": "Landkreis Gotha",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.4009,
+        50.7155,
+        10.9646,
+        51.1118
+      ]
+    },
+    {
+      "id": "16076",
+      "name": "Greiz",
+      "label": "Landkreis Greiz",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        11.8581,
+        50.5494,
+        12.322,
+        50.9759
+      ]
+    },
+    {
+      "id": "16069",
+      "name": "Hildburghausen",
+      "label": "Landkreis Hildburghausen",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.4505,
+        50.2048,
+        11.0396,
+        50.6153
+      ]
+    },
+    {
+      "id": "16070",
+      "name": "Ilm-Kreis",
+      "label": "Landkreis Ilm-Kreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.744,
+        50.5469,
+        11.2241,
+        50.9132
+      ]
+    },
+    {
+      "id": "16065",
+      "name": "Kyffhäuserkreis",
+      "label": "Landkreis Kyffhäuserkreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.4836,
+        51.1997,
+        11.4752,
+        51.4298
+      ]
+    },
+    {
+      "id": "16062",
+      "name": "Nordhausen",
+      "label": "Landkreis Nordhausen",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.4706,
+        51.3645,
+        10.9797,
+        51.649
+      ]
+    },
+    {
+      "id": "16074",
+      "name": "Saale-Holzland-Kreis",
+      "label": "Landkreis Saale-Holzland-Kreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        11.4205,
+        50.7468,
+        12.0212,
+        51.0878
+      ]
+    },
+    {
+      "id": "16075",
+      "name": "Saale-Orla-Kreis",
+      "label": "Landkreis Saale-Orla-Kreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        11.4599,
+        50.3743,
+        11.9648,
+        50.7993
+      ]
+    },
+    {
+      "id": "16073",
+      "name": "Saalfeld-Rudolstadt",
+      "label": "Landkreis Saalfeld-Rudolstadt",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.9663,
+        50.4208,
+        11.6336,
+        50.835
+      ]
+    },
+    {
+      "id": "16066",
+      "name": "Schmalkalden-Meiningen",
+      "label": "Landkreis Schmalkalden-Meiningen",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.0372,
+        50.3925,
+        10.7548,
+        50.8513
+      ]
+    },
+    {
+      "id": "16072",
+      "name": "Sonneberg",
+      "label": "Landkreis Sonneberg",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.9392,
+        50.2678,
+        11.285,
+        50.5665
+      ]
+    },
+    {
+      "id": "16068",
+      "name": "Sömmerda",
+      "label": "Landkreis Sömmerda",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.8624,
+        51.0091,
+        11.4855,
+        51.3226
+      ]
+    },
+    {
+      "id": "16064",
+      "name": "Unstrut-Hainich-Kreis",
+      "label": "Landkreis Unstrut-Hainich-Kreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        10.1853,
+        51.032,
+        10.9226,
+        51.3433
+      ]
+    },
+    {
+      "id": "16063",
+      "name": "Wartburgkreis",
+      "label": "Landkreis Wartburgkreis",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        9.877,
+        50.6268,
+        10.6172,
+        51.153
+      ]
+    },
+    {
+      "id": "16071",
+      "name": "Weimarer Land",
+      "label": "Landkreis Weimarer Land",
+      "kind": "Landkreis",
+      "state_id": "16",
+      "bbox": [
+        11.106,
+        50.7935,
+        11.6972,
+        51.1194
+      ]
+    }
+  ]
+}

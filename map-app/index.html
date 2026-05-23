@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1.420 map shell</title>
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #c9302c;
+      --paper: #f6f2ea;
+      --text: #1a1410;
+      --hairline: rgba(40, 28, 20, 0.16);
+      --scanlines:
+        repeating-linear-gradient(
+          90deg,
+          rgba(40, 28, 20, 0.018) 0 1px,
+          transparent 1px 3px
+        );
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body,
+    #map {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #efe9dc;
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      font-feature-settings: "cv11", "ss01", "tnum";
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        var(--scanlines),
+        radial-gradient(ellipse at center, transparent 60%, rgba(40, 28, 20, 0.10) 100%);
+      z-index: 999;
+      mix-blend-mode: multiply;
+    }
+
+    .maplibregl-ctrl-top-right {
+      top: 12px !important;
+      right: 12px !important;
+    }
+
+    .maplibregl-ctrl-group {
+      overflow: hidden !important;
+      border: 1px solid rgba(40, 28, 20, 0.22) !important;
+      border-radius: 2px !important;
+      background: rgba(251, 248, 241, 0.92) !important;
+      box-shadow: 0 10px 32px -18px rgba(40, 28, 20, 0.45) !important;
+    }
+
+    .maplibregl-ctrl-group button {
+      background: transparent !important;
+    }
+
+    .maplibregl-ctrl-group button + button {
+      border-top: 1px solid var(--hairline) !important;
+    }
+
+    .maplibregl-ctrl-attrib {
+      background: rgba(251, 248, 241, 0.84) !important;
+      color: rgba(26, 20, 16, 0.70) !important;
+      font: 10px/1.3 Inter, sans-serif !important;
+    }
+
+    .maplibregl-ctrl-attrib a {
+      color: rgba(26, 20, 16, 0.76) !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script>
+    const GERMANY_BOUNDS = [[5.85249, 47.271121], [15.022059, 55.065334]];
+    let allChargers = null;
+    const agsToStateName = {};
+    let statesGeoJson = null;
+    let districtsGeoJson = null;
+
+    const map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+        sources: {
+          osm: {
+            type: "raster",
+            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            tileSize: 256,
+            attribution: "&copy; OpenStreetMap contributors",
+          },
+        },
+        layers: [
+          {
+            id: "osm",
+            type: "raster",
+            source: "osm",
+            paint: {
+              "raster-saturation": -0.65,
+              "raster-contrast": -0.08,
+              "raster-opacity": 0.78,
+            },
+          },
+        ],
+      },
+      center: [10.4373, 51.1682],
+      zoom: 5.6,
+      minZoom: 3,
+      maxZoom: 16,
+    });
+
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+    function fitGermany(duration = 0) {
+      map.fitBounds(GERMANY_BOUNDS, {
+        padding: 28,
+        duration,
+      });
+    }
+
+    async function loadCountries() {
+      const response = await fetch("./countries.geojson");
+      if (!response.ok) throw new Error(`Failed to load countries.geojson: ${response.status}`);
+      const countries = await response.json();
+
+      map.addSource("countries", {
+        type: "geojson",
+        data: countries,
+      });
+
+      map.addLayer({
+        id: "country-fill",
+        type: "fill",
+        source: "countries",
+        paint: {
+          "fill-color": [
+            "case",
+            ["==", ["get", "iso_a3"], "DEU"],
+            "rgba(100, 100, 100, 0.04)",
+            "rgba(246, 242, 234, 0.02)",
+          ],
+          "fill-outline-color": "rgba(0, 0, 0, 0)",
+        },
+      });
+
+      map.addLayer({
+        id: "country-line",
+        type: "line",
+        source: "countries",
+        paint: {
+          "line-color": [
+            "case",
+            ["==", ["get", "iso_a3"], "DEU"],
+            "rgba(100, 100, 100, 0.65)",
+            "rgba(40, 28, 20, 0.26)",
+          ],
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            3, 0.55,
+            6, 0.9,
+            10, 1.5,
+          ],
+        },
+      });
+    }
+
+    async function loadOfficialBoundaries() {
+      const [statesResponse, districtsResponse] = await Promise.all([
+        fetch("./boundaries/bkg_states.geojson"),
+        fetch("./boundaries/bkg_districts.geojson"),
+      ]);
+      if (!statesResponse.ok) throw new Error(`Failed to load bkg_states.geojson: ${statesResponse.status}`);
+      if (!districtsResponse.ok) throw new Error(`Failed to load bkg_districts.geojson: ${districtsResponse.status}`);
+      const [states, districts] = await Promise.all([
+        statesResponse.json(),
+        districtsResponse.json(),
+      ]);
+
+      statesGeoJson = states;
+      for (const f of states.features) {
+        if (f.properties.ags && f.properties.gen) {
+          agsToStateName[f.properties.ags] = f.properties.gen;
+        }
+      }
+
+      map.addSource("bkg-states", {
+        type: "geojson",
+        data: states,
+      });
+      districtsGeoJson = districts;
+      map.addSource("bkg-districts", {
+        type: "geojson",
+        data: districts,
+      });
+
+      map.addLayer({
+        id: "bkg-state-fill",
+        type: "fill",
+        source: "bkg-states",
+        paint: {
+          "fill-color": "rgba(0, 0, 0, 0)",
+          "fill-outline-color": "rgba(0, 0, 0, 0)",
+        },
+      });
+
+      map.addLayer({
+        id: "bkg-state-line",
+        type: "line",
+        source: "bkg-states",
+        paint: {
+          "line-color": "rgba(100, 100, 100, 0.55)",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            4, 0.8,
+            8, 1.4,
+            12, 2.0,
+          ],
+        },
+      });
+
+      map.addLayer({
+        id: "bkg-district-line",
+        type: "line",
+        source: "bkg-districts",
+        filter: ["==", ["get", "ags"], ""],
+        paint: {
+          "line-color": "rgba(100, 100, 100, 0.55)",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5, 0.7,
+            8, 1.1,
+            11, 1.6,
+          ],
+        },
+      });
+
+      map.addLayer({
+        id: "bkg-district-hit",
+        type: "fill",
+        source: "bkg-districts",
+        filter: ["==", ["get", "ags"], ""],
+        paint: {
+          "fill-color": "rgba(201, 48, 44, 0.01)",
+          "fill-outline-color": "rgba(0, 0, 0, 0)",
+        },
+      });
+
+      map.addLayer({
+        id: "bkg-district-selected",
+        type: "line",
+        source: "bkg-districts",
+        filter: ["==", ["get", "ags"], ""],
+        paint: {
+          "line-color": "rgba(100, 100, 100, 0.80)",
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5, 1.5,
+            10, 3.2,
+          ],
+        },
+      });
+
+      function hitChargerLayer(point) {
+        const hits = map.queryRenderedFeatures(point, {
+          layers: ["chargers", "state-bubble-circle", "district-bubble-circle"].filter((id) => map.getLayer(id)),
+        });
+        return hits.length > 0;
+      }
+
+      map.on("click", "bkg-state-fill", (event) => {
+        if (hitChargerLayer(event.point)) return;
+        const feature = event.features && event.features[0];
+        const stateId = feature?.properties?.ags;
+        if (!stateId) return;
+        window.parent.postMessage({
+          type: "map-region-click",
+          level: "state",
+          id: stateId,
+        }, "*");
+      });
+
+      map.on("click", "bkg-district-hit", (event) => {
+        if (hitChargerLayer(event.point)) return;
+        const feature = event.features && event.features[0];
+        const districtId = feature?.properties?.ags;
+        if (!districtId) return;
+        window.parent.postMessage({
+          type: "map-region-click",
+          level: "district",
+          id: districtId,
+          stateId: String(districtId).slice(0, 2),
+        }, "*");
+      });
+
+      for (const layerId of ["bkg-state-fill", "bkg-district-hit"]) {
+        map.on("mouseenter", layerId, () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", layerId, () => {
+          map.getCanvas().style.cursor = "";
+        });
+      }
+    }
+
+    function filteredChargers(stateId, districtId) {
+      if (!allChargers) return null;
+      if (!stateId && !districtId) return allChargers;
+      const stateName = agsToStateName[stateId] || "";
+      return {
+        ...allChargers,
+        features: allChargers.features.filter((feature) => {
+          const props = feature.properties || {};
+          if (stateName) return props.state === stateName;
+          return true;
+        }),
+      };
+    }
+
+    function applyChargerFilter(stateId, districtId) {
+    }
+
+    function selectRegion(level, id, stateId) {
+      if (map.getLayer("bkg-district-selected")) {
+        map.setFilter("bkg-district-selected", level === "district" && id
+          ? ["==", ["get", "ags"], id]
+          : ["==", ["get", "ags"], ""]);
+      }
+      if (map.getLayer("bkg-district-line")) {
+        map.setFilter("bkg-district-line", stateId
+          ? ["==", ["slice", ["get", "ags"], 0, 2], stateId]
+          : ["==", ["get", "ags"], ""]);
+      }
+      if (map.getLayer("bkg-district-hit")) {
+        map.setFilter("bkg-district-hit", stateId
+          ? ["==", ["slice", ["get", "ags"], 0, 2], stateId]
+          : ["==", ["get", "ags"], ""]);
+      }
+    }
+
+    function polygonCentroid(geometry) {
+      let coords;
+      if (geometry.type === "MultiPolygon") {
+        let best = geometry.coordinates[0];
+        for (const poly of geometry.coordinates) {
+          if (poly[0].length > best[0].length) best = poly;
+        }
+        coords = best[0];
+      } else {
+        coords = geometry.coordinates[0];
+      }
+      let sx = 0, sy = 0, n = coords.length;
+      for (const [x, y] of coords) { sx += x; sy += y; }
+      return [sx / n, sy / n];
+    }
+
+    const labelOverrides = {
+      "Brandenburg": [13.85, 52.15],
+    };
+
+    function buildStateBubbles(chargers) {
+      const byState = {};
+      for (const f of chargers.features) {
+        const st = f.properties.state || "";
+        if (!st) continue;
+        if (!byState[st]) byState[st] = { charge_points: 0, sites: 0 };
+        byState[st].charge_points += f.properties.charge_points || 0;
+        byState[st].sites += 1;
+      }
+      const features = [];
+      if (!statesGeoJson) return { type: "FeatureCollection", features };
+      const seen = new Set();
+      for (const sf of statesGeoJson.features) {
+        const name = sf.properties.gen;
+        if (seen.has(name)) continue;
+        seen.add(name);
+        const agg = byState[name];
+        if (!agg) continue;
+        const center = labelOverrides[name] || polygonCentroid(sf.geometry);
+        features.push({
+          type: "Feature",
+          geometry: { type: "Point", coordinates: center },
+          properties: {
+            state: name,
+            charge_points: agg.charge_points,
+            sites: agg.sites,
+          },
+        });
+      }
+      return { type: "FeatureCollection", features };
+    }
+
+    function normalizeCounty(s) {
+      return s.toLowerCase().replace(/[^a-zäöüß0-9]/g, "");
+    }
+
+    function buildDistrictBubbles(chargers) {
+      const byCounty = {};
+      for (const f of chargers.features) {
+        const c = f.properties.county || "";
+        if (!c) continue;
+        const key = normalizeCounty(c);
+        if (!byCounty[key]) byCounty[key] = { charge_points: 0, sites: 0 };
+        byCounty[key].charge_points += f.properties.charge_points || 0;
+        byCounty[key].sites += 1;
+      }
+      const features = [];
+      if (!districtsGeoJson) return { type: "FeatureCollection", features };
+      const seen = new Set();
+      for (const df of districtsGeoJson.features) {
+        const p = df.properties;
+        const ags = p.ags || "";
+        if (seen.has(ags)) continue;
+        seen.add(ags);
+        const label = (p.bez || "") + " " + (p.gen || "");
+        const key = normalizeCounty(label);
+        const agg = byCounty[key];
+        if (!agg) continue;
+        features.push({
+          type: "Feature",
+          geometry: { type: "Point", coordinates: polygonCentroid(df.geometry) },
+          properties: {
+            district: p.gen,
+            ags: ags,
+            charge_points: agg.charge_points,
+            sites: agg.sites,
+          },
+        });
+      }
+      return { type: "FeatureCollection", features };
+    }
+
+    async function loadBnetzaChargers() {
+      const response = await fetch("./chargers.geojson");
+      if (!response.ok) throw new Error(`Failed to load chargers.geojson: ${response.status}`);
+      allChargers = await response.json();
+
+      const stateBubbles = buildStateBubbles(allChargers);
+      map.addSource("state-bubbles", { type: "geojson", data: stateBubbles });
+
+      map.addLayer({
+        id: "state-bubble-circle",
+        type: "circle",
+        source: "state-bubbles",
+        maxzoom: 7,
+        paint: {
+          "circle-color": "rgba(90, 90, 90, 0.78)",
+          "circle-radius": [
+            "interpolate", ["linear"], ["get", "charge_points"],
+            500, 16,
+            5000, 24,
+            20000, 36,
+            40000, 44,
+          ],
+          "circle-stroke-color": "rgba(251, 248, 241, 0.90)",
+          "circle-stroke-width": 1.5,
+        },
+      });
+
+      map.addLayer({
+        id: "state-bubble-label",
+        type: "symbol",
+        source: "state-bubbles",
+        maxzoom: 7,
+        layout: {
+          "text-field": ["to-string", ["get", "charge_points"]],
+          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          "text-size": 12,
+          "text-allow-overlap": true,
+        },
+        paint: {
+          "text-color": "#fff",
+        },
+      });
+
+      const districtBubbles = buildDistrictBubbles(allChargers);
+      map.addSource("district-bubbles", { type: "geojson", data: districtBubbles });
+
+      map.addLayer({
+        id: "district-bubble-circle",
+        type: "circle",
+        source: "district-bubbles",
+        minzoom: 7,
+        maxzoom: 10,
+        paint: {
+          "circle-color": "rgba(90, 90, 90, 0.72)",
+          "circle-radius": [
+            "interpolate", ["linear"], ["get", "charge_points"],
+            10, 10,
+            200, 16,
+            1000, 22,
+            5000, 30,
+          ],
+          "circle-stroke-color": "rgba(251, 248, 241, 0.90)",
+          "circle-stroke-width": 1.25,
+        },
+      });
+
+      map.addLayer({
+        id: "district-bubble-label",
+        type: "symbol",
+        source: "district-bubbles",
+        minzoom: 7,
+        maxzoom: 10,
+        layout: {
+          "text-field": ["to-string", ["get", "charge_points"]],
+          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          "text-size": 11,
+          "text-allow-overlap": true,
+        },
+        paint: {
+          "text-color": "#fff",
+        },
+      });
+
+      map.addSource("bnetza-chargers", {
+        type: "geojson",
+        data: allChargers,
+      });
+
+      map.addLayer({
+        id: "chargers",
+        type: "circle",
+        source: "bnetza-chargers",
+        minzoom: 10,
+        paint: {
+          "circle-radius": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            8, 2.2,
+            12, 3.6,
+            16, 6.2,
+          ],
+          "circle-color": [
+            "match",
+            ["get", "class"],
+            "ultra_300", "#e6242a",
+            "hpc_150", "#f59f00",
+            "fast_50", "#19a974",
+            "ac_normal", "#2f80ed",
+            "#8a7c6e",
+          ],
+          "circle-stroke-color": "rgba(251, 248, 241, 0.94)",
+          "circle-stroke-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            8, 0.6,
+            14, 1.15,
+          ],
+          "circle-opacity": 0.92,
+        },
+      });
+
+      map.on("click", "state-bubble-circle", (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        const stateName = feature.properties.state;
+        const ags = Object.entries(agsToStateName).find(([, n]) => n === stateName)?.[0];
+        if (ags) {
+          window.parent.postMessage({ type: "map-region-click", level: "state", id: ags }, "*");
+        }
+      });
+
+      map.on("click", "district-bubble-circle", (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        const ags = feature.properties.ags;
+        if (ags) {
+          window.parent.postMessage({
+            type: "map-region-click",
+            level: "district",
+            id: ags,
+            stateId: String(ags).slice(0, 2),
+          }, "*");
+        }
+      });
+
+      map.on("click", "chargers", (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        const props = feature.properties || {};
+        const kw = props.max_connector_kw ? `${Number(props.max_connector_kw).toLocaleString("de-DE")} kW max` : "unknown power";
+        const points = props.charge_points ? `${props.charge_points} charge points` : "";
+        const title = props.name || props.operator || "BNetzA charger";
+        const place = [props.city, props.state].filter(Boolean).join(", ");
+        new maplibregl.Popup({ closeButton: true, closeOnClick: true })
+          .setLngLat(feature.geometry.coordinates)
+          .setHTML(`
+            <strong>${title}</strong><br>
+            ${place}<br>
+            ${kw} · ${points}<br>
+            ${props.kind || ""}
+          `)
+          .addTo(map);
+      });
+
+      map.on("mouseenter", "district-bubble-circle", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "district-bubble-circle", () => {
+        map.getCanvas().style.cursor = "";
+      });
+      map.on("mouseenter", "state-bubble-circle", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "state-bubble-circle", () => {
+        map.getCanvas().style.cursor = "";
+      });
+      map.on("mouseenter", "chargers", () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "chargers", () => {
+        map.getCanvas().style.cursor = "";
+      });
+    }
+
+    window.addEventListener("message", (event) => {
+      const message = event.data || {};
+      if (message.type === "set-charger-filter") {
+        applyChargerFilter(message.stateId || "", message.districtId || "");
+      }
+      if (message.type === "select-region") {
+        selectRegion(message.level || "", message.id || "", message.stateId || "");
+      }
+    });
+
+    map.on("load", async () => {
+      try {
+        await loadOfficialBoundaries();
+        await loadBnetzaChargers();
+        fitGermany(0);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
