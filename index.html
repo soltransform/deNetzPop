@@ -3,114 +3,223 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>v1.420</title>
+  <title>Germany EV Charging Access</title>
   <style>
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-      color: #111;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    html, body {
+      margin: 0; width: 100%; height: 100%;
+      background: #fff; color: #111;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+      font-feature-settings: 'tnum';
+      -webkit-font-smoothing: antialiased;
     }
-
-    body {
-      overflow: hidden;
-    }
+    body { overflow: hidden; }
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(520px, 58vw) minmax(420px, 1fr);
-      width: 100vw;
-      height: 100vh;
+      grid-template-columns: minmax(520px, 58vw) minmax(380px, 1fr);
+      width: 100vw; height: 100vh;
     }
-
     .map-pane {
-      position: relative;
-      min-width: 0;
-      border-right: 1px solid #d9d9d9;
-      background: #f3f4f6;
+      position: relative; min-width: 0;
+      border-right: 1px solid #e5e7eb; background: #f3f4f6;
     }
+    .map-frame { display: block; width: 100%; height: 100%; border: 0; }
 
-    .map-frame {
-      display: block;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
+    /* ─── top bar ─── */
     .top-bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; align-items: center; gap: 10px;
       padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       font-size: 13px;
     }
-
-    .top-bar label {
-      font-weight: 600;
-      font-size: 12px;
-      color: #555;
-      white-space: nowrap;
-    }
-
+    .top-bar label { font-weight: 600; font-size: 12px; color: #555; white-space: nowrap; }
     .top-bar select {
-      height: 30px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #fff;
-      color: #111;
-      font: 13px/1.2 Inter, sans-serif;
-      min-width: 160px;
+      height: 30px; border: 1px solid #d1d5db; border-radius: 6px;
+      background: #fff; color: #111; font: 13px/1.2 inherit; min-width: 160px;
     }
-
     .top-bar button {
-      height: 30px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #fff;
-      color: #555;
-      font: 13px/1.2 Inter, sans-serif;
-      padding: 0 10px;
-      cursor: pointer;
+      height: 30px; border: 1px solid #d1d5db; border-radius: 6px;
+      background: #fff; color: #555; font: 13px/1.2 inherit;
+      padding: 0 12px; cursor: pointer; transition: all 0.15s;
+    }
+    .top-bar button:hover { background: #f9fafb; }
+    .coverage-pill {
+      margin-left: auto;
+      font-weight: 500;
+    }
+    .coverage-pill.active {
+      background: #2DD4BF; color: #fff; border-color: #2DD4BF;
+    }
+    .coverage-pill.active:hover { background: #14b8a6; }
+
+    /* ─── coverage legend ─── */
+    .coverage-legend {
+      position: absolute; bottom: 32px; left: 12px; z-index: 10;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 11px; color: #555;
+      display: flex; gap: 10px; align-items: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      transition: opacity 0.3s;
+    }
+    .coverage-legend.hidden { opacity: 0; pointer-events: none; }
+    .legend-swatch {
+      display: inline-block; width: 10px; height: 10px;
+      border-radius: 2px; margin-right: 4px; vertical-align: middle;
     }
 
-    .top-bar button:hover {
-      background: #f5f5f5;
-    }
-
+    /* ─── right pane ─── */
     .right-pane {
-      min-width: 0;
-      background: #ffffff;
-      padding: 22px;
-      overflow: auto;
+      min-width: 0; background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 28px 28px 28px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    /* ─── pane title ─── */
+    .pane-title {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #9ca3af;
+      margin-bottom: 20px;
+    }
+    .pane-title span {
+      color: #d1d5db; font-weight: 400; margin-left: 6px;
+    }
+
+    /* ─── hero ─── */
+    .stats-section {
+      opacity: 0; transform: translateY(8px);
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .stats-section:nth-child(2) { animation-delay: 0.05s; }
+    .stats-section:nth-child(3) { animation-delay: 0.15s; }
+    .stats-section:nth-child(4) { animation-delay: 0.25s; }
+    .stats-section:nth-child(5) { animation-delay: 0.35s; }
+    @keyframes fadeIn { to { opacity: 1; transform: none; } }
+
+    .hero-number {
+      font-size: 56px; font-weight: 600; color: #1a1a1a;
+      line-height: 1.05; letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-subtitle {
+      font-size: 14px; color: #6b7280; font-weight: 400;
+      margin-top: 4px; line-height: 1.4;
+    }
+    .hero-comparison {
+      font-size: 13px; margin-top: 8px; line-height: 1.4;
+      min-height: 20px;
+    }
+    .hero-comparison .arrow-up { color: #16a34a; }
+    .hero-comparison .arrow-down { color: #ea580c; }
+    .hero-back {
+      color: #9ca3af; cursor: pointer; font-size: 12px;
+      text-decoration: none; margin-left: 8px;
+    }
+    .hero-back:hover { color: #6b7280; }
+
+    /* ─── radius pills ─── */
+    .radius-pills {
+      display: flex; gap: 0; margin-top: 16px;
+      border: 1px solid #e5e7eb; border-radius: 8px;
+      overflow: hidden; width: fit-content;
+    }
+    .radius-pills button {
+      border: none; background: #f9fafb; color: #6b7280;
+      font: 500 13px/1 inherit; padding: 7px 14px;
+      cursor: pointer; transition: all 0.15s;
+      border-right: 1px solid #e5e7eb;
+    }
+    .radius-pills button:last-child { border-right: none; }
+    .radius-pills button.active {
+      background: #1a1a1a; color: #fff;
+    }
+    .radius-pills button:not(.active):hover { background: #f3f4f6; }
+
+    /* ─── tier pills ─── */
+    .tier-pills {
+      display: flex; gap: 0; margin-top: 8px;
+      border: 1px solid #e5e7eb; border-radius: 8px;
+      overflow: hidden; width: fit-content;
+    }
+    .tier-pills button {
+      border: none; background: #f9fafb; color: #6b7280;
+      font: 500 12px/1 inherit; padding: 6px 12px;
+      cursor: pointer; transition: all 0.15s;
+      border-right: 1px solid #e5e7eb;
+    }
+    .tier-pills button:last-child { border-right: none; }
+    .tier-pills button.active {
+      background: #374151; color: #fff;
+    }
+    .tier-pills button:not(.active):hover { background: #f3f4f6; }
+
+    /* ─── chart ─── */
+    .chart-wrap {
+      margin-top: 28px; position: relative;
+    }
+    .chart-legend {
+      display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: #9ca3af;
+    }
+    .chart-legend span::before {
+      content: ''; display: inline-block; width: 12px; height: 2px;
+      margin-right: 5px; vertical-align: middle; border-radius: 1px;
+    }
+    .legend-any::before { background: #374151; }
+    .legend-dc::before { background: #0D9488; }
+    .legend-ultra::before { background: #D97706; }
+    #coverage-chart { width: 100%; display: block; cursor: crosshair; }
+    .chart-insight {
+      font-size: 13px; color: #9ca3af; margin-top: 8px;
+      font-style: italic; min-height: 18px;
+    }
+    .chart-tooltip {
+      position: absolute; pointer-events: none; display: none;
+      background: rgba(0,0,0,0.82); color: #fff; font-size: 11px;
+      padding: 5px 9px; border-radius: 5px; white-space: nowrap;
+      transform: translateX(-50%);
+    }
+
+    /* ─── charger counts ─── */
+    .charger-counts {
+      margin-top: 28px;
+      font-size: 14px; color: #374151;
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    }
+    .charger-counts .dot {
+      display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; margin-right: 4px; vertical-align: middle;
+    }
+    .dot-ac { background: #3b82f6; }
+    .dot-fast { background: #22c55e; }
+    .dot-hpc { background: #f59e0b; }
+    .dot-ultra { background: #ef4444; }
+    .counts-detail {
+      font-size: 12px; color: #9ca3af; margin-top: 4px;
+      width: 100%;
+    }
+
+    /* ─── memorable stat ─── */
+    .memorable {
+      margin-top: 28px; font-size: 13px; color: #6b7280;
+      line-height: 1.5;
+    }
+    .memorable-value {
+      font-weight: 600; color: #374151;
     }
 
     @media (max-width: 960px) {
-      body {
-        overflow: auto;
-      }
-
+      body { overflow: auto; }
       .layout {
         grid-template-columns: 1fr;
         grid-template-rows: 52vh minmax(48vh, auto);
-        height: auto;
-        min-height: 100vh;
+        height: auto; min-height: 100vh;
       }
-
-      .map-pane {
-        border-right: 0;
-        border-bottom: 1px solid #d9d9d9;
-      }
+      .map-pane { border-right: 0; border-bottom: 1px solid #e5e7eb; }
     }
   </style>
 </head>
@@ -119,18 +228,62 @@
     <section class="map-pane">
       <div class="top-bar">
         <label for="state-select">Bundesland</label>
-        <select id="state-select" disabled>
-          <option value="">Loading...</option>
-        </select>
+        <select id="state-select" disabled><option value="">Loading...</option></select>
         <label for="district-select">Kreis</label>
-        <select id="district-select" disabled>
-          <option value="">Select Bundesland first</option>
-        </select>
+        <select id="district-select" disabled><option value="">Select Bundesland first</option></select>
         <button id="clear-filter" type="button">Clear</button>
+        <button id="coverage-toggle" type="button" class="coverage-pill active">Coverage</button>
       </div>
-      <iframe class="map-frame" id="map-frame" title="Germany charger map" src="/v1.420/map-app/index.html"></iframe>
+      <div class="coverage-legend" id="coverage-legend">
+        <span><span class="legend-swatch" style="background:#2DD4BF"></span>Covered</span>
+        <span><span class="legend-swatch" style="background:#F59E0B"></span>Uncovered</span>
+      </div>
+      <iframe class="map-frame" id="map-frame" title="Germany charger map" src="./map-app/index.html"></iframe>
     </section>
+
     <section class="right-pane" aria-label="Statistics">
+      <!-- Title -->
+      <div class="pane-title" id="pane-title">Germany EV Charging Access</div>
+
+      <!-- Hero Number -->
+      <div class="stats-section" id="sec-hero">
+        <div class="hero-number" id="hero-number">&mdash;</div>
+        <div class="hero-subtitle" id="hero-subtitle">of Germans live within 5 km of a charger</div>
+        <div class="hero-comparison" id="hero-comparison"></div>
+        <div class="radius-pills" id="radius-pills">
+          <button data-km="1">1 km</button>
+          <button data-km="5" class="active">5 km</button>
+          <button data-km="10">10 km</button>
+          <button data-km="25">25 km</button>
+        </div>
+        <div class="tier-pills" id="tier-pills">
+          <button data-tier="0" class="active">Any</button>
+          <button data-tier="2">DC Fast</button>
+          <button data-tier="3">Ultra</button>
+        </div>
+      </div>
+
+      <!-- Cumulative Chart -->
+      <div class="stats-section chart-wrap" id="sec-chart">
+        <div class="chart-legend">
+          <span class="legend-any">Any charger</span>
+          <span class="legend-dc">DC Fast</span>
+          <span class="legend-ultra">Ultra</span>
+        </div>
+        <canvas id="coverage-chart" height="240"></canvas>
+        <div class="chart-tooltip" id="chart-tooltip"></div>
+        <div class="chart-insight" id="chart-insight"></div>
+      </div>
+
+      <!-- Charger Counts -->
+      <div class="stats-section" id="sec-counts">
+        <div class="charger-counts" id="charger-counts"></div>
+      </div>
+
+      <!-- Memorable Stat -->
+      <div class="stats-section" id="sec-memorable">
+        <div class="memorable" id="memorable"></div>
+      </div>
     </section>
   </main>
 
@@ -139,25 +292,57 @@
     const stateSelect = document.getElementById("state-select");
     const districtSelect = document.getElementById("district-select");
     const clearButton = document.getElementById("clear-filter");
+    const coverageToggle = document.getElementById("coverage-toggle");
+    const coverageLegend = document.getElementById("coverage-legend");
 
     let regions = null;
+    let coverageStats = null;
+    let chargersData = null;
+    let currentRadius = 5;
+    let currentTier = 0;
+    const tierNames = { 0: "any", 2: "DC Fast", 3: "Ultra" };
+    const tierBucketKeys = { 0: "buckets_any", 2: "buckets_dc", 3: "buckets_ultra" };
+    let coverageEnabled = true;
 
-    function mapReady() {
-      return mapFrame.contentWindow;
+    // ─── animated hero number ─────────────────────────────────────────
+    let heroAnimId = 0;
+    let heroCurrentVal = 0;
+
+    function animateHero(target) {
+      heroAnimId++;
+      const id = heroAnimId;
+      const start = heroCurrentVal;
+      const diff = target - start;
+      const heroEl = document.getElementById("hero-number");
+      heroCurrentVal = target;
+      heroEl.textContent = fmtPct(target);
+      if (Math.abs(diff) < 0.5) return;
+      const duration = 400;
+      const t0 = performance.now();
+      function tick() {
+        if (id !== heroAnimId) return;
+        const p = Math.min(1, (performance.now() - t0) / duration);
+        if (p >= 1) return;
+        const ease = 1 - Math.pow(1 - p, 3);
+        heroCurrentVal = start + diff * ease;
+        heroEl.textContent = fmtPct(heroCurrentVal);
+        setTimeout(tick, 16);
+      }
+      setTimeout(tick, 16);
     }
 
-    function postToMap(message) {
-      if (!mapReady()) return;
-      mapFrame.contentWindow.postMessage(message, "*");
+    function postToMap(msg) {
+      if (mapFrame.contentWindow) mapFrame.contentWindow.postMessage(msg, "*");
     }
+
+    // ─── region dropdowns ─────────────────────────────────────────────
 
     function populateStates() {
       stateSelect.innerHTML = '<option value="">All Germany</option>';
-      for (const state of regions.states) {
-        const option = document.createElement("option");
-        option.value = state.id;
-        option.textContent = state.name;
-        stateSelect.appendChild(option);
+      for (const s of regions.states) {
+        const o = document.createElement("option");
+        o.value = s.id; o.textContent = s.name;
+        stateSelect.appendChild(o);
       }
       stateSelect.disabled = false;
     }
@@ -169,94 +354,382 @@
         districtSelect.innerHTML = '<option value="">Select Bundesland first</option>';
         return;
       }
-      for (const district of regions.districts.filter((item) => item.state_id === stateId)) {
-        const option = document.createElement("option");
-        option.value = district.id;
-        option.textContent = district.label;
-        districtSelect.appendChild(option);
+      for (const d of regions.districts.filter(i => i.state_id === stateId)) {
+        const o = document.createElement("option");
+        o.value = d.id; o.textContent = d.label;
+        districtSelect.appendChild(o);
       }
       districtSelect.disabled = false;
     }
 
     function selectedRegion() {
-      const stateId = stateSelect.value;
-      const districtId = districtSelect.value;
-      if (districtId) {
-        return {
-          level: "district",
-          id: districtId,
-          bbox: regions.districts.find((item) => item.id === districtId)?.bbox,
-        };
-      }
-      if (stateId) {
-        return {
-          level: "state",
-          id: stateId,
-          bbox: regions.states.find((item) => item.id === stateId)?.bbox,
-        };
-      }
+      const sid = stateSelect.value, did = districtSelect.value;
+      if (did) return { level: "district", id: did, bbox: regions.districts.find(i => i.id === did)?.bbox };
+      if (sid) return { level: "state", id: sid, bbox: regions.states.find(i => i.id === sid)?.bbox };
       return { level: "", id: "", bbox: null };
     }
 
     function applySelection() {
-      const region = selectedRegion();
-      postToMap({
-        type: "set-charger-filter",
-        stateId: stateSelect.value,
-        districtId: districtSelect.value,
-      });
-      postToMap({
-        type: "select-region",
-        level: region.level,
-        id: region.id,
-        stateId: stateSelect.value,
-      });
+      const r = selectedRegion();
+      postToMap({ type: "set-charger-filter", stateId: stateSelect.value, districtId: districtSelect.value });
+      postToMap({ type: "select-region", level: r.level, id: r.id, stateId: stateSelect.value });
+      updateStats();
     }
 
-    stateSelect.addEventListener("change", () => {
-      populateDistricts(stateSelect.value);
-      applySelection();
-    });
-
+    stateSelect.addEventListener("change", () => { populateDistricts(stateSelect.value); applySelection(); });
     districtSelect.addEventListener("change", applySelection);
+    clearButton.addEventListener("click", () => { stateSelect.value = ""; populateDistricts(""); applySelection(); });
 
-    clearButton.addEventListener("click", () => {
-      stateSelect.value = "";
-      populateDistricts("");
-      applySelection();
+    // ─── coverage toggle ──────────────────────────────────────────────
+
+    coverageToggle.addEventListener("click", () => {
+      coverageEnabled = !coverageEnabled;
+      coverageToggle.classList.toggle("active", coverageEnabled);
+      coverageLegend.classList.toggle("hidden", !coverageEnabled);
+      postToMap({ type: "toggle-coverage", enabled: coverageEnabled });
     });
+
+    // ─── radius pills ─────────────────────────────────────────────────
+
+    document.getElementById("radius-pills").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-km]");
+      if (!btn) return;
+      currentRadius = parseInt(btn.dataset.km);
+      document.querySelectorAll("#radius-pills button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      postToMap({ type: "set-coverage-radius", radius: currentRadius });
+      updateStats();
+    });
+
+    // ─── tier pills ───────────────────────────────────────────────────
+
+    document.getElementById("tier-pills").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-tier]");
+      if (!btn) return;
+      currentTier = parseInt(btn.dataset.tier);
+      document.querySelectorAll("#tier-pills button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      postToMap({ type: "set-coverage-tier", tier: currentTier });
+      updateStats();
+    });
+
+    // ─── message handler ──────────────────────────────────────────────
 
     window.addEventListener("message", (event) => {
-      const message = event.data || {};
-      if (message.type !== "map-region-click" || !regions) return;
-
-      if (message.level === "state" && message.id) {
-        stateSelect.value = message.id;
-        populateDistricts(message.id);
-        districtSelect.value = "";
-        applySelection();
-      }
-
-      if (message.level === "district" && message.id && message.stateId) {
-        if (stateSelect.value !== message.stateId) {
-          stateSelect.value = message.stateId;
-          populateDistricts(message.stateId);
+      const msg = event.data || {};
+      if (msg.type === "map-region-click" && regions) {
+        if (msg.level === "state" && msg.id) {
+          stateSelect.value = msg.id;
+          populateDistricts(msg.id);
+          districtSelect.value = "";
+          applySelection();
         }
-        districtSelect.value = message.id;
-        applySelection();
+        if (msg.level === "district" && msg.id && msg.stateId) {
+          if (stateSelect.value !== msg.stateId) {
+            stateSelect.value = msg.stateId;
+            populateDistricts(msg.stateId);
+          }
+          districtSelect.value = msg.id;
+          applySelection();
+        }
+      }
+      if (msg.type === "coverage-ready") {
+        postToMap({ type: "set-coverage-radius", radius: currentRadius });
+        postToMap({ type: "set-coverage-tier", tier: currentTier });
       }
     });
 
-    async function init() {
-      const response = await fetch("/v1.420/data/official_regions.json");
-      if (!response.ok) throw new Error(`Failed to load official_regions.json: ${response.status}`);
-      regions = await response.json();
-      populateStates();
+    // ─── stats rendering ──────────────────────────────────────────────
+
+    function getActiveStats() {
+      if (!coverageStats) return null;
+      const did = districtSelect.value;
+      const sid = stateSelect.value;
+      if (did && coverageStats.districts && coverageStats.districts[did]) {
+        const d = regions ? regions.districts.find(i => i.id === did) : null;
+        return { stats: coverageStats.districts[did], level: "district", name: d ? d.label : coverageStats.districts[did].name };
+      }
+      if (sid && coverageStats.states && coverageStats.states[sid]) {
+        const s = regions ? regions.states.find(i => i.id === sid) : null;
+        return { stats: coverageStats.states[sid], level: "state", name: s ? s.name : coverageStats.states[sid].name };
+      }
+      return { stats: coverageStats.germany, level: "germany", name: "Germany" };
     }
 
-    init().catch((error) => {
-      stateSelect.innerHTML = `<option value="">${error.message}</option>`;
-      console.error(error);
+    function fmtPct(n) { return n.toFixed(1) + "%"; }
+    function fmtK(n) { return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + "k" : n.toLocaleString("de-DE"); }
+    function fmtPop(n) { return (n / 1e6).toFixed(1) + "M"; }
+
+    function updateStats() {
+      if (!coverageStats) return;
+      const active = getActiveStats();
+      if (!active) return;
+      const s = active.stats;
+      const nat = coverageStats.germany;
+      const isRegion = active.level !== "germany";
+
+      // Title with population
+      const titleEl = document.getElementById("pane-title");
+      if (isRegion) {
+        titleEl.innerHTML = `${active.name} <span>${fmtPop(s.population)} residents</span>`;
+      } else {
+        titleEl.innerHTML = `Germany EV Charging Access <span>${fmtPop(nat.population)} population</span>`;
+      }
+
+      // Hero number — animated
+      const bucketKey = tierBucketKeys[currentTier];
+      const heroBuckets = s[bucketKey];
+      const pct = s.population > 0 ? heroBuckets[currentRadius] / s.population * 100 : 0;
+      animateHero(pct);
+
+      const radiusLabel = currentRadius + " km";
+      const tierLabel = currentTier === 0 ? "a charger" : `a ${tierNames[currentTier]} charger`;
+      if (isRegion) {
+        const natBuckets = nat[bucketKey];
+        const natPct = nat.population > 0 ? natBuckets[currentRadius] / nat.population * 100 : 0;
+        document.getElementById("hero-subtitle").textContent =
+          `of ${active.name} residents live within ${radiusLabel} of ${tierLabel}`;
+        const diff = pct - natPct;
+        const arrow = diff >= 0
+          ? `<span class="arrow-up">↑</span>`
+          : `<span class="arrow-down">↓</span>`;
+        document.getElementById("hero-comparison").innerHTML =
+          `vs ${fmtPct(natPct)} national ${arrow}` +
+          `<a class="hero-back" onclick="clearButton.click()">← Germany</a>`;
+      } else {
+        document.getElementById("hero-subtitle").textContent =
+          `of Germans live within ${radiusLabel} of ${tierLabel}`;
+        document.getElementById("hero-comparison").innerHTML = "";
+      }
+
+      // Chart
+      drawChart(nat, isRegion ? s : null);
+
+      // Insight
+      const insightKey = tierBucketKeys[currentTier];
+      const refBuckets = s[insightKey];
+      const refPop = s.population;
+      let dist95 = 50;
+      if (refPop > 0) {
+        for (let km = 0; km <= 50; km++) {
+          if (refBuckets[km] / refPop >= 0.95) { dist95 = km; break; }
+        }
+      }
+      const insightLabel = currentTier === 0 ? "any charger" : tierNames[currentTier];
+      document.getElementById("chart-insight").textContent =
+        `95% coverage at ${dist95 === 0 ? "<1" : dist95} km (${insightLabel})`;
+
+      // Charger counts
+      updateCounts();
+
+      // Memorable
+      document.getElementById("memorable").innerHTML =
+        `Farthest point from any charger:<br>` +
+        `<span class="memorable-value">${s.max_distance_any} km</span>` +
+        (isRegion ? ` in ${active.name}` : "");
+    }
+
+    function updateCounts() {
+      if (!chargersData) return;
+      const sid = stateSelect.value;
+      const stateNameMap = {};
+      if (regions) for (const s of regions.states) stateNameMap[s.id] = s.name;
+      const filterState = sid ? stateNameMap[sid] : null;
+
+      let ac = 0, fast = 0, hpc = 0, ultra = 0, sites = 0;
+      const ops = new Set();
+      for (const f of chargersData.features) {
+        const p = f.properties || {};
+        if (filterState && p.state !== filterState) continue;
+        const cp = p.charge_points || 1;
+        switch (p.class) {
+          case "ac_normal": ac += cp; break;
+          case "fast_50": fast += cp; break;
+          case "hpc_150": hpc += cp; break;
+          case "ultra_300": ultra += cp; break;
+        }
+        if (p.operator) ops.add(p.operator);
+        sites++;
+      }
+      document.getElementById("charger-counts").innerHTML =
+        `<span><span class="dot dot-ac"></span>${fmtK(ac)} AC</span>` +
+        `<span><span class="dot dot-fast"></span>${fmtK(fast)} Fast</span>` +
+        `<span><span class="dot dot-hpc"></span>${fmtK(hpc)} HPC</span>` +
+        `<span><span class="dot dot-ultra"></span>${fmtK(ultra)} Ultra</span>` +
+        `<div class="counts-detail">${sites.toLocaleString("de-DE")} sites · ${ops.size.toLocaleString("de-DE")} operators</div>`;
+    }
+
+    // ─── cumulative chart (bezier + crosshair) ────────────────────────
+
+    let chartHoverKm = -1;
+
+    function drawChart(natStats, regionStats) {
+      const canvas = document.getElementById("coverage-chart");
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const w = Math.floor(rect.width);
+      const h = 240;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      const ctx = canvas.getContext("2d");
+      ctx.scale(dpr, dpr);
+
+      const pad = { t: 10, r: 12, b: 28, l: 36 };
+      const pw = w - pad.l - pad.r;
+      const ph = h - pad.t - pad.b;
+      const xS = km => pad.l + (km / 50) * pw;
+      const yS = pct => pad.t + (1 - pct) * ph;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Axis labels
+      ctx.fillStyle = "#c0c0c0";
+      ctx.font = "11px -apple-system, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("0", xS(0), h - 8);
+      ctx.fillText("25", xS(25), h - 8);
+      ctx.fillText("50 km", xS(50), h - 8);
+      ctx.textAlign = "right";
+      ctx.fillText("0%", pad.l - 6, yS(0) + 4);
+      ctx.fillText("50%", pad.l - 6, yS(0.5) + 4);
+      ctx.fillText("100%", pad.l - 6, yS(1) + 4);
+
+      function bezierCurve(buckets, pop, color, lw, dash, fill) {
+        if (pop <= 0) return;
+        const pts = [];
+        for (let km = 0; km <= 50; km++)
+          pts.push({ x: xS(km), y: yS(buckets[km] / pop) });
+
+        ctx.beginPath();
+        ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.setLineDash(dash);
+        ctx.moveTo(pts[0].x, pts[0].y);
+        for (let i = 1; i < pts.length; i++) {
+          const p0 = pts[Math.max(0, i - 2)];
+          const p1 = pts[i - 1];
+          const p2 = pts[i];
+          const p3 = pts[Math.min(pts.length - 1, i + 1)];
+          const cp1x = p1.x + (p2.x - p0.x) / 6;
+          const cp1y = p1.y + (p2.y - p0.y) / 6;
+          const cp2x = p2.x - (p3.x - p1.x) / 6;
+          const cp2y = p2.y - (p3.y - p1.y) / 6;
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+        }
+        ctx.stroke();
+        if (fill) {
+          ctx.lineTo(xS(50), yS(0)); ctx.lineTo(xS(0), yS(0)); ctx.closePath();
+          const g = ctx.createLinearGradient(0, pad.t, 0, h - pad.b);
+          g.addColorStop(0, fill); g.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = g; ctx.fill();
+        }
+        ctx.setLineDash([]);
+      }
+
+      if (regionStats) {
+        bezierCurve(natStats.buckets_any, natStats.population, "rgba(55,65,81,0.2)", 1.5, [4,4]);
+        bezierCurve(natStats.buckets_dc, natStats.population, "rgba(13,148,136,0.2)", 1.5, [4,4]);
+        bezierCurve(natStats.buckets_ultra, natStats.population, "rgba(217,119,6,0.2)", 1.5, [4,4]);
+        bezierCurve(regionStats.buckets_any, regionStats.population, "#374151", 2.5, [], "rgba(55,65,81,0.06)");
+        bezierCurve(regionStats.buckets_dc, regionStats.population, "#0D9488", 2, [], "rgba(13,148,136,0.04)");
+        bezierCurve(regionStats.buckets_ultra, regionStats.population, "#D97706", 2, [], "rgba(217,119,6,0.04)");
+      } else {
+        bezierCurve(natStats.buckets_any, natStats.population, "#374151", 2.5, [], "rgba(55,65,81,0.06)");
+        bezierCurve(natStats.buckets_dc, natStats.population, "#0D9488", 2, [], "rgba(13,148,136,0.04)");
+        bezierCurve(natStats.buckets_ultra, natStats.population, "#D97706", 2, [], "rgba(217,119,6,0.04)");
+      }
+
+      // Radius dashed line
+      ctx.beginPath(); ctx.strokeStyle = "rgba(0,0,0,0.12)"; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+      const rx = xS(currentRadius);
+      ctx.moveTo(rx, pad.t); ctx.lineTo(rx, h - pad.b); ctx.stroke(); ctx.setLineDash([]);
+
+      // Hover crosshair
+      if (chartHoverKm >= 0 && chartHoverKm <= 50) {
+        const hx = xS(chartHoverKm);
+        ctx.beginPath(); ctx.strokeStyle = "rgba(0,0,0,0.25)"; ctx.lineWidth = 0.5;
+        ctx.moveTo(hx, pad.t); ctx.lineTo(hx, h - pad.b); ctx.stroke();
+        const active = getActiveStats();
+        const s = active ? active.stats : natStats;
+        if (s.population > 0) {
+          const colors = ["#374151", "#0D9488", "#D97706"];
+          const keys = ["buckets_any", "buckets_dc", "buckets_ultra"];
+          for (let i = 0; i < 3; i++) {
+            const py = yS(s[keys[i]][chartHoverKm] / s.population);
+            ctx.beginPath();
+            ctx.arc(hx, py, 3, 0, Math.PI * 2);
+            ctx.fillStyle = colors[i]; ctx.fill();
+          }
+        }
+      }
+
+      canvas._xS = xS; canvas._yS = yS; canvas._pad = pad; canvas._w = w; canvas._h = h;
+      canvas._natStats = natStats; canvas._regionStats = regionStats;
+    }
+
+    // Chart hover with crosshair redraw
+    (function () {
+      const canvas = document.getElementById("coverage-chart");
+      const tooltip = document.getElementById("chart-tooltip");
+
+      function onMove(e) {
+        if (!coverageStats || !canvas._xS) { tooltip.style.display = "none"; chartHoverKm = -1; return; }
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const pad = canvas._pad, pw = canvas._w - pad.l - pad.r;
+        const km = Math.round((x - pad.l) / pw * 50);
+        if (km < 0 || km > 50) { tooltip.style.display = "none"; chartHoverKm = -1; return; }
+
+        chartHoverKm = km;
+        drawChart(canvas._natStats, canvas._regionStats);
+
+        const active = getActiveStats();
+        const s = active ? active.stats : coverageStats.germany;
+        const pop = s.population;
+        if (pop <= 0) { tooltip.style.display = "none"; return; }
+
+        const pAny = (s.buckets_any[km] / pop * 100).toFixed(1);
+        const pDc = (s.buckets_dc[km] / pop * 100).toFixed(1);
+        const pUltra = (s.buckets_ultra[km] / pop * 100).toFixed(1);
+
+        tooltip.textContent = `${km} km: ${pAny}% any · ${pDc}% DC · ${pUltra}% ultra`;
+        tooltip.style.display = "block";
+        tooltip.style.left = x + "px";
+        tooltip.style.top = (canvas._pad.t - 22) + "px";
+      }
+
+      canvas.addEventListener("mousemove", onMove);
+      canvas.addEventListener("mouseleave", () => {
+        tooltip.style.display = "none";
+        chartHoverKm = -1;
+        if (canvas._natStats) drawChart(canvas._natStats, canvas._regionStats);
+      });
+    })();
+
+    // ─── init ─────────────────────────────────────────────────────────
+
+    async function init() {
+      const [regionsRes, statsRes, chargersRes] = await Promise.all([
+        fetch("./data/official_regions.json"),
+        fetch("./map-app/coverage_stats.json"),
+        fetch("./map-app/chargers.geojson"),
+      ]);
+      if (!regionsRes.ok) throw new Error("Failed to load regions");
+      regions = await regionsRes.json();
+      populateStates();
+
+      if (statsRes.ok) {
+        coverageStats = await statsRes.json();
+      }
+      if (chargersRes.ok) {
+        chargersData = await chargersRes.json();
+      }
+      updateStats();
+    }
+
+    init().catch(err => {
+      console.error(err);
+      stateSelect.innerHTML = `<option value="">${err.message}</option>`;
     });
   </script>
 </body>

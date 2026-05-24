@@ -93,6 +93,8 @@
 
   <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
   <script>
+    // Set to R2 public URL for production, e.g. "https://pub-xxxxx.r2.dev/germany_pop.pmtiles"
+    const PMTILES_URL = location.hostname === "127.0.0.1" ? "./germany_pop.pmtiles" : "REPLACE_WITH_R2_URL";
     const GERMANY_BOUNDS = [[5.85249, 47.271121], [15.022059, 55.065334]];
     let allChargers = null;
     const agsToStateName = {};
@@ -645,6 +647,203 @@
       });
     }
 
+    // ─── Coverage PMTiles Layer ──────────────────────────────────────────
+    class CoveragePMTilesLayer {
+      constructor(pm) {
+        this.id = "coverage";
+        this.type = "custom";
+        this.renderingMode = "2d";
+        this.pm = pm;
+        this.tiles = new Map();
+        this.threshold = 5.0 / 50.0;
+        this.tier = 0;
+        this.enabled = true;
+        this.frameId = 0;
+      }
+
+      onAdd(map, gl) {
+        this.map = map;
+        this.gl = gl;
+        const vs = `
+          precision highp float;
+          uniform mat4 u_matrix;
+          attribute vec2 a_pos;
+          attribute vec2 a_uv;
+          varying vec2 v_uv;
+          void main() {
+            gl_Position = u_matrix * vec4(a_pos, 0.0, 1.0);
+            v_uv = a_uv;
+          }`;
+        const fs = `
+          precision highp float;
+          uniform sampler2D u_image;
+          uniform float u_threshold;
+          uniform float u_tier;
+          varying vec2 v_uv;
+          void main() {
+            vec4 t = texture2D(u_image, v_uv);
+            if (t.r < 0.004) discard;
+            float d;
+            if (u_tier < 0.5) d = min(min(t.g, t.b), t.a);
+            else if (u_tier < 1.5) d = t.g;
+            else if (u_tier < 2.5) d = t.b;
+            else d = t.a;
+            float pop = t.r;
+            float a = mix(0.10, 0.62, pow(pop, 0.5));
+            vec3 c = d <= u_threshold
+              ? vec3(0.176, 0.831, 0.749)
+              : vec3(0.961, 0.620, 0.043);
+            gl_FragColor = vec4(c * a, a);
+          }`;
+        const compile = (type, src) => {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+            throw new Error(gl.getShaderInfoLog(s));
+          return s;
+        };
+        this.program = gl.createProgram();
+        gl.attachShader(this.program, compile(gl.VERTEX_SHADER, vs));
+        gl.attachShader(this.program, compile(gl.FRAGMENT_SHADER, fs));
+        gl.linkProgram(this.program);
+        if (!gl.getProgramParameter(this.program, gl.LINK_STATUS))
+          throw new Error(gl.getProgramInfoLog(this.program));
+        this.aPos = gl.getAttribLocation(this.program, "a_pos");
+        this.aUv = gl.getAttribLocation(this.program, "a_uv");
+        this.uMatrix = gl.getUniformLocation(this.program, "u_matrix");
+        this.uImage = gl.getUniformLocation(this.program, "u_image");
+        this.uThreshold = gl.getUniformLocation(this.program, "u_threshold");
+        this.uTier = gl.getUniformLocation(this.program, "u_tier");
+        this.buffer = gl.createBuffer();
+        this._verts = new Float32Array(24);
+      }
+
+      render(gl, args) {
+        if (!this.enabled) return;
+        this.frameId++;
+        const matrix = args && args.defaultProjectionData
+          ? args.defaultProjectionData.mainMatrix
+          : (args && args.modelViewProjectionMatrix) || args;
+        const z = Math.max(5, Math.min(12, Math.floor(this.map.getZoom())));
+        const tiles = this.visibleTiles(z);
+        gl.useProgram(this.program);
+        gl.uniformMatrix4fv(this.uMatrix, false, matrix);
+        gl.uniform1f(this.uThreshold, this.threshold);
+        gl.uniform1f(this.uTier, this.tier);
+        gl.uniform1i(this.uImage, 0);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+        gl.enableVertexAttribArray(this.aPos);
+        gl.enableVertexAttribArray(this.aUv);
+        gl.vertexAttribPointer(this.aPos, 2, gl.FLOAT, false, 16, 0);
+        gl.vertexAttribPointer(this.aUv, 2, gl.FLOAT, false, 16, 8);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.disable(gl.DEPTH_TEST);
+        gl.depthMask(false);
+        for (const tile of tiles) {
+          const entry = this.getTile(tile.z, tile.urlX, tile.y);
+          if (!entry || entry.status !== "loaded") continue;
+          entry.lastUsed = this.frameId;
+          gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+          gl.bufferData(gl.ARRAY_BUFFER,
+            this.tileVerts(tile.z, tile.renderX, tile.y), gl.STREAM_DRAW);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+        this.evict();
+      }
+
+      visibleTiles(z) {
+        const n = 1 << z;
+        const b = this.map.getBounds();
+        const north = Math.min(85.051, b.getNorth());
+        const south = Math.max(-85.051, b.getSouth());
+        const xMin = Math.floor((b.getWest() + 180) / 360 * n) - 1;
+        const xMax = Math.floor((b.getEast() + 180) / 360 * n) + 1;
+        const latToY = (lat) => {
+          const r = lat * Math.PI / 180;
+          return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * n;
+        };
+        const yMin = Math.max(0, Math.floor(latToY(north)) - 1);
+        const yMax = Math.min(n - 1, Math.floor(latToY(south)) + 1);
+        const tiles = [];
+        for (let y = yMin; y <= yMax; y++)
+          for (let rx = xMin; rx <= xMax; rx++)
+            tiles.push({ z, renderX: rx, urlX: ((rx % n) + n) % n, y });
+        return tiles;
+      }
+
+      tileVerts(z, x, y) {
+        const n = 1 << z;
+        const v = this._verts;
+        const x0 = x/n, x1 = (x+1)/n, y0 = y/n, y1 = (y+1)/n;
+        v[0]=x0; v[1]=y0; v[2]=0; v[3]=0;
+        v[4]=x1; v[5]=y0; v[6]=1; v[7]=0;
+        v[8]=x1; v[9]=y1; v[10]=1; v[11]=1;
+        v[12]=x0; v[13]=y0; v[14]=0; v[15]=0;
+        v[16]=x1; v[17]=y1; v[18]=1; v[19]=1;
+        v[20]=x0; v[21]=y1; v[22]=0; v[23]=1;
+        return v;
+      }
+
+      getTile(z, x, y) {
+        const key = `${z}/${x}/${y}`;
+        if (this.tiles.has(key)) {
+          const e = this.tiles.get(key);
+          e.lastUsed = this.frameId;
+          return e;
+        }
+        const entry = { status: "loading", texture: null, lastUsed: this.frameId };
+        this.tiles.set(key, entry);
+        this.loadTile(z, x, y, entry);
+        return entry;
+      }
+
+      async loadTile(z, x, y, entry) {
+        try {
+          const result = await this.pm.getZxy(z, x, y);
+          if (!result) { entry.status = "empty"; return; }
+          const blob = new Blob([result.data], { type: "image/png" });
+          const bmp = await createImageBitmap(blob);
+          const gl = this.gl;
+          const tex = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bmp);
+          bmp.close();
+          entry.texture = tex;
+          entry.status = "loaded";
+          this.map.triggerRepaint();
+        } catch (e) {
+          entry.status = "error";
+          console.warn(`Coverage tile ${z}/${x}/${y}:`, e.message);
+        }
+      }
+
+      evict() {
+        if (this.tiles.size <= 200) return;
+        const entries = [...this.tiles.entries()]
+          .filter(([, e]) => e.status !== "loading")
+          .sort((a, b) => a[1].lastUsed - b[1].lastUsed);
+        for (const [key, e] of entries) {
+          if (this.tiles.size <= 150) break;
+          if (e.texture) this.gl.deleteTexture(e.texture);
+          this.tiles.delete(key);
+        }
+      }
+
+      setRadius(km) { this.threshold = km / 50.0; if (this.map) this.map.triggerRepaint(); }
+      setTier(t) { this.tier = t; if (this.map) this.map.triggerRepaint(); }
+      setEnabled(v) { this.enabled = v; if (this.map) this.map.triggerRepaint(); }
+    }
+
+    let coverageLayer = null;
+
     window.addEventListener("message", (event) => {
       const message = event.data || {};
       if (message.type === "set-charger-filter") {
@@ -652,6 +851,15 @@
       }
       if (message.type === "select-region") {
         selectRegion(message.level || "", message.id || "", message.stateId || "");
+      }
+      if (message.type === "set-coverage-radius" && coverageLayer) {
+        coverageLayer.setRadius(message.radius || 5);
+      }
+      if (message.type === "set-coverage-tier" && coverageLayer) {
+        coverageLayer.setTier(message.tier || 0);
+      }
+      if (message.type === "toggle-coverage" && coverageLayer) {
+        coverageLayer.setEnabled(message.enabled !== false);
       }
     });
 
@@ -662,6 +870,16 @@
         fitGermany(0);
       } catch (error) {
         console.error(error);
+      }
+      try {
+        const { PMTiles } = await import("https://cdn.jsdelivr.net/npm/pmtiles@3/+esm");
+        const pm = new PMTiles(PMTILES_URL);
+        coverageLayer = new CoveragePMTilesLayer(pm);
+        const before = map.getLayer("state-bubble-circle") ? "state-bubble-circle" : undefined;
+        map.addLayer(coverageLayer, before);
+        window.parent.postMessage({ type: "coverage-ready" }, "*");
+      } catch (e) {
+        console.warn("Coverage layer:", e);
       }
     });
   </script>

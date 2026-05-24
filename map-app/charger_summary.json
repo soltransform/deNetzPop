@@ -1,0 +1,134 @@
+{
+  "source": "data\\Ladesaeulenregister_BNetzA_2026-04-22.csv",
+  "rows_seen": 109646,
+  "site_features_written": 63653,
+  "invalid_or_outside_geometry": 0,
+  "in_service_sites": 63653,
+  "charge_points_total": 197448,
+  "max_connector_kw_max": 1000.0,
+  "by_class": {
+    "ac_normal": 46329,
+    "fast_50": 7435,
+    "hpc_150": 5793,
+    "ultra_300": 4096
+  },
+  "by_status": {
+    "In Betrieb": 63653
+  },
+  "by_state": {
+    "Baden-Württemberg": {
+      "sites": 9278,
+      "charge_points": 33949,
+      "fast_50_or_better": 2102,
+      "hpc_150_or_better": 1128,
+      "ultra_300_or_better": 468
+    },
+    "Bayern": {
+      "sites": 11366,
+      "charge_points": 37668,
+      "fast_50_or_better": 3138,
+      "hpc_150_or_better": 1792,
+      "ultra_300_or_better": 768
+    },
+    "Berlin": {
+      "sites": 2962,
+      "charge_points": 6908,
+      "fast_50_or_better": 405,
+      "hpc_150_or_better": 267,
+      "ultra_300_or_better": 92
+    },
+    "Brandenburg": {
+      "sites": 1530,
+      "charge_points": 4740,
+      "fast_50_or_better": 535,
+      "hpc_150_or_better": 328,
+      "ultra_300_or_better": 121
+    },
+    "Bremen": {
+      "sites": 383,
+      "charge_points": 1518,
+      "fast_50_or_better": 123,
+      "hpc_150_or_better": 57,
+      "ultra_300_or_better": 28
+    },
+    "Hamburg": {
+      "sites": 1623,
+      "charge_points": 5071,
+      "fast_50_or_better": 276,
+      "hpc_150_or_better": 222,
+      "ultra_300_or_better": 82
+    },
+    "Hessen": {
+      "sites": 4536,
+      "charge_points": 15455,
+      "fast_50_or_better": 1273,
+      "hpc_150_or_better": 803,
+      "ultra_300_or_better": 343
+    },
+    "Mecklenburg-Vorpommern": {
+      "sites": 1007,
+      "charge_points": 2884,
+      "fast_50_or_better": 354,
+      "hpc_150_or_better": 229,
+      "ultra_300_or_better": 76
+    },
+    "Niedersachsen": {
+      "sites": 6405,
+      "charge_points": 19382,
+      "fast_50_or_better": 2051,
+      "hpc_150_or_better": 1100,
+      "ultra_300_or_better": 434
+    },
+    "Nordrhein-Westfalen": {
+      "sites": 13788,
+      "charge_points": 38981,
+      "fast_50_or_better": 3435,
+      "hpc_150_or_better": 1921,
+      "ultra_300_or_better": 868
+    },
+    "Rheinland-Pfalz": {
+      "sites": 2765,
+      "charge_points": 7534,
+      "fast_50_or_better": 959,
+      "hpc_150_or_better": 569,
+      "ultra_300_or_better": 261
+    },
+    "Saarland": {
+      "sites": 548,
+      "charge_points": 1471,
+      "fast_50_or_better": 166,
+      "hpc_150_or_better": 107,
+      "ultra_300_or_better": 50
+    },
+    "Sachsen": {
+      "sites": 2370,
+      "charge_points": 6817,
+      "fast_50_or_better": 799,
+      "hpc_150_or_better": 412,
+      "ultra_300_or_better": 145
+    },
+    "Sachsen-Anhalt": {
+      "sites": 1232,
+      "charge_points": 3552,
+      "fast_50_or_better": 488,
+      "hpc_150_or_better": 272,
+      "ultra_300_or_better": 103
+    },
+    "Schleswig-Holstein": {
+      "sites": 2569,
+      "charge_points": 7554,
+      "fast_50_or_better": 716,
+      "hpc_150_or_better": 382,
+      "ultra_300_or_better": 148
+    },
+    "Thüringen": {
+      "sites": 1291,
+      "charge_points": 3964,
+      "fast_50_or_better": 504,
+      "hpc_150_or_better": 300,
+      "ultra_300_or_better": 109
+    }
+  },
+  "elapsed_seconds": 1.76,
+  "skipped_status": 40
+}
