@@ -251,10 +251,15 @@
         <select id="district-select" disabled><option value="">Select Bundesland first</option></select>
         <button id="clear-filter" type="button">Clear</button>
         <button id="coverage-toggle" type="button" class="coverage-pill active">Coverage</button>
+        <button id="demand-toggle" type="button" class="coverage-pill">Demand</button>
       </div>
       <div class="coverage-legend" id="coverage-legend">
         <span><span class="legend-swatch" style="background:#2DD4BF"></span>Covered</span>
         <span><span class="legend-swatch" style="background:#F59E0B"></span>Uncovered</span>
+      </div>
+      <div class="coverage-legend" id="demand-legend" style="display:none">
+        <span><span class="legend-swatch" style="background:#FFD933"></span>Low demand</span>
+        <span><span class="legend-swatch" style="background:#D94020"></span>High demand</span>
       </div>
       <iframe class="map-frame" id="map-frame" title="Germany charger map" src="./map-app/index.html"></iframe>
     </section>
@@ -336,7 +341,9 @@
     const districtSelect = document.getElementById("district-select");
     const clearButton = document.getElementById("clear-filter");
     const coverageToggle = document.getElementById("coverage-toggle");
+    const demandToggle = document.getElementById("demand-toggle");
     const coverageLegend = document.getElementById("coverage-legend");
+    const demandLegend = document.getElementById("demand-legend");
 
     let regions = null;
     let coverageStats = null;
@@ -348,6 +355,7 @@
     const tierNames = { 0: "any", 2: "DC Fast", 3: "Ultra" };
     const tierBucketKeys = { 0: "buckets_any", 2: "buckets_dc", 3: "buckets_ultra" };
     let coverageEnabled = true;
+    let layerMode = 0; // 0=coverage, 1=demand
 
     // ─── animated hero number ─────────────────────────────────────────
     let heroAnimId = 0;
@@ -428,10 +436,46 @@
     // ─── coverage toggle ──────────────────────────────────────────────
 
     coverageToggle.addEventListener("click", () => {
-      coverageEnabled = !coverageEnabled;
-      coverageToggle.classList.toggle("active", coverageEnabled);
-      coverageLegend.classList.toggle("hidden", !coverageEnabled);
-      postToMap({ type: "toggle-coverage", enabled: coverageEnabled });
+      if (layerMode === 1) {
+        // Switch from demand to coverage mode
+        layerMode = 0;
+        demandToggle.classList.remove("active");
+        demandLegend.style.display = "none";
+        coverageEnabled = true;
+        coverageToggle.classList.add("active");
+        coverageLegend.classList.remove("hidden");
+        postToMap({ type: "toggle-coverage", enabled: true });
+        postToMap({ type: "set-coverage-mode", mode: 0 });
+      } else {
+        coverageEnabled = !coverageEnabled;
+        coverageToggle.classList.toggle("active", coverageEnabled);
+        coverageLegend.classList.toggle("hidden", !coverageEnabled);
+        postToMap({ type: "toggle-coverage", enabled: coverageEnabled });
+      }
+    });
+
+    demandToggle.addEventListener("click", () => {
+      if (layerMode === 1) {
+        // Turn off demand → back to coverage off
+        layerMode = 0;
+        demandToggle.classList.remove("active");
+        demandLegend.style.display = "none";
+        coverageEnabled = false;
+        coverageToggle.classList.remove("active");
+        coverageLegend.classList.add("hidden");
+        postToMap({ type: "set-coverage-mode", mode: 0 });
+        postToMap({ type: "toggle-coverage", enabled: false });
+      } else {
+        // Switch to demand mode
+        layerMode = 1;
+        demandToggle.classList.add("active");
+        demandLegend.style.display = "";
+        coverageToggle.classList.remove("active");
+        coverageLegend.classList.add("hidden");
+        coverageEnabled = true;
+        postToMap({ type: "toggle-coverage", enabled: true });
+        postToMap({ type: "set-coverage-mode", mode: 1 });
+      }
     });
 
     // ─── radius pills ─────────────────────────────────────────────────

@@ -676,6 +676,7 @@
         this.tiles = new Map();
         this.threshold = 5.0 / 50.0;
         this.tier = 0;
+        this.mode = 0; // 0=coverage, 1=demand
         this.enabled = true;
         this.frameId = 0;
       }
@@ -698,21 +699,34 @@
           uniform sampler2D u_image;
           uniform float u_threshold;
           uniform float u_tier;
+          uniform float u_mode;
           varying vec2 v_uv;
           void main() {
             vec4 t = texture2D(u_image, v_uv);
             if (t.r < 0.004) discard;
-            float d;
-            if (u_tier < 0.5) d = min(min(t.g, t.b), t.a);
-            else if (u_tier < 1.5) d = t.g;
-            else if (u_tier < 2.5) d = t.b;
-            else d = t.a;
             float pop = t.r;
-            float a = mix(0.10, 0.62, pow(pop, 0.5));
-            vec3 c = d <= u_threshold
-              ? vec3(0.176, 0.831, 0.749)
-              : vec3(0.961, 0.620, 0.043);
-            gl_FragColor = vec4(c * a, a);
+            if (u_mode > 0.5) {
+              // Demand mode: pop * dist_DC = underserved intensity
+              float demand = pop * t.b;
+              if (demand < 0.01) discard;
+              float intensity = pow(demand, 0.6);
+              float a = mix(0.15, 0.72, intensity);
+              // Yellow → Orange → Red gradient
+              vec3 c = mix(vec3(1.0, 0.85, 0.2), vec3(0.85, 0.1, 0.15), intensity);
+              gl_FragColor = vec4(c * a, a);
+            } else {
+              // Coverage mode (existing)
+              float d;
+              if (u_tier < 0.5) d = min(min(t.g, t.b), t.a);
+              else if (u_tier < 1.5) d = t.g;
+              else if (u_tier < 2.5) d = t.b;
+              else d = t.a;
+              float a = mix(0.10, 0.62, pow(pop, 0.5));
+              vec3 c = d <= u_threshold
+                ? vec3(0.176, 0.831, 0.749)
+                : vec3(0.961, 0.620, 0.043);
+              gl_FragColor = vec4(c * a, a);
+            }
           }`;
         const compile = (type, src) => {
           const s = gl.createShader(type);
@@ -734,6 +748,7 @@
         this.uImage = gl.getUniformLocation(this.program, "u_image");
         this.uThreshold = gl.getUniformLocation(this.program, "u_threshold");
         this.uTier = gl.getUniformLocation(this.program, "u_tier");
+        this.uMode = gl.getUniformLocation(this.program, "u_mode");
         this.buffer = gl.createBuffer();
         this._verts = new Float32Array(24);
       }
@@ -750,6 +765,7 @@
         gl.uniformMatrix4fv(this.uMatrix, false, matrix);
         gl.uniform1f(this.uThreshold, this.threshold);
         gl.uniform1f(this.uTier, this.tier);
+        gl.uniform1f(this.uMode, this.mode);
         gl.uniform1i(this.uImage, 0);
         gl.activeTexture(gl.TEXTURE0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
@@ -858,6 +874,7 @@
 
       setRadius(km) { this.threshold = km / 50.0; if (this.map) this.map.triggerRepaint(); }
       setTier(t) { this.tier = t; if (this.map) this.map.triggerRepaint(); }
+      setMode(m) { this.mode = m; if (this.map) this.map.triggerRepaint(); }
       setEnabled(v) { this.enabled = v; if (this.map) this.map.triggerRepaint(); }
     }
 
@@ -879,6 +896,9 @@
       }
       if (message.type === "toggle-coverage" && coverageLayer) {
         coverageLayer.setEnabled(message.enabled !== false);
+      }
+      if (message.type === "set-coverage-mode" && coverageLayer) {
+        coverageLayer.setMode(message.mode || 0);
       }
     });
 

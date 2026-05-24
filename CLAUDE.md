@@ -39,7 +39,8 @@ Germany-focused EV charging + population-access dashboard for Tesla Gigafactory 
 - **Growth chart 2026 fix**: Partial year positioned proportionally at x=2025.31 (April 22 data cutoff). Label shows "'26*".
 - **Analytics pipeline**: `scripts/build_analytics.py` precomputes `analytics.json` (170 KB) from chargers + coverage_stats. Includes `growth_by_region` (cumulative sites per state/district per year).
 - **Gap score**: `0.5*(DC underserved) + 0.3*(density deficit) + 0.2*(ultra gap)`, range 0–100
-- **Layout**: Map left (frosted top bar + dropdowns + coverage toggle + play button), tabbed stats pane right
+- **Demand heatmap**: Toggle in top bar. WebGL shader multiplies pop × dist_DC per cell → yellow-orange-red gradient showing where new chargers would serve most underserved people. "Where should the next charger go?"
+- **Layout**: Map left (frosted top bar + dropdowns + coverage/demand toggles + play button), tabbed stats pane right
 
 ### Key Files
 
