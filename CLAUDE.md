@@ -30,19 +30,22 @@ Germany-focused EV charging + population-access dashboard for Tesla Gigafactory 
 - **Boundaries**: Grey BKG state + district outlines
 - **Selection**: Click bubble or use top-bar dropdowns. District outlines on state selection.
 - **Coverage layer**: Custom WebGL threshold layer reading RGBA PMTiles. Teal (#2DD4BF) = covered, amber (#F59E0B) = uncovered. Radius (1/5/10/25 km) and tier (Any/DC Fast/Ultra) selectable. Below bubbles, above basemap.
-- **Stats pane**: Apple-keynote-style right panel:
-  - Hero number (% population within radius of charger tier)
-  - Cumulative distance chart (3 curves: Any/DC Fast/Ultra)
-  - Charger counts by class with colored dots
-  - Memorable stat (farthest point from any charger)
-  - All update on region selection + radius/tier changes
-- **Layout**: Map left (frosted top bar + dropdowns + coverage toggle), stats pane right
+- **Tabbed stats pane**: 3-tab right panel, all tabs respond to region selection
+  - **Coverage tab**: Hero % number, cumulative distance chart, charger counts, farthest point
+  - **Market tab**: Operator rankings (top 50 + Other aggregate), growth stacked area chart (2010–2026), summary stats (11,807 operators, 63,653 sites, 197k CPs)
+  - **Regions tab**: KPI table (16 states or ~400 districts), composite gap score, summary cards (worst/best/avg)
+- **Analytics pipeline**: `scripts/build_analytics.py` precomputes `analytics.json` from chargers + coverage_stats
+- **Gap score**: `0.5*(DC underserved) + 0.3*(density deficit) + 0.2*(ultra gap)`, range 0–100
+- **Layout**: Map left (frosted top bar + dropdowns + coverage toggle), tabbed stats pane right
 
 ### Key Files
 
 ```
-index.html                      — main page, two-column layout + stats pane
+index.html                      — main page, tabbed layout + 3-tab stats pane
 map-app/index.html              — MapLibre map with WebGL coverage layer (iframe)
+map-app/tab-market.js           — Market tab: operators table + growth chart
+map-app/tab-regions.js          — Regions tab: KPI table + gap scores
+map-app/analytics.json          — precomputed analytics (rebuild with build_analytics.py)
 map-app/chargers.geojson        — 44.8 MB, in repo (rebuild with v4.20 parser)
 map-app/charger_summary.json    — in repo
 map-app/germany_pop.pmtiles     — 467 MB, gitignored, hosted on Cloudflare R2
@@ -50,6 +53,7 @@ map-app/coverage_stats.json     — 939 KB, in repo
 map-app/boundaries/             — BKG state/district GeoJSON, in repo
 map-app/countries.geojson       — 11.9 MB, country outlines, in repo
 data/official_regions.json      — Bundesland/Kreis metadata for dropdowns
+scripts/build_analytics.py      — chargers + coverage_stats → analytics.json
 scripts/build_population_tiles.py — GHS-POP → charger distance → PMTiles pipeline
 scripts/upload_pmtiles.py       — S3 multipart upload to R2
 scripts/analyze_providers.py    — BNetzA operator analysis
