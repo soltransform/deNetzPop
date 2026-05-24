@@ -482,6 +482,16 @@
         postToMap({ type: "set-coverage-radius", radius: currentRadius });
         postToMap({ type: "set-coverage-tier", tier: currentTier });
       }
+      if (msg.type === "animation-year") {
+        // Sync growth chart highlight with map animation
+        if (typeof _growthHoverYear !== 'undefined') {
+          _growthHoverYear = msg.year || -1;
+          const canvas = document.getElementById('growth-chart');
+          if (canvas && canvas._chartInfo) {
+            _drawGrowthChart(canvas._chartInfo.growthData);
+          }
+        }
+      }
     });
 
     // ─── stats rendering ──────────────────────────────────────────────

@@ -33,10 +33,13 @@ Germany-focused EV charging + population-access dashboard for Tesla Gigafactory 
 - **Tabbed stats pane**: 3-tab right panel, all tabs respond to region selection
   - **Coverage tab**: Hero % number, cumulative distance chart, charger counts, farthest point
   - **Market tab**: Operator rankings (top 50 + Other aggregate), growth stacked area chart (2010–2026), summary stats (11,807 operators, 63,653 sites, 197k CPs)
-  - **Regions tab**: KPI table (16 states or ~400 districts), composite gap score, summary cards (worst/best/avg)
-- **Analytics pipeline**: `scripts/build_analytics.py` precomputes `analytics.json` from chargers + coverage_stats
+  - **Regions tab**: KPI table (16 states or ~400 districts), composite gap score, summary cards (worst/best/avg), East vs West comparison
+- **East vs West divide**: Population-weighted comparison cards in Regions tab (national view). East (ex-DDR, IDs 11–16) vs West. Shows gap score, coverage %, per 100k, HPC+ % with delta ratio.
+- **Time-lapse animation**: Play button on map, auto-advances 2010→2026 at 800ms/step. Filters charger dots by start_year. Syncs bidirectionally with growth chart hover (postMessage between iframe and parent).
+- **Growth chart 2026 fix**: Partial year positioned proportionally at x=2025.31 (April 22 data cutoff). Label shows "'26*".
+- **Analytics pipeline**: `scripts/build_analytics.py` precomputes `analytics.json` (170 KB) from chargers + coverage_stats. Includes `growth_by_region` (cumulative sites per state/district per year).
 - **Gap score**: `0.5*(DC underserved) + 0.3*(density deficit) + 0.2*(ultra gap)`, range 0–100
-- **Layout**: Map left (frosted top bar + dropdowns + coverage toggle), tabbed stats pane right
+- **Layout**: Map left (frosted top bar + dropdowns + coverage toggle + play button), tabbed stats pane right
 
 ### Key Files
 

@@ -161,6 +161,79 @@
       color: #9ca3af;
       font-size: 13px;
     }
+
+    /* ─── east/west comparison ─── */
+    .east-west-cards {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .ew-card {
+      flex: 1;
+      min-width: 0;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ew-card.ew-east {
+      border-left: 3px solid #6b7280;
+    }
+
+    .ew-card.ew-west {
+      border-left: 3px solid #10B981;
+    }
+
+    .ew-card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .ew-card-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #374151;
+    }
+
+    .ew-delta {
+      font-size: 10px;
+      font-weight: 600;
+      color: #EF4444;
+      background: #fee2e2;
+      border-radius: 3px;
+      padding: 1px 4px;
+      white-space: nowrap;
+    }
+
+    .ew-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .ew-metric-label {
+      font-size: 10px;
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    .ew-metric-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: #111827;
+      font-feature-settings: 'tnum';
+      white-space: nowrap;
+    }
   `;
   document.head.appendChild(style);
 })();
@@ -245,7 +318,91 @@ function renderRegionsTab(stateFilter, districtFilter) {
 
   const avgLabel = stateFilter ? 'State avg' : 'National avg';
 
-  summaryEl.innerHTML = `
+  // ─── east/west comparison (national view only) ────────────────────────────
+
+  let eastWestHtml = '';
+  if (!stateFilter) {
+    const EAST_IDS = new Set(['11', '12', '13', '14', '15', '16']);
+    const allStates = regData.states || [];
+
+    const eastStates = allStates.filter(s => EAST_IDS.has(s.id));
+    const westStates = allStates.filter(s => !EAST_IDS.has(s.id));
+
+    function ewStats(group) {
+      const totalPop = group.reduce((s, r) => s + (r.population || 0), 0);
+      const totalSites = group.reduce((s, r) => s + (r.sites || 0), 0);
+      const totalHPC = group.reduce((s, r) => s + Math.round(((r.pct_hpc_plus || 0) / 100) * (r.sites || 0)), 0);
+
+      let wGap = 0, wCov = 0;
+      if (totalPop > 0) {
+        for (const r of group) {
+          const w = (r.population || 0) / totalPop;
+          wGap += w * (r.gap_score || 0);
+          wCov += w * (r.coverage_pct_5km || 0);
+        }
+      }
+      const per100k = totalPop > 0 ? totalSites / totalPop * 100000 : 0;
+      const pctHPC  = totalSites > 0 ? totalHPC / totalSites * 100 : 0;
+      return { wGap, wCov, per100k, pctHPC };
+    }
+
+    const eStats = ewStats(eastStates);
+    const wStats = ewStats(westStates);
+    const ratio  = wStats.wGap > 0 ? eStats.wGap / wStats.wGap : null;
+    const deltaHtml = ratio !== null
+      ? `<span class="ew-delta">${ratio.toFixed(1)}&times; gap</span>`
+      : '';
+
+    eastWestHtml = `
+      <div class="east-west-cards">
+        <div class="ew-card ew-east">
+          <div class="ew-card-header">
+            <span class="ew-card-title">East (ex-DDR)</span>
+            ${deltaHtml}
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Gap score</span>
+            <span class="ew-metric-value">${eStats.wGap.toFixed(1)}</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Coverage 5 km</span>
+            <span class="ew-metric-value">${eStats.wCov.toFixed(1)}%</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Sites / 100k</span>
+            <span class="ew-metric-value">${eStats.per100k.toFixed(1)}</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">HPC+ share</span>
+            <span class="ew-metric-value">${eStats.pctHPC.toFixed(1)}%</span>
+          </div>
+        </div>
+        <div class="ew-card ew-west">
+          <div class="ew-card-header">
+            <span class="ew-card-title">West</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Gap score</span>
+            <span class="ew-metric-value">${wStats.wGap.toFixed(1)}</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Coverage 5 km</span>
+            <span class="ew-metric-value">${wStats.wCov.toFixed(1)}%</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">Sites / 100k</span>
+            <span class="ew-metric-value">${wStats.per100k.toFixed(1)}</span>
+          </div>
+          <div class="ew-metric">
+            <span class="ew-metric-label">HPC+ share</span>
+            <span class="ew-metric-value">${wStats.pctHPC.toFixed(1)}%</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  summaryEl.innerHTML = eastWestHtml + `
     <div class="region-cards">
       <div class="region-card">
         <span class="card-label">Largest gap</span>

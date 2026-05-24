@@ -398,6 +398,10 @@ function renderGrowthChart(data) {
       if (year !== _growthHoverYear) {
         _growthHoverYear = year;
         _drawGrowthChart(ci.growthData);
+        const mapFrame = document.querySelector('iframe');
+        if (mapFrame && mapFrame.contentWindow) {
+          mapFrame.contentWindow.postMessage({ type: 'set-animation-year', year: year }, '*');
+        }
       }
 
       // Build tooltip
@@ -426,6 +430,10 @@ function renderGrowthChart(data) {
       _growthHoverYear = -1;
       const ci = document.getElementById('growth-chart')._chartInfo;
       if (ci) _drawGrowthChart(ci.growthData);
+      const mapFrame = document.querySelector('iframe');
+      if (mapFrame && mapFrame.contentWindow) {
+        mapFrame.contentWindow.postMessage({ type: 'set-animation-year', year: null }, '*');
+      }
     });
   }
 }
@@ -456,9 +464,13 @@ function _drawGrowthChart(growthData) {
   const sorted = [...growthData].sort((a, b) => a.year - b.year);
   const years = sorted.map(g => g.year);
   const minYear = years[0];
-  const maxYear = years[years.length - 1];
+  const rawMaxYear = years[years.length - 1];
+  const maxYear = rawMaxYear === 2026 ? 2025.31 : rawMaxYear;
 
-  const xS = (year) => pad.l + ((year - minYear) / (maxYear - minYear)) * pw;
+  const xS = (year) => {
+    const mapped = year === 2026 ? 2025.31 : year;
+    return pad.l + ((mapped - minYear) / (maxYear - minYear)) * pw;
+  };
   const yS = (val)  => pad.t + (1 - val / maxCumulative) * ph;
 
   // Compute stacked cumulative totals per year
@@ -571,7 +583,8 @@ function _drawGrowthChart(growthData) {
   years.forEach((yr, idx) => {
     if (idx % xTickStep !== 0) return;
     const x = xS(yr);
-    ctx.fillText(String(yr), x, pad.t + ph + 18);
+    const label = yr === 2026 ? "'26*" : String(yr);
+    ctx.fillText(label, x, pad.t + ph + 18);
     // Tick mark
     ctx.beginPath();
     ctx.strokeStyle = '#e5e7eb';

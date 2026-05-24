@@ -91,6 +91,14 @@
 <body>
   <div id="map"></div>
 
+  <div id="anim-controls" style="position:absolute;bottom:24px;left:12px;z-index:10;display:flex;align-items:center;gap:8px;">
+    <button id="anim-play-btn" style="width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.88);backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" title="Play time-lapse">
+      <svg id="anim-play-icon" width="14" height="14" viewBox="0 0 14 14" fill="#374151"><polygon points="3,1 12,7 3,13"/></svg>
+      <svg id="anim-pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="#374151" style="display:none"><rect x="2" y="1" width="3.5" height="12"/><rect x="8.5" y="1" width="3.5" height="12"/></svg>
+    </button>
+    <div id="anim-year-label" style="background:rgba(255,255,255,0.88);backdrop-filter:blur(8px);border-radius:6px;padding:4px 10px;font:600 13px -apple-system,Inter,sans-serif;color:#111827;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:none;"></div>
+  </div>
+
   <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
   <script>
     // Set to R2 public URL for production, e.g. "https://pub-xxxxx.r2.dev/germany_pop.pmtiles"
@@ -465,6 +473,17 @@
       const response = await fetch("./chargers.geojson");
       if (!response.ok) throw new Error(`Failed to load chargers.geojson: ${response.status}`);
       allChargers = await response.json();
+
+      // Add start_year numeric property for animation filtering
+      for (const f of allChargers.features) {
+        const sd = f.properties.start_date;
+        if (sd) {
+          const parts = sd.split('.');
+          f.properties.start_year = parseInt(parts[2], 10) || 2026;
+        } else {
+          f.properties.start_year = 2026;
+        }
+      }
 
       const stateBubbles = buildStateBubbles(allChargers);
       map.addSource("state-bubbles", { type: "geojson", data: stateBubbles });
@@ -882,6 +901,84 @@
         console.warn("Coverage layer:", e);
       }
     });
+
+    // ─── Time-lapse animation ───────────────────────────────────────────
+    (function() {
+      const playBtn = document.getElementById('anim-play-btn');
+      const playIcon = document.getElementById('anim-play-icon');
+      const pauseIcon = document.getElementById('anim-pause-icon');
+      const yearLabel = document.getElementById('anim-year-label');
+
+      let animating = false;
+      let animYear = null;
+      let animTimer = null;
+      const START_YEAR = 2010;
+      const END_YEAR = 2026;
+
+      function setAnimYear(year) {
+        animYear = year;
+        if (year === null) {
+          yearLabel.style.display = 'none';
+          // Remove filter — show all chargers
+          if (map.getLayer('chargers')) {
+            map.setFilter('chargers', null);
+          }
+          // Reset bubble data to full counts
+          window.parent.postMessage({ type: "animation-year", year: null }, "*");
+        } else {
+          yearLabel.style.display = 'block';
+          yearLabel.textContent = year;
+          // Filter chargers by start_year <= year
+          if (map.getLayer('chargers')) {
+            map.setFilter('chargers', ['<=', ['get', 'start_year'], year]);
+          }
+          window.parent.postMessage({ type: "animation-year", year: year }, "*");
+        }
+      }
+
+      function play() {
+        animating = true;
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+
+        if (animYear === null || animYear >= END_YEAR) {
+          animYear = START_YEAR - 1;
+        }
+
+        function step() {
+          if (!animating) return;
+          animYear++;
+          if (animYear > END_YEAR) {
+            pause();
+            setAnimYear(null);
+            return;
+          }
+          setAnimYear(animYear);
+          animTimer = setTimeout(step, 800);
+        }
+        step();
+      }
+
+      function pause() {
+        animating = false;
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+      }
+
+      playBtn.addEventListener('click', () => {
+        if (animating) pause();
+        else play();
+      });
+
+      // Listen for year sync from parent (growth chart hover)
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'set-animation-year') {
+          if (animating) pause();
+          setAnimYear(e.data.year);
+        }
+      });
+    })();
   </script>
 </body>
 </html>

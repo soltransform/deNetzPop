@@ -157,6 +157,10 @@ def main():
     dist_by_class  = defaultdict(lambda: defaultdict(int))
     district_unmapped = set()
 
+    # For growth_by_region (cumulative sites per state/district per year)
+    state_year_new = defaultdict(lambda: defaultdict(int))  # state_id → year → new sites
+    dist_year_new  = defaultdict(lambda: defaultdict(int))  # dist_id → year → new sites
+
     # National totals
     total_sites = 0
     total_cp    = 0
@@ -187,11 +191,13 @@ def main():
             op_by_state[operator][state_name] += 1
 
         # Growth (parse date)
+        start_year = None
         if start_date:
             try:
                 dt = datetime.strptime(start_date.strip(), "%d.%m.%Y")
                 if dt.year >= 2010:
                     year_class_new[dt.year][cls] += 1
+                    start_year = dt.year
             except ValueError:
                 pass
 
@@ -201,6 +207,8 @@ def main():
             state_sites[state_id]     += 1
             state_cp[state_id]        += charge_pts
             state_by_class[state_id][cls] += 1
+            if start_year:
+                state_year_new[state_id][start_year] += 1
 
         # District aggregation
         dist_id = county_to_district.get(county_name)
@@ -211,6 +219,8 @@ def main():
             dist_sites[dist_id]     += 1
             dist_cp[dist_id]        += charge_pts
             dist_by_class[dist_id][cls] += 1
+            if start_year:
+                dist_year_new[dist_id][start_year] += 1
         elif county_name:
             district_unmapped.add(county_name)
 
@@ -420,12 +430,38 @@ def main():
         })
 
     # -----------------------------------------------------------------------
+    # Growth by region (cumulative sites per state/district per year)
+    # -----------------------------------------------------------------------
+    growth_by_region = {"states": {}, "districts": {}}
+
+    for state_id in sorted(state_year_new.keys()):
+        yearly = state_year_new[state_id]
+        cum = 0
+        state_cum = {}
+        for yr in all_years:
+            cum += yearly.get(yr, 0)
+            state_cum[str(yr)] = cum
+        growth_by_region["states"][state_id] = state_cum
+
+    for dist_id in sorted(dist_year_new.keys()):
+        yearly = dist_year_new[dist_id]
+        cum = 0
+        dist_cum = {}
+        for yr in all_years:
+            cum += yearly.get(yr, 0)
+            dist_cum[str(yr)] = cum
+        growth_by_region["districts"][dist_id] = dist_cum
+
+    print(f"\nGrowth by region: {len(growth_by_region['states'])} states, {len(growth_by_region['districts'])} districts")
+
+    # -----------------------------------------------------------------------
     # Assemble output
     # -----------------------------------------------------------------------
     analytics = {
         "market_summary": market_summary,
         "operators":      operators_out,
         "growth":         growth_out,
+        "growth_by_region": growth_by_region,
         "regions": {
             "states":    states_out,
             "districts": districts_out,
