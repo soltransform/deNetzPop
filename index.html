@@ -322,7 +322,7 @@
       function tick() {
         if (id !== heroAnimId) return;
         const p = Math.min(1, (performance.now() - t0) / duration);
-        if (p >= 1) return;
+        if (p >= 1) { heroCurrentVal = target; heroEl.textContent = fmtPct(target); return; }
         const ease = 1 - Math.pow(1 - p, 3);
         heroCurrentVal = start + diff * ease;
         heroEl.textContent = fmtPct(heroCurrentVal);

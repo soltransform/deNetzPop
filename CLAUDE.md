@@ -6,6 +6,16 @@ Read first when starting Claude Code session in this folder.
 
 Germany-focused EV charging + population-access dashboard for Tesla Gigafactory Berlin-Brandenburg dual-study application.
 
+## Hosting
+
+- **Live site**: https://soltransform.github.io/deNetzPop/
+- **GitHub repo**: https://github.com/soltransform/deNetzPop/
+- **PMTiles CDN**: Cloudflare R2 bucket `denetzpop-tiles`
+  - Public URL: `https://pub-3bf2fc3bacfb4d3f8b6ed3debc07a9e1.r2.dev/germany_pop.pmtiles`
+  - CORS configured for range requests from any origin
+- **GitHub Pages**: main branch, root folder
+- **Auto-detect**: `map-app/index.html` uses local file on localhost, R2 URL in production (`PMTILES_URL` constant)
+
 ## Current State (2026-05-24)
 
 ### What Works
@@ -33,13 +43,15 @@ Germany-focused EV charging + population-access dashboard for Tesla Gigafactory 
 ```
 index.html                      — main page, two-column layout + stats pane
 map-app/index.html              — MapLibre map with WebGL coverage layer (iframe)
-map-app/chargers.geojson        — generated, gitignored (rebuild with v4.20 parser)
-map-app/charger_summary.json    — generated, gitignored
-map-app/germany_pop.pmtiles     — generated, 467 MB, z5-z12 RGBA tiles (gitignored)
-map-app/coverage_stats.json     — generated, per-state/district coverage buckets (gitignored)
-map-app/boundaries/             — BKG state/district GeoJSON, gitignored
+map-app/chargers.geojson        — 44.8 MB, in repo (rebuild with v4.20 parser)
+map-app/charger_summary.json    — in repo
+map-app/germany_pop.pmtiles     — 467 MB, gitignored, hosted on Cloudflare R2
+map-app/coverage_stats.json     — 939 KB, in repo
+map-app/boundaries/             — BKG state/district GeoJSON, in repo
+map-app/countries.geojson       — 11.9 MB, country outlines, in repo
 data/official_regions.json      — Bundesland/Kreis metadata for dropdowns
 scripts/build_population_tiles.py — GHS-POP → charger distance → PMTiles pipeline
+scripts/upload_pmtiles.py       — S3 multipart upload to R2
 scripts/analyze_providers.py    — BNetzA operator analysis
 ```
 
